@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scholarship.demo.dao.studentDao">
+
+  <insert id="apply" parameterType="com.scholarship.demo.model.Student"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into student (account,passWord,userName,userType,college,lastTime)
+    values (#{student.account},#{student.passWord},#{student.userName},#{student.userType},#{student.college},#{student.lastTime})
+  </insert>
+
+</mapper>
