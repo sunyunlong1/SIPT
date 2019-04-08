@@ -4,11 +4,13 @@ import com.scholarship.demo.model.Student;
 import com.scholarship.demo.response.Result;
 import com.scholarship.demo.service.studentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/student")
+@Controller
 public class studentController {
 
     @Autowired
@@ -18,6 +20,7 @@ public class studentController {
     @ResponseBody
     public String apply(@RequestBody Student student){
         Integer apply = studentService.apply(student);
+        student.setId(0);
         if(apply!=0){
             return new Result(200,"-",apply.toString()).toString();
         }else{

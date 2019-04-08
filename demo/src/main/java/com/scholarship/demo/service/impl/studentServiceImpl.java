@@ -16,7 +16,6 @@ public class studentServiceImpl implements studentService {
 
     @Override
     public Integer apply(Student student) {
-
         Date date = new Date();
         student.setLastTime(date);
         Integer apply = studentDao.apply(student);
