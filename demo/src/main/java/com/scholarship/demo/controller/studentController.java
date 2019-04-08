@@ -28,6 +28,11 @@ public class studentController {
         }
     }
 
+    @RequestMapping("/test")
+    @ResponseBody
+    public String apply(){
+        return "test";
+    }
 //    @RequestMapping("/save")
 //    @ResponseBody
 //    public String save(@RequestBody Student student,String )
