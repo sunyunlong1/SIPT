@@ -21,7 +21,7 @@ public class Project {
     private String pathThird;
     private String avg;
     private String demandPath;
-    private Date lastTime;
+    private String lastTime;
 
     public int getId() {
         return id;
@@ -159,11 +159,11 @@ public class Project {
         this.demandPath = demandPath;
     }
 
-    public Date getLastTime() {
+    public String getLastTime() {
         return lastTime;
     }
 
-    public void setLastTime(Date lastTime) {
+    public void setLastTime(String lastTime) {
         this.lastTime = lastTime;
     }
 

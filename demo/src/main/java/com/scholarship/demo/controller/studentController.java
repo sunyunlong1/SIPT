@@ -1,5 +1,6 @@
 package com.scholarship.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.scholarship.demo.model.Project;
 import com.scholarship.demo.model.Student;
 import com.scholarship.demo.response.Result;
@@ -23,9 +24,9 @@ public class studentController {
         Integer apply = studentService.apply(project);
 
         if(apply!=0){
-            return new Result(200,"-",apply.toString()).toString();
+            return JSON.toJSONString(new Result(200,"-",apply.toString()).toString());
         }else{
-            return new Result(405,"提交失败","-").toString();
+            return JSON.toJSONString(new Result(405,"提交失败","-").toString());
         }
     }
 
