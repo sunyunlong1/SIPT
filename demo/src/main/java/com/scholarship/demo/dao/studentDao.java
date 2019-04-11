@@ -1,11 +1,11 @@
 package com.scholarship.demo.dao;
 
-import com.scholarship.demo.model.Student;
+import com.scholarship.demo.model.Project;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface studentDao {
 
-    Integer apply(Student student);
+
+    Integer apply(Project project);
 }

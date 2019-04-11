@@ -1,7 +1,7 @@
 package com.scholarship.demo.service.impl;
 
 import com.scholarship.demo.dao.studentDao;
-import com.scholarship.demo.model.Student;
+import com.scholarship.demo.model.Project;
 import com.scholarship.demo.service.studentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,10 +15,11 @@ public class studentServiceImpl implements studentService {
     private studentDao studentDao;
 
     @Override
-    public Integer apply(Student student) {
+    public Integer apply(Project project) {
+
         Date date = new Date();
-        student.setLastTime(date);
-        Integer apply = studentDao.apply(student);
+        project.setLastTime(date);
+        Integer apply = studentDao.apply(project);
         return apply;
     }
 }

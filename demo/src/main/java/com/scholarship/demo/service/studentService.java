@@ -1,10 +1,10 @@
 package com.scholarship.demo.service;
 
-import com.scholarship.demo.model.Student;
+import com.scholarship.demo.model.Project;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface studentService {
 
-    public Integer apply(Student student);
+    public Integer apply(Project project);
 }

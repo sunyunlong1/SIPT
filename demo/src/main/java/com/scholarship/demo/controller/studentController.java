@@ -1,5 +1,6 @@
 package com.scholarship.demo.controller;
 
+import com.scholarship.demo.model.Project;
 import com.scholarship.demo.model.Student;
 import com.scholarship.demo.response.Result;
 import com.scholarship.demo.service.studentService;
@@ -18,9 +19,9 @@ public class studentController {
 
     @RequestMapping("/apply")
     @ResponseBody
-    public String apply(@RequestBody Student student){
-        Integer apply = studentService.apply(student);
-        student.setId(0);
+    public String apply(@RequestBody Project project){
+        Integer apply = studentService.apply(project);
+
         if(apply!=0){
             return new Result(200,"-",apply.toString()).toString();
         }else{
@@ -28,11 +29,6 @@ public class studentController {
         }
     }
 
-    @RequestMapping("/test")
-    @ResponseBody
-    public String apply(){
-        return "test";
-    }
 //    @RequestMapping("/save")
 //    @ResponseBody
 //    public String save(@RequestBody Student student,String )

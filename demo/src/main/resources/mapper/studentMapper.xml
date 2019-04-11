@@ -5,8 +5,8 @@
 
   <insert id="apply" parameterType="com.scholarship.demo.model.Student"
           useGeneratedKeys="true" keyProperty="id">
-    insert into student (account,passWord,userName,userType,college,lastTime)
-    values (#{account},#{passWord},#{userName},#{userType},#{college},#{lastTime})
+    insert into project (pName,sAccount,memberNum,menberInf,pSource,pIntroduction,lastTime)
+    values (#{pName},#{sAccount},#{menberNum},#{memberInf},#{pSource},#{pIntroduction},#{lastTime})
   </insert>
 
 </mapper>
