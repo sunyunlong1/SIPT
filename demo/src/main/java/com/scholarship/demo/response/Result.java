@@ -18,12 +18,12 @@ public class Result {
     /**
      * 返回的数据
      */
-    private Object date;
+    private Object data;
 
-    public Result(Integer code, String message, Object date) {
+    public Result(Integer code, String message, Object data) {
         this.code = code;
         this.message = message;
-        this.date = date;
+        this.data = data;
     }
 
     public Result(){
@@ -35,7 +35,7 @@ public class Result {
         return "Result{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
-                ", date=" + date +
+                ", date=" + data +
                 '}';
     }
 }

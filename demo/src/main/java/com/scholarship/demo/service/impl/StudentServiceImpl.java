@@ -171,8 +171,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(student.getPassWord())){
 
                 loginResponse.setUserName(student.getUserName());
-                loginResponse.setPassword(student.getPassWord());
-                loginResponse.setUserType("已登陆");
+                loginResponse.setUserType("student");
             }else{
                 loginResponse.setUserName("");
             }
@@ -180,8 +179,7 @@ public class StudentServiceImpl implements StudentService {
             Teacher teacher = studentDao.getTeacherUserName(loginDto.getAccount());
             if(loginDto.getPassword().equals(teacher.getPassWord())){
                 loginResponse.setUserName(teacher.getUserName());
-                loginResponse.setPassword(teacher.getPassWord());
-                loginResponse.setUserType("已登陆");
+                loginResponse.setUserType("teacher");
             }else{
                 loginResponse.setUserName("");
             }
@@ -189,8 +187,7 @@ public class StudentServiceImpl implements StudentService {
             Judges judges = studentDao.getJudges(loginDto.getAccount());
             if(loginDto.getPassword().equals(judges.getPassWord())){
                 loginResponse.setUserName(judges.getUserName());
-                loginResponse.setPassword(judges.getPassWord());
-                loginResponse.setUserType("已登陆");
+                loginResponse.setUserType("judges");
             }else{
                 loginResponse.setUserName("");
             }
@@ -198,8 +195,7 @@ public class StudentServiceImpl implements StudentService {
             Admin admin = studentDao.getAdmin(loginDto.getAccount());
             if(loginDto.getPassword().equals(admin.getPassWord())){
                 loginResponse.setUserName(admin.getUserName());
-                loginResponse.setPassword(admin.getPassWord());
-                loginResponse.setUserType("已登陆");
+                loginResponse.setUserType("admin");
             }else{
                 loginResponse.setUserName("");
             }
@@ -214,8 +210,7 @@ public class StudentServiceImpl implements StudentService {
             Student student = studentDao.selectByAccount(loginDto.getAccount());
             if(loginDto.getPassword().equals(student.getPassWord())){
                 loginResponse.setUserName(student.getUserName());
-                loginResponse.setPassword(student.getPassWord());
-                loginResponse.setUserType("未登陆");
+                loginResponse.setUserType("student");
             }else{
                 loginResponse.setUserName("");
             }
@@ -223,8 +218,7 @@ public class StudentServiceImpl implements StudentService {
             Teacher teacher = studentDao.getTeacherUserName(loginDto.getAccount());
             if(loginDto.getPassword().equals(teacher.getPassWord())){
                 loginResponse.setUserName(teacher.getUserName());
-                loginResponse.setPassword(teacher.getPassWord());
-                loginResponse.setUserType("未登陆");
+                loginResponse.setUserType("teacher");
             }else{
                 loginResponse.setUserName("");
             }
@@ -232,8 +226,7 @@ public class StudentServiceImpl implements StudentService {
             Judges judges = studentDao.getJudges(loginDto.getAccount());
             if(loginDto.getPassword().equals(judges.getPassWord())){
                 loginResponse.setUserName(judges.getUserName());
-                loginResponse.setPassword(judges.getPassWord());
-                loginResponse.setUserType("未登陆");
+                loginResponse.setUserType("judges");
             }else{
                 loginResponse.setUserName("");
             }
@@ -241,8 +234,7 @@ public class StudentServiceImpl implements StudentService {
             Admin admin = studentDao.getAdmin(loginDto.getAccount());
             if(loginDto.getPassword().equals(admin.getPassWord())){
                 loginResponse.setUserName(admin.getUserName());
-                loginResponse.setPassword(admin.getPassWord());
-                loginResponse.setUserType("未登陆");
+                loginResponse.setUserType("admin");
             }else{
                 loginResponse.setUserName("");
             }
