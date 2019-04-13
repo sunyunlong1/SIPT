@@ -1,12 +1,12 @@
 package com.scholarship.demo.service.impl;
 
+import com.scholarship.demo.api.LoginDto;
+import com.scholarship.demo.api.LoginResponse;
 import com.scholarship.demo.api.MyProjectDto;
 import com.scholarship.demo.api.StudentRequestDto;
-import com.scholarship.demo.dao.studentDao;
-import com.scholarship.demo.model.Project;
-import com.scholarship.demo.model.Student;
-import com.scholarship.demo.model.Teacher;
-import com.scholarship.demo.service.studentService;
+import com.scholarship.demo.dao.StudentDao;
+import com.scholarship.demo.model.*;
+import com.scholarship.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class studentServiceImpl implements studentService {
+public class StudentServiceImpl implements StudentService {
 
     @Autowired
-    private studentDao studentDao;
+    private StudentDao studentDao;
 
 
     @Override
@@ -50,8 +50,8 @@ public class studentServiceImpl implements studentService {
             project.setPName(studentRequestDto.getPName());
             project.setPType(studentRequestDto.getPtype());
             project.setSAccount(studentRequestDto.getLeaderAccount());
-            project.setMenberNum(studentRequestDto.getMemberNum());
-            project.setMenberInf(studentRequestDto.getMemberInf());
+            project.setMemberNum(studentRequestDto.getMemberNum());
+            project.setMemberInf(studentRequestDto.getMemberInf());
             Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTeacherName());
             project.setTAccount(teacherAccount.getAccount());
             project.setPSource(studentRequestDto.getPSource());
@@ -62,7 +62,8 @@ public class studentServiceImpl implements studentService {
             project.setPathThird(studentRequestDto.getPathThird());
             project.setYears(year);
             project.setPStatus("立项");
-            project.setRecordState("保存");
+            project.setRecordState("已保存");
+            project.setCurrentProgress("待提交");
             studentDao.studentSave(project);
         }else{
             if (!studentRequestDto.getPathSecond().equals("")){
@@ -87,8 +88,8 @@ public class studentServiceImpl implements studentService {
             project.setPName(studentRequestDto.getPName());
             project.setPType(studentRequestDto.getPtype());
             project.setSAccount(studentRequestDto.getLeaderAccount());
-            project.setMenberNum(studentRequestDto.getMemberNum());
-            project.setMenberInf(studentRequestDto.getMemberInf());
+            project.setMemberNum(studentRequestDto.getMemberNum());
+            project.setMemberInf(studentRequestDto.getMemberInf());
             Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTeacherName());
             project.setTAccount(teacherAccount.getAccount());
             project.setPSource(studentRequestDto.getPSource());
@@ -100,7 +101,10 @@ public class studentServiceImpl implements studentService {
             project.setYears(year);
             project.setPStatus("立项");
             project.setRecordState("提交");
+            project.setCurrentProgress("已提交");
             studentDao.studentSave(project);
+        }else if(projectFirst.getRecordState().equals("已保存")){
+            studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount());
         }else{
             if (!studentRequestDto.getPathSecond().equals("")){
                 studentDao.updatePath(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),"中期检查","中期提交");
@@ -123,8 +127,8 @@ public class studentServiceImpl implements studentService {
             Student student = studentDao.selectByAccount(leaderAccount);
             studentDto.setLeaderCollege(student.getCollege());
             studentDto.setLeaderName(student.getUserName());
-            studentDto.setMemberNum(project.getMenberNum());
-            studentDto.setMemberInf(project.getMenberInf());
+            studentDto.setMemberNum(project.getMemberNum());
+            studentDto.setMemberInf(project.getMemberInf());
             Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
             studentDto.setTeacherName(teacherUserName.getUserName());
             studentDto.setTeacherTitle(teacherUserName.getTitle());
@@ -146,16 +150,103 @@ public class studentServiceImpl implements studentService {
         MyProjectDto myProjectDto = new MyProjectDto();
         Student student = studentDao.selectByAccount(project.getSAccount());
         myProjectDto.setUserName(student.getUserName());
-        myProjectDto.setMemberInf(project.getMenberInf());
+        myProjectDto.setMemberInf(project.getMemberInf());
         Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
         myProjectDto.setTeacherName(teacherUserName.getUserName());
         myProjectDto.setPStatus(project.getPStatus());
-        myProjectDto.setZhuangtai("?????");
-        if(!project.getAvg().equals("")){
+        myProjectDto.setCurrentProgress(project.getCurrentProgress());
+        if(project!= null || !project.getAvg().equals("")){
             myProjectDto.setAvg(project.getAvg());
         }else{
             myProjectDto.setAvg("-");
         }
         return myProjectDto;
+    }
+
+    @Override
+    public LoginResponse login(LoginDto loginDto) {
+        LoginResponse loginResponse = new LoginResponse();
+        if(loginDto.getRole().equals("学生")){
+            Student student = studentDao.selectByAccount(loginDto.getAccount());
+            if(loginDto.getPassword().equals(student.getPassWord())){
+
+                loginResponse.setUserName(student.getUserName());
+                loginResponse.setPassword(student.getPassWord());
+                loginResponse.setUserState("已登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }else if(loginDto.getRole().equals("教师")){
+            Teacher teacher = studentDao.getTeacherUserName(loginDto.getAccount());
+            if(loginDto.getPassword().equals(teacher.getPassWord())){
+                loginResponse.setUserName(teacher.getUserName());
+                loginResponse.setPassword(teacher.getPassWord());
+                loginResponse.setUserState("已登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }else if(loginDto.getRole().equals("评委")){
+            Judges judges = studentDao.getJudges(loginDto.getAccount());
+            if(loginDto.getPassword().equals(judges.getPassWord())){
+                loginResponse.setUserName(judges.getUserName());
+                loginResponse.setPassword(judges.getPassWord());
+                loginResponse.setUserState("已登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }else{
+            Admin admin = studentDao.getAdmin(loginDto.getAccount());
+            if(loginDto.getPassword().equals(admin.getPassWord())){
+                loginResponse.setUserName(admin.getUserName());
+                loginResponse.setPassword(admin.getPassWord());
+                loginResponse.setUserState("已登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }
+        return loginResponse;
+    }
+
+    @Override
+    public LoginResponse exit(LoginDto loginDto) {
+        LoginResponse loginResponse = new LoginResponse();
+        if(loginDto.getRole().equals("学生")){
+            Student student = studentDao.selectByAccount(loginDto.getAccount());
+            if(loginDto.getPassword().equals(student.getPassWord())){
+                loginResponse.setUserName(student.getUserName());
+                loginResponse.setPassword(student.getPassWord());
+                loginResponse.setUserState("未登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }else if(loginDto.getRole().equals("教师")){
+            Teacher teacher = studentDao.getTeacherUserName(loginDto.getAccount());
+            if(loginDto.getPassword().equals(teacher.getPassWord())){
+                loginResponse.setUserName(teacher.getUserName());
+                loginResponse.setPassword(teacher.getPassWord());
+                loginResponse.setUserState("未登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }else if(loginDto.getRole().equals("评委")){
+            Judges judges = studentDao.getJudges(loginDto.getAccount());
+            if(loginDto.getPassword().equals(judges.getPassWord())){
+                loginResponse.setUserName(judges.getUserName());
+                loginResponse.setPassword(judges.getPassWord());
+                loginResponse.setUserState("未登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }else{
+            Admin admin = studentDao.getAdmin(loginDto.getAccount());
+            if(loginDto.getPassword().equals(admin.getPassWord())){
+                loginResponse.setUserName(admin.getUserName());
+                loginResponse.setPassword(admin.getPassWord());
+                loginResponse.setUserState("未登陆");
+            }else{
+                loginResponse.setUserName("");
+            }
+        }
+        return loginResponse;
     }
 }

@@ -9,8 +9,8 @@ public class Project {
     private String processId;
     private String pName;
     private String sAccount;
-    private String menberNum;
-    private String menberInf;
+    private String memberNum;
+    private String memberInf;
     private String tAccount;
     private String pSource;
     private String pCode;
@@ -24,4 +24,5 @@ public class Project {
     private String avg;
     private String demandPath;
     private String recordState;
+    private String currentProgress;
 }

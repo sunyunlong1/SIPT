@@ -1,13 +1,16 @@
 package com.scholarship.demo.service;
 
+import com.scholarship.demo.api.LoginDto;
+import com.scholarship.demo.api.LoginResponse;
 import com.scholarship.demo.api.MyProjectDto;
 import com.scholarship.demo.api.StudentRequestDto;
+import com.scholarship.demo.model.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
-public interface studentService {
+public interface StudentService {
 
     /**
      * 下载前查询存放地址
@@ -43,4 +46,18 @@ public interface studentService {
      * @return
      */
     MyProjectDto myProject(String leaderAccount);
+
+    /**
+     * 统一登陆管理
+     * @param loginDto
+     * @return
+     */
+    LoginResponse login(LoginDto loginDto);
+
+    /**
+     * 统一退出管理
+     * @param loginDto
+     * @return
+     */
+    LoginResponse exit(LoginDto loginDto);
 }

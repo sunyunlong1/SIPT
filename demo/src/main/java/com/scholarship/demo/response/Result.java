@@ -1,8 +1,11 @@
 package com.scholarship.demo.response;
 
+import lombok.Data;
+
 /**
  * 统一返回json
  */
+@Data
 public class Result {
     /**
      * 状态码

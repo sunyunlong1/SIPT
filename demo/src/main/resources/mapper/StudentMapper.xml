@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scholarship.demo.dao.studentDao">
+<mapper namespace="com.scholarship.demo.dao.StudentDao">
 
   <insert id="apply" parameterType="com.scholarship.demo.model.Student"
           useGeneratedKeys="true" keyProperty="id">
     insert into project (pId,pName,sAccount,memberNum,memberInf,tAccount,pSource,pCode,pIntroduction,pStatus,years,pathFirst,lastTime)
     values (#{pId},#{pName},#{sAccount},#{memberNum},#{memberInf},#{tAccount},#{pSource},#{pCode},#{pIntroduction},#{pStatus},#{years},#{pathFirst},#{lastTime})
   </insert>
+
+  <update id="updatePath" parameterType="java.lang.String">
+    update project
+    <set>
+      <if test = "pathSecond != '' "> pathSecond = #{pathSecond},</if>
+      <if test = "pathThird != '' " > pathThird = #{pathThird},</if>
+      pStatus = #{pStatus},
+      recordState = #{recordState}
+    </set>
+    where sAccount = #{sAccount}
+  </update>
 
 </mapper>

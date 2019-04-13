@@ -8,7 +8,7 @@ public class Teacher {
     private String account;
     private String passWord;
     private String userName;
-    private String userType;
+    private String userState;
     private String college;
     private String title;
 
