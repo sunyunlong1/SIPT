@@ -61,6 +61,6 @@ public interface StudentDao {
             "<set> recordState = #{recordState} </set> " +
             "where sAccount = #{leaderAccount} " +
             "</script>"})
-    boolean updateProject(String recordState,String leaderAccount);
+    void updateProject(String recordState,String leaderAccount);
 
 }

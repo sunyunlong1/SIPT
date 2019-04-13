@@ -47,16 +47,16 @@ public class StudentServiceImpl implements StudentService {
             String year = sdf.format(date);
 
             Project project = new Project();
-            project.setPName(studentRequestDto.getPName());
-            project.setPType(studentRequestDto.getPtype());
+            project.setPName(studentRequestDto.getpName());
+            project.setPType(studentRequestDto.getpType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
             Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTeacherName());
             project.setTAccount(teacherAccount.getAccount());
-            project.setPSource(studentRequestDto.getPSource());
-            project.setPCode(studentRequestDto.getPCode());
-            project.setPIntroduction(studentRequestDto.getPIntroduction());
+            project.setPSource(studentRequestDto.getpSource());
+            project.setPCode(studentRequestDto.getpCode());
+            project.setPIntroduction(studentRequestDto.getpIntroduction());
             project.setPathFirst(studentRequestDto.getPathFirst());
             project.setPathSecond(studentRequestDto.getPathSecond());
             project.setPathThird(studentRequestDto.getPathThird());
@@ -85,16 +85,16 @@ public class StudentServiceImpl implements StudentService {
             String year = sdf.format(date);
 
             Project project = new Project();
-            project.setPName(studentRequestDto.getPName());
-            project.setPType(studentRequestDto.getPtype());
+            project.setPName(studentRequestDto.getpName());
+            project.setPType(studentRequestDto.getpType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
             Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTeacherName());
             project.setTAccount(teacherAccount.getAccount());
-            project.setPSource(studentRequestDto.getPSource());
-            project.setPCode(studentRequestDto.getPCode());
-            project.setPIntroduction(studentRequestDto.getPIntroduction());
+            project.setPSource(studentRequestDto.getpSource());
+            project.setPCode(studentRequestDto.getpCode());
+            project.setPIntroduction(studentRequestDto.getpIntroduction());
             project.setPathFirst(studentRequestDto.getPathFirst());
             project.setPathSecond(studentRequestDto.getPathSecond());
             project.setPathThird(studentRequestDto.getPathThird());
@@ -121,8 +121,8 @@ public class StudentServiceImpl implements StudentService {
         Project project = studentDao.selectByLeaderAccount(leaderAccount);
         StudentRequestDto studentDto = new StudentRequestDto();
         if(project!=null){
-            studentDto.setPName(project.getPName());
-            studentDto.setPtype(project.getPType());
+            studentDto.setpName(project.getPName());
+            studentDto.setpType(project.getPType());
             studentDto.setLeaderAccount(project.getSAccount());
             Student student = studentDao.selectByAccount(leaderAccount);
             studentDto.setLeaderCollege(student.getCollege());
@@ -132,9 +132,9 @@ public class StudentServiceImpl implements StudentService {
             Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
             studentDto.setTeacherName(teacherUserName.getUserName());
             studentDto.setTeacherTitle(teacherUserName.getTitle());
-            studentDto.setPSource(project.getPSource());
-            studentDto.setPCode(project.getPCode());
-            studentDto.setPIntroduction(project.getPIntroduction());
+            studentDto.setpSource(project.getPSource());
+            studentDto.setpCode(project.getPCode());
+            studentDto.setpIntroduction(project.getPIntroduction());
             resultMap.put("tableData",studentDto);
             resultMap.put("recordState",project.getRecordState());
         }else{

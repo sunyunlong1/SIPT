@@ -1,0 +1,66 @@
+localhost:8080/student/apply
+ {
+ 	"pName":"测试",
+ 	"pType":"1",
+ 	"leaderName":"李浩然",
+ 	"leaderCollege":"电气与信息学院",
+ 	"leaderAccount":"A19150250",
+ 	"memberNum":"3",
+ 	"memberInf":"全体是大神",
+ 	"teacherName":"李晓明",
+ 	"teacherTitle":"教授",
+ 	"pSource":"老师带队",
+ 	"pCode":"00001",
+ 	"pIntroduction":"test",
+ 	"pathFirst":"/c:test",
+ 	"pathSecond":"",
+ 	"pathThird":"/e:test"
+ }
+
+ localhost:8080/student/save
+ {
+ 	"pName":"测试",
+ 	"pType":"1",
+ 	"leaderName":"李浩然",
+ 	"leaderCollege":"电气与信息学院",
+ 	"leaderAccount":"A19150250",
+ 	"memberNum":"3",
+ 	"memberInf":"全体是大神",
+ 	"teacherName":"李晓明",
+ 	"teacherTitle":"教授",
+ 	"pSource":"老师带队",
+ 	"pCode":"00001",
+ 	"pIntroduction":"test",
+ 	"pathFirst":"/c:test",
+ 	"pathSecond":"",
+ 	"pathThird":"/e:test"
+ }
+
+ localhost:8080/login
+ {
+ 	"account":"A19150251",
+ 	"passWord":"123",
+ 	"role":"学生" (学生，老师，评委，管理员)
+ }
+
+ localhost:8080/student/currentProcess
+ {
+ 	"account":"A19150250"
+ }
+
+ localhost:8080/student/edit
+ {
+ 	"account":"A19150251"
+ }
+
+ localhost:8080/student/myProject
+  {
+  	"account":"A19150251"
+  }
+
+  localhost:8080/student/currentProcess
+    {
+    	"account":"A19150251"
+    }
+   localhost:8080/student/update
+   参数名file
