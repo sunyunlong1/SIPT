@@ -195,7 +195,7 @@ public class StudentServiceImpl implements StudentService {
             Admin admin = studentDao.getAdmin(loginDto.getAccount());
             if(loginDto.getPassword().equals(admin.getPassWord())){
                 loginResponse.setUserName(admin.getUserName());
-                loginResponse.setUserType("admin");
+                loginResponse.setUserType("manager");
             }else{
                 loginResponse.setUserName("");
             }

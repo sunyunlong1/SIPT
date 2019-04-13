@@ -25,4 +25,5 @@ public class Project {
     private String demandPath;
     private String recordState;
     private String currentProgress;
+    private String isCollect;
 }
