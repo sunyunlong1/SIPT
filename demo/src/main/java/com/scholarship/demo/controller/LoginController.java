@@ -36,7 +36,11 @@ public class LoginController {
             String login_ticket = readCookieMap.get("login_ticket");
             HttpSession session = httpRequest.getSession();
             session.setMaxInactiveInterval(60*60*24);
-            session.setAttribute(login_ticket,login);
+            if(login_ticket!=null){
+                session.setAttribute(login_ticket,login);
+            }else{
+                session.setAttribute("123",login);
+            }
             return JSON.toJSONString(new Result(200,"登陆成功",login));
         }else{
             return JSON.toJSONString(new Result(405,"登陆失败",""));
