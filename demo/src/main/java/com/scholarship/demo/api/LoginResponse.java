@@ -7,5 +7,5 @@ public class LoginResponse {
 
     private String userName;
     private String password;
-    private String userState;
+    private String userType;
 }

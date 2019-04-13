@@ -172,7 +172,7 @@ public class StudentServiceImpl implements StudentService {
 
                 loginResponse.setUserName(student.getUserName());
                 loginResponse.setPassword(student.getPassWord());
-                loginResponse.setUserState("已登陆");
+                loginResponse.setUserType("已登陆");
             }else{
                 loginResponse.setUserName("");
             }
@@ -181,7 +181,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(teacher.getPassWord())){
                 loginResponse.setUserName(teacher.getUserName());
                 loginResponse.setPassword(teacher.getPassWord());
-                loginResponse.setUserState("已登陆");
+                loginResponse.setUserType("已登陆");
             }else{
                 loginResponse.setUserName("");
             }
@@ -190,7 +190,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(judges.getPassWord())){
                 loginResponse.setUserName(judges.getUserName());
                 loginResponse.setPassword(judges.getPassWord());
-                loginResponse.setUserState("已登陆");
+                loginResponse.setUserType("已登陆");
             }else{
                 loginResponse.setUserName("");
             }
@@ -199,7 +199,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(admin.getPassWord())){
                 loginResponse.setUserName(admin.getUserName());
                 loginResponse.setPassword(admin.getPassWord());
-                loginResponse.setUserState("已登陆");
+                loginResponse.setUserType("已登陆");
             }else{
                 loginResponse.setUserName("");
             }
@@ -215,7 +215,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(student.getPassWord())){
                 loginResponse.setUserName(student.getUserName());
                 loginResponse.setPassword(student.getPassWord());
-                loginResponse.setUserState("未登陆");
+                loginResponse.setUserType("未登陆");
             }else{
                 loginResponse.setUserName("");
             }
@@ -224,7 +224,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(teacher.getPassWord())){
                 loginResponse.setUserName(teacher.getUserName());
                 loginResponse.setPassword(teacher.getPassWord());
-                loginResponse.setUserState("未登陆");
+                loginResponse.setUserType("未登陆");
             }else{
                 loginResponse.setUserName("");
             }
@@ -233,7 +233,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(judges.getPassWord())){
                 loginResponse.setUserName(judges.getUserName());
                 loginResponse.setPassword(judges.getPassWord());
-                loginResponse.setUserState("未登陆");
+                loginResponse.setUserType("未登陆");
             }else{
                 loginResponse.setUserName("");
             }
@@ -242,7 +242,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(admin.getPassWord())){
                 loginResponse.setUserName(admin.getUserName());
                 loginResponse.setPassword(admin.getPassWord());
-                loginResponse.setUserState("未登陆");
+                loginResponse.setUserType("未登陆");
             }else{
                 loginResponse.setUserName("");
             }
