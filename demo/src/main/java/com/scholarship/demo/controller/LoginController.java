@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,9 +20,6 @@ import java.util.Map;
 /**
  * 统一登陆
  */
-@CrossOrigin(origins = "*",
-        maxAge = 3600,
-        methods = {RequestMethod.GET, RequestMethod.POST})
 @Controller
 public class LoginController {
 
