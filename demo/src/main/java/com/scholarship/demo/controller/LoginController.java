@@ -19,7 +19,9 @@ import java.util.Map;
 /**
  * 统一登陆
  */
-@CrossOrigin
+@CrossOrigin(origins = "*",
+        maxAge = 3600,
+        methods = {RequestMethod.GET, RequestMethod.POST})
 @Controller
 public class LoginController {
 
