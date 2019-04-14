@@ -50,7 +50,7 @@ public interface ManagerDao {
             "<set> level = #{level} </set> " +
             " where sId = #{sId} and pStatus = #{pStatus} " +
             "</script>"})
-    void selectById(String sId,String pStatus,String level);
+    void updateById(String sId,String pStatus,String level);
 
     @Update({"<script> " +
             "update project " +
@@ -70,4 +70,14 @@ public interface ManagerDao {
     @Select({"<script> select * from project where years = #{years} </script>"})
     @ResultType(Project.class)
     List<Project> selectByYears(String years);
+
+
+    @Update({"<script> " +
+            "update project " +
+            "<set> " +
+            "pStatus = #{pStatus} " +
+            "</set> " +
+            "where years = #{years} " +
+            "</script>"})
+    void newAndEditProcess(String pStatus,String years);
 }

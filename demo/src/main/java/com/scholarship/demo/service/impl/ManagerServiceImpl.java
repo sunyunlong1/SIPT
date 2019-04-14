@@ -100,7 +100,7 @@ public class ManagerServiceImpl implements ManagerService {
         for(ManagerDto managerDto : managerDtoList){
             Student student = managerDao.selecyByUserName(managerDto.getUserName());
             Project project = studentDao.selectByLeaderAccount(student.getAccount());
-            managerDao.selectById(project.getSAccount(),project.getPStatus(),managerDto.getLevel());
+            managerDao.updateById(project.getSAccount(),project.getPStatus(),managerDto.getLevel());
         }
         return "提交结果成功";
     }
@@ -129,7 +129,7 @@ public class ManagerServiceImpl implements ManagerService {
         String[] strings = {"2017","2018","2019"};
         for (int i = 0; i < strings.length; i++) {
             OverviewResponse overviewResponse = new OverviewResponse();
-            overviewResponse.setName(strings[i]);
+            overviewResponse.setName(strings[i]+"SIPT");
             Integer sum = managerDao.sum(strings[i]);
             overviewResponse.setSum(sum);
             String status = managerDao.getStatus(strings[i]);
@@ -142,7 +142,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<ManagerViewProject> details(OverviewResponse overview) {
         List<ManagerViewProject> result = new ArrayList<>();
-        String years = overview.getName().substring(0, 3);
+        String years = overview.getName().substring(0, 4);
         List<Project> projects = managerDao.selectByYears(years);
         for(Project project : projects){
             ManagerViewProject managerViewProject = new ManagerViewProject();
@@ -152,8 +152,20 @@ public class ManagerServiceImpl implements ManagerService {
             managerViewProject.setCollege(student.getCollege());
             Teacher teacher = studentDao.getTeacherUserName(project.getTAccount());
             managerViewProject.setTeacherName(teacher.getUserName());
+            managerViewProject.setAvg(project.getAvg());
             result.add(managerViewProject);
         }
         return result;
+    }
+
+    @Override
+    public String newAndEditProcess(NewProcessDto newProcessDto) {
+        String[] split = newProcessDto.getBeginTime().split("-");
+        managerDao.newAndEditProcess(newProcessDto.getProcessName(),split[0]);
+        if(newProcessDto.getProcessName().equals("立项")){
+            return "新建成功";
+        }else{
+            return "编辑成功";
+        }
     }
 }

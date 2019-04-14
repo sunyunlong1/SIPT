@@ -62,4 +62,10 @@ public class ManagerController {
         return JSON.toJSONString(new Result(200,"-",details));
     }
 
+    @RequestMapping("/newAndEditProcess")
+    @ResponseBody
+    public String newAndEditProcess(@RequestBody NewProcessDto newProcessDto){
+        String result = managerService.newAndEditProcess(newProcessDto);
+        return JSON.toJSONString(new Result(200,"-",result));
+    }
 }

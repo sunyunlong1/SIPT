@@ -63,4 +63,124 @@ localhost:8080/student/apply
     	"account":"A19150251"
     }
    localhost:8080/student/update
+   {
    参数名file
+   }
+  ----------------------------------------------------管理员模块
+localhost:8080/manager/currentProcess
+{
+	"account":"admin"
+}
+返回json：
+{
+    "code": 200,
+    "data": {
+        "managerDtoList": {
+            "2019结题": [
+                {
+                    "college": "东北农业大学电气与信息学院",
+                    "fourGrade": 12,
+                    "level": "B",
+                    "oneGrade": 77,
+                    "pType": "SIPT项目",
+                    "pgAvg": 89.7,
+                    "tName": "李晓明",
+                    "threeGrade": 132,
+                    "twoGrade": 122,
+                    "userName": "孙云龙"
+                }
+            ],
+            "2018中期检查": [
+                {
+                    "college": "东北农业大学电气与信息学院",
+                    "fourGrade": 43,
+                    "level": "A",
+                    "oneGrade": 69,
+                    "pType": "创新项目",
+                    "pgAvg": 67.2,
+                    "tName": "李晓明",
+                    "threeGrade": 45,
+                    "twoGrade": 89,
+                    "userName": "李浩然"
+                }
+            ]
+        },
+        "unifiedTable": {
+            "currentProcess": "2018中期检查/2019结题",
+            "level": "审批完成2/2"
+        }
+    },
+    "message": "-"
+}
+
+localhost:8080/manager/apply
+[
+                {
+                    "college": "东北农业大学电气与信息学院",
+                    "fourGrade": 12,
+                    "level": "B",
+                    "oneGrade": 77,
+                    "pType": "SIPT项目",
+                    "pgAvg": 89.7,
+                    "tName": "李晓明",
+                    "threeGrade": 132,
+                    "twoGrade": 122,
+                    "userName": "孙云龙"
+                }
+            ]
+localhost:8080/manager/stop
+ {
+ "2019结题":[
+                {
+                    "college": "东北农业大学电气与信息学院",
+                    "fourGrade": 12,
+                    "level": "B",
+                    "oneGrade": 77,
+                    "pType": "SIPT项目",
+                    "pgAvg": 89.7,
+                    "tName": "李晓明",
+                    "threeGrade": 132,
+                    "twoGrade": 122,
+                    "userName": "孙云龙"
+                }
+            ]
+ }
+
+ localhost:8080/manager/overview
+ {
+
+ }
+ 返回json：
+ {
+     "code": 200,
+     "data": [
+         {
+             "name": "2017SIPT",
+             "pStatus": "中期检查",
+             "sum": 1
+         },
+         {
+             "name": "2018SIPT",
+             "pStatus": "中期检查",
+             "sum": 1
+         },
+         {
+             "name": "2019SIPT",
+             "pStatus": "中期检查",
+             "sum": 2
+         }
+     ],
+     "message": "-"
+ }
+ localhost:8080/manager/details
+  {
+             "name": "2019",
+             "pStatus": "中期检查",
+             "sum": 2
+         }
+localhost:8080/manager/newAndEditProcess
+{
+	"processName":"立项",
+	"beginTime":"2019-04-13",
+	"endTime":"2019-05-03"
+}

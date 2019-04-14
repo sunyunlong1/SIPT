@@ -1,9 +1,6 @@
 package com.scholarship.demo.service;
 
-import com.scholarship.demo.api.ManagerDto;
-import com.scholarship.demo.api.ManagerTableDto;
-import com.scholarship.demo.api.ManagerViewProject;
-import com.scholarship.demo.api.OverviewResponse;
+import com.scholarship.demo.api.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,4 +42,11 @@ public interface ManagerService {
      * @return
      */
     List<ManagerViewProject> details(OverviewResponse overview);
+
+    /**
+     * 新建流程，编辑流程
+     * @param newProcessDto
+     * @return
+     */
+    String newAndEditProcess(NewProcessDto newProcessDto);
 }
