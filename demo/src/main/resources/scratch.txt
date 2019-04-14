@@ -107,7 +107,8 @@ localhost:8080/manager/currentProcess
         },
         "unifiedTable": {
             "currentProcess": "2018中期检查/2019结题",
-            "level": "审批完成2/2"
+            "level": "校级"
+            "state": "审批完成2/2"
         }
     },
     "message": "-"

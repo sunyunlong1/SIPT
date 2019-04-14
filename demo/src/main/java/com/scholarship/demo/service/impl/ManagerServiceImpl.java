@@ -54,9 +54,9 @@ public class ManagerServiceImpl implements ManagerService {
                 }
             }
             if(index == 0){
-                unifiedTable.setLevel("审批完成"+firstManagerDtos.size()+"/"+firstManagerDtos.size());
+                unifiedTable.setState("审批完成"+firstManagerDtos.size()+"/"+firstManagerDtos.size());
             }else{
-                unifiedTable.setLevel("正在审批"+index+"/"+firstManagerDtos.size());
+                unifiedTable.setState("正在审批"+index+"/"+firstManagerDtos.size());
             }
         }else{
             firstManagerDtos = managerDao.currentProcess("中期检查");
