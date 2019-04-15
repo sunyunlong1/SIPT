@@ -169,7 +169,6 @@ public class StudentServiceImpl implements StudentService {
         if(loginDto.getRole().equals("学生")){
             Student student = studentDao.selectByAccount(loginDto.getAccount());
             if(loginDto.getPassword().equals(student.getPassWord())){
-
                 loginResponse.setUserName(student.getUserName());
                 loginResponse.setUserType("student");
             }else{

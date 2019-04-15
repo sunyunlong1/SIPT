@@ -14,7 +14,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,12 +30,23 @@ public class LoginController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public String login(@RequestBody LoginDto loginDto, HttpServletRequest httpRequest){
+    public String login(@RequestBody LoginDto loginDto, HttpServletRequest httpRequest,HttpServletResponse response){
 
+        Cookie cookie = null;
+        if(loginDto.getRole().equals("学生")){
+            cookie = new Cookie("t_student","student");
+        }else if(loginDto.getRole().equals("老师")){
+            cookie = new Cookie("t_teacher","teacher");
+        }else if(loginDto.getRole().equals("评委")){
+            cookie = new Cookie("t_judges","judges");
+        }else if(loginDto.getRole().equals("管理员")){
+            cookie = new Cookie("t_manager","manager");
+        }
+        cookie.setMaxAge(60*60*24);
+        response.addCookie(cookie);
         LoginResponse login = studentService.login(loginDto);
         if(login != null || !login.getUserName().equals("")){
-            Map<String, String> readCookieMap = ReadCookieMap( httpRequest);
-            String login_ticket = readCookieMap.get("login_ticket");
+            String login_ticket = login.getUserType();
             HttpSession session = httpRequest.getSession();
             session.setMaxInactiveInterval(60*60*24);
             if(login_ticket!=null){
@@ -50,8 +63,13 @@ public class LoginController {
     @RequestMapping("/checkLogin")
     @ResponseBody
     public String checkLogin(HttpServletRequest httpRequest){
-        Map<String, String> readCookieMap = ReadCookieMap(httpRequest);
-        String login_ticket = readCookieMap.get("login_ticket");
+        List<String> strings = ReadCookieMap(httpRequest);
+        String login_ticket = "";
+        for (String cookieName :strings){
+            if (cookieName.contains("t_")){
+                login_ticket = cookieName;
+            }
+        }
         HttpSession session = httpRequest.getSession();
         LoginResponse loginResponse = (LoginResponse) session.getAttribute(login_ticket);
         if(loginResponse!=null){
@@ -63,9 +81,16 @@ public class LoginController {
 
     @RequestMapping("/exit")
     @ResponseBody
-    public String exit(@RequestParam LoginDto loginDto){
-        LoginResponse exit = studentService.exit(loginDto);
-        return JSON.toJSONString(new Result(200,"-",exit));
+    public String exit(@RequestParam LoginDto loginDto, HttpServletRequest request,HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        for(Cookie subCookie : cookies){
+            if(subCookie.getName().contains("t_")){
+                subCookie.setMaxAge(0);
+                subCookie.setPath("/");
+                response.addCookie(subCookie);
+            }
+        }
+        return JSON.toJSONString(new Result(200,"成功退出","-"));
     }
     /**
      * 将cookie封装到Map里面
@@ -73,15 +98,16 @@ public class LoginController {
      * @param request
      * @return
      */
-    private static Map<String, String> ReadCookieMap(HttpServletRequest request) {
-        Map<String, String> cookieMap = new HashMap<String, String>();
+    private static List<String> ReadCookieMap(HttpServletRequest request) {
+        List<String>  cookieName = new ArrayList<>();
+
         Cookie[] cookies = request.getCookies();
         if (null != cookies) {
             for (Cookie cookie : cookies) {
-                cookieMap.put(cookie.getName(), cookie.getValue());
+                cookieName.add(cookie.getName());
             }
         }
-        return cookieMap;
+        return cookieName;
     }
 
 }
