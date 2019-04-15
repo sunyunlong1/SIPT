@@ -49,10 +49,10 @@ public class LoginController {
 
     @RequestMapping("/checkLogin")
     @ResponseBody
-    public String checkLogin(HttpRequest httpRequest){
-        Map<String, String> readCookieMap = ReadCookieMap((HttpServletRequest) httpRequest);
+    public String checkLogin(HttpServletRequest httpRequest){
+        Map<String, String> readCookieMap = ReadCookieMap(httpRequest);
         String login_ticket = readCookieMap.get("login_ticket");
-        HttpSession session = ((HttpServletRequest) httpRequest).getSession();
+        HttpSession session = httpRequest.getSession();
         LoginResponse loginResponse = (LoginResponse) session.getAttribute(login_ticket);
         if(loginResponse!=null){
             return JSON.toJSONString(new Result(200,"-",loginResponse));
