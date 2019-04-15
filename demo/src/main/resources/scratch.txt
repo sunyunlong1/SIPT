@@ -178,10 +178,21 @@ localhost:8080/manager/stop
              "name": "2019",
              "pStatus": "中期检查",
              "sum": 2
-         }
+   }
 localhost:8080/manager/newAndEditProcess
 {
 	"processName":"立项",
 	"beginTime":"2019-04-13",
 	"endTime":"2019-05-03"
 }
+
+
+1.保存/提交 学号+年份唯一标示
+2./currentProcess 500
+3./myProject 返回list
+4./process数据
+5./edit 传入参数 +年份
+6./details 只传年份
+7.所有管理员 至少一个参数
+8.管理员新建流程
+9.上传文件地址，前端定义分隔符
