@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.scholarship.demo.api.LoginDto;
 import com.scholarship.demo.api.TeacherAppRep;
 import com.scholarship.demo.api.TeacherApprove;
+import com.scholarship.demo.api.TeacherMyProject;
 import com.scholarship.demo.response.Result;
 import com.scholarship.demo.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class TeacherController {
     @RequestMapping("/myProject")
     @ResponseBody
     public String myProject(@RequestBody LoginDto loginDto){
-        return "";
+        List<TeacherMyProject> result = teacherService.myProject(loginDto.getAccount());
+        return JSON.toJSONString(new Result(200,"-",result));
     }
 }

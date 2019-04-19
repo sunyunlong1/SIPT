@@ -4,6 +4,7 @@ import com.scholarship.demo.api.TeacherAppRep;
 import com.scholarship.demo.api.TeacherApprove;
 import com.scholarship.demo.api.TeacherMyProject;
 import com.scholarship.demo.dao.TeacherDao;
+import com.scholarship.demo.model.PGrade;
 import com.scholarship.demo.model.Project;
 import com.scholarship.demo.model.SiptProcess;
 import com.scholarship.demo.service.TeacherService;
@@ -81,8 +82,20 @@ public class TeacherServiceImpl implements TeacherService {
         List<TeacherMyProject> result = new ArrayList<>();
         List<SiptProcess> siptProcesseList = teacherDao.selectAll();
         for (SiptProcess siptProcess : siptProcesseList){
-
+            List<Project> projects = teacherDao.selectBytIAndYear(account, siptProcess.getYear());
+            for(Project project : projects){
+                TeacherMyProject teacherMyProject = new TeacherMyProject();
+                teacherMyProject.setAvg(project.getAvg());
+                teacherMyProject.setCollege(project.getCollege());
+                teacherMyProject.setLeaderName(project.getSName());
+                PGrade pGrade = teacherDao.selectById(project.getSAccount(), project.getYear(), siptProcess.getStatus());
+                teacherMyProject.setLevel(pGrade.getLevel());
+                teacherMyProject.setPName(project.getPName());
+                teacherMyProject.setPSource(project.getPSource());
+                teacherMyProject.setStatus(siptProcess.getStatus());
+                result.add(teacherMyProject);
+            }
         }
-        return null;
+        return result;
     }
 }
