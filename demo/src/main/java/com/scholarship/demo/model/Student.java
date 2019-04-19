@@ -9,7 +9,6 @@ public class Student {
     private String account;
     private String passWord;
     private String userName;
-    private String userState;
     private String college;
 
 }

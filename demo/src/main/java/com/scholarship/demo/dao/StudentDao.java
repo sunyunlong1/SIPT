@@ -3,20 +3,28 @@ package com.scholarship.demo.dao;
 import com.scholarship.demo.model.*;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface StudentDao {
 
 
     @Select({"<script> select * from project " +
+            " where sAccount = #{leaderAccount} and year = #{year} " +
+            "</script>"})
+    @ResultType(Project.class)
+    Project selectByLeaderAccountAndYear(String leaderAccount,String year);
+
+    @Select({"<script> select * from project " +
             " where sAccount = #{leaderAccount} " +
             "</script>"})
     @ResultType(Project.class)
-    Project selectByLeaderAccount(String leaderAccount);
+    List<Project> selectByLeaderAccount(String leaderAccount);
 
-
-    @Insert({"<script> insert into project (pName,sAccount,memberNum,memberInf,tAccount,pSource,pCode,pType,pIntroduction,pStatus,pathFirst,pathSecond,pathThird,recordState,currentProgress) " +
-            " VALUES(#{p.pName},#{p.sAccount},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pStatus},#{p.pathFirst},#{p.pathSecond},#{p.pathThird},#{p.recordState},#{p.currentProgress}) " +
+    @Insert({"<script> insert into project (pName,sAccount,memberNum,memberInf,tAccount,pSource,pCode,pType,pIntroduction,pathFirst,pathSecond,pathThird,recordState,college) " +
+            " VALUES(#{p.pName},#{p.sAccount},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pathFirst},#{p.pathSecond},#{p.pathThird},#{p.recordState},#{college}) " +
             "</script>"})
+    @ResultType(java.lang.Boolean.class)
     boolean studentSave(@Param("p") Project project);
 
 
@@ -27,8 +35,8 @@ public interface StudentDao {
     Teacher getTeacherAccount(String userName);
 
 
-
-    Boolean updatePath(String pathSecond,String pathThird,String sAccount,String pStatus,String recordState);
+    @Update({"<script> update project <set> pathSecond = #{pathSecond},pathThird = #{pathThird} <set> where sAccount = #{sAccount} and year = #{year} </script>"})
+    void updatePath(String pathSecond,String pathThird,String sAccount,String year);
 
 
     @Select({"<script> " +
@@ -56,11 +64,17 @@ public interface StudentDao {
     Admin getAdmin(String account);
 
 
-    @Select({"<script> " +
+    @Update({"<script> " +
             "update project " +
             "<set> recordState = #{recordState} </set> " +
-            "where sAccount = #{leaderAccount} " +
+            "where sAccount = #{leaderAccount} and year = #{year}" +
             "</script>"})
-    void updateProject(String recordState,String leaderAccount);
+    void updateProject(String recordState,String leaderAccount,String year);
+
+
+    @Select({"<script> select * from process where year = #{year} </script>"})
+    @ResultType(SiptProcess.class)
+    SiptProcess selectByYear(String year);
+
 
 }

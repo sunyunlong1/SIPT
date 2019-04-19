@@ -1,16 +1,21 @@
 package com.scholarship.demo.service;
 
-import com.scholarship.demo.api.LoginDto;
-import com.scholarship.demo.api.LoginResponse;
-import com.scholarship.demo.api.MyProjectDto;
-import com.scholarship.demo.api.StudentRequestDto;
-import com.scholarship.demo.model.Student;
+import com.scholarship.demo.api.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
 public interface StudentService {
+
+
+    /**
+     * 当前流程查询接口
+     * @param year 只传year
+     * @return
+     */
+    CurrentProcessRep currentPorcess(String year);
 
     /**
      * 下载前查询存放地址
@@ -21,31 +26,31 @@ public interface StudentService {
 
     /**
      * 学生保存
-     * @param studentRequestDto
+     * @param studentRequestDto 传这个对象
      * @return
      */
     String studentSave(StudentRequestDto studentRequestDto);
 
     /**
      * 学生提交
-     * @param studentRequestDto
+     * @param studentRequestDto 传这个对象
      * @return
      */
     String studentApply(StudentRequestDto studentRequestDto);
 
     /**
      * 学生编辑
-     * @param leaderAccount
+     * @param leaderAccount 传studentId，year
      * @return
      */
-    Map<String,Object> studentEdit(String leaderAccount);
+    Map<String,Object> edit(String leaderAccount,String year);
 
     /**
      * 我的项目查询数据接口
-     * @param leaderAccount
+     * @param leaderAccount 传登陆id
      * @return
      */
-    MyProjectDto myProject(String leaderAccount);
+    List<MyProjectDto> myProject(String leaderAccount);
 
     /**
      * 统一登陆管理
@@ -53,11 +58,4 @@ public interface StudentService {
      * @return
      */
     LoginResponse login(LoginDto loginDto);
-
-    /**
-     * 统一退出管理
-     * @param loginDto
-     * @return
-     */
-    LoginResponse exit(LoginDto loginDto);
 }

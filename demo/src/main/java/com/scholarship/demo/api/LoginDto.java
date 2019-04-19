@@ -8,4 +8,5 @@ public class LoginDto {
     private String account;
     private String password;
     private String role;
+    private String year;
 }

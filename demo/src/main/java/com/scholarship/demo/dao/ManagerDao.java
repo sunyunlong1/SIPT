@@ -1,83 +1,61 @@
 package com.scholarship.demo.dao;
 
-import com.scholarship.demo.api.ManagerDto;
-import com.scholarship.demo.api.UnifiedTable;
-import com.scholarship.demo.model.PingshenGrade;
-import com.scholarship.demo.model.Project;
-import com.scholarship.demo.model.Student;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.scholarship.demo.model.*;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
 public interface ManagerDao {
 
-    @Select({"<script> select s.college as college,s.userName as userName,t.userName as tName,p.pType as pType,pg.oneGrade as oneGrade,pg.twoGrade as twoGrade,pg.threeGrade as threeGrade,pg.fourGrade as fourGrade,pg.pgAvg as pgAvg,pg.level as level " +
-            " from project p " +
-            " INNER JOIN pingshenGrade pg " +
-            " on p.sAccount = pg.sId and p.pStatus = pg.pStatus " +
-            " INNER JOIN student s on p.sAccount = s.account " +
-            " INNER JOIN teacher t on p.tAccount = t.account " +
-            " where p.pStatus = #{pStatus} " +
+
+    @Select({"<script> select * from admin where account = #{account} </script>"})
+    @ResultType(Admin.class)
+    Admin selectById(String account);
+
+    @Select({"<script> select * from process where year = #{year} </script>"})
+    @ResultType(SiptProcess.class)
+    SiptProcess selectByYear(String year);
+
+    @Select({"<script> select * from student " +
+            "<if test = 'college != '-1''> " +
+            " where college = #{college} " +
+            "</if> " +
             "</script>"})
-    @ResultType(ManagerDto.class)
-    List<ManagerDto> currentProcess(String pStatus);
-
-
-    @Select({"<script> select p.pStatus as currentProcess,a.level as level from project p,admin a  " +
-            "where a.account = #{account} order BY p.pStatus limit 1 </script>"})
-    @ResultType(UnifiedTable.class)
-    UnifiedTable managerUnifiedTable(String account);
-
-
-    @Select({"<script> " +
-            "select * from project where pStatus = #{pStatus} order by years limit 1 " +
-            "</script>"})
-    @ResultType(Project.class)
-    Project selectByStatus(String pStatus);
-
-
-    @Select({"<script> select * from student where userName = #{userName} </script>"})
     @ResultType(Student.class)
-    Student selecyByUserName(String userName);
+    List<Student> selectByCollege(String college);
 
-
-    @Update({"<script> " +
-            "update pingshenGrade " +
-            "<set> level = #{level} </set> " +
-            " where sId = #{sId} and pStatus = #{pStatus} " +
-            "</script>"})
-    void updateById(String sId,String pStatus,String level);
-
-    @Update({"<script> " +
-            "update project " +
-            "<set> isCollect = 'stop' </set> " +
-            " where sAccount = #{sAccount} and pStatus = #{pStatus} " +
-            "</script>"})
-    void stop(String pStatus,String sAccount);
-
-    @Select({"<script> select sum(1) from project where years = #{years} </script>"})
-    @ResultType(java.lang.Integer.class)
-    Integer sum(String years);
-
-    @Select({"<script> select pStatus from project where years = #{years} ORDER BY pStatus limit 1  </script>"})
-    @ResultType(java.lang.String.class)
-    String getStatus(String years);
-
-    @Select({"<script> select * from project where years = #{years} </script>"})
+    @Select({"<script> select * from project where sAccount = #{sAccount} and year = #{year} </script>"})
     @ResultType(Project.class)
-    List<Project> selectByYears(String years);
+    Project selectBySidYear(String sAccount,String year);
 
 
-    @Update({"<script> " +
-            "update project " +
-            "<set> " +
-            "pStatus = #{pStatus} " +
-            "</set> " +
-            "where years = #{years} " +
-            "</script>"})
-    void newAndEditProcess(String pStatus,String years);
+    @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
+    @ResultType(PGrade.class)
+    PGrade selectByIdYStatus(String sId, String year, String pStatus);
+
+    @Update({"<script> update pGrade <set> level = #{level} </set> where sName = #{sName} and year = #{year} and pStatus = #{pStatus}  </script>"})
+    void UpdatePGradeLevel(String sName,String year,String pStatus,String level);
+
+    @Update({"<script> update pGrade <set> isCollect = #{isCollect} </set> where sName = #{sName} and year = #{year} and pStatus = #{pStatus}  </script>"})
+    void UpdatePGradeCollect(String sName,String year,String pStatus,String isCollect);
+
+    @Select({"<script> select * from process </script>"})
+    @ResultType(SiptProcess.class)
+    List<SiptProcess> selectProcess();
+
+    @Select({"<script> select count(1) from project where year = #{year} <if test = 'college != '-1''> and college = #{college} </if> </script>>"})
+    @ResultType(java.lang.Integer.class)
+    Integer selectSumProject(String year,String college);
+
+    @Select({"<script> select * from project where year = #{year} </script>"})
+    @ResultType(Project.class)
+    List<Project> selectProjectByYear(String year);
+
+    @Insert({"<script> insert process (year,status,startTime,endTime,isCollect) values(#{year},#{status},#{startTime},#{endTime},#{isCollect} ) </script>"})
+    @ResultType(java.lang.Integer.class)
+    Integer insertProcess(String year,String status,String startTime,String endTime,String isCollect);
+
+    @Update({"<script> update process <set> status = #{status} </set> where year = #{year} </script>"})
+    void updateProcess(String year,String status);
 }

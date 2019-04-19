@@ -1,21 +1,25 @@
 package com.scholarship.demo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.scholarship.demo.api.CurrentProcessRep;
 import com.scholarship.demo.api.LoginDto;
 import com.scholarship.demo.api.MyProjectDto;
 import com.scholarship.demo.api.StudentRequestDto;
-import com.scholarship.demo.model.FileInfo;
 import com.scholarship.demo.response.Result;
 import com.scholarship.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,14 +28,17 @@ import java.util.UUID;
 public class StudentController {
 
 
-
-    //存放文件的路径 ，这里直接放到controller文件夹下
-    //private static final String folder = "Users/syl/Public/SIPT/demo/src/main/java/com/scholarship/demo/controller";
-
-
     @Autowired
     private StudentService studentService;
 
+
+    @RequestMapping("/currentProcess")
+    @ResponseBody
+    public String currentPorcess(@RequestBody LoginDto loginDto){
+        CurrentProcessRep result = studentService.currentPorcess(loginDto.getYear());
+        return JSON.toJSONString(new Result(200,"-",result));
+
+    }
 
     @RequestMapping("/save")
     @ResponseBody
@@ -51,23 +58,23 @@ public class StudentController {
     @RequestMapping("/edit")
     @ResponseBody
     public String edit(@RequestBody LoginDto leaderAccount){
-        Map<String, Object> resultMap = studentService.studentEdit(leaderAccount.getAccount());
+        Map<String, Object> resultMap = studentService.edit(leaderAccount.getAccount(),leaderAccount.getYear());
         return JSON.toJSONString(new Result(200,"-",resultMap));
     }
 
     @RequestMapping("/myProject")
     @ResponseBody
     public String myProject(@RequestBody LoginDto leaderAccount){
-        MyProjectDto myProjectDto = studentService.myProject(leaderAccount.getAccount());
-        return JSON.toJSONString(new Result(200,"-",myProjectDto));
+        List<MyProjectDto> result = studentService.myProject(leaderAccount.getAccount());
+        return JSON.toJSONString(new Result(200,"-",result));
     }
 
-    @RequestMapping("/currentProcess")
-    @ResponseBody
-    public String currentProcess(@RequestBody LoginDto leaderAccount){
-        MyProjectDto myProjectDto = studentService.myProject(leaderAccount.getAccount());
-        return JSON.toJSONString(new Result(200,"-",myProjectDto.getCurrentProgress()));
-    }
+//    @RequestMapping("/currentProcess")
+//    @ResponseBody
+//    public String currentProcess(@RequestBody LoginDto leaderAccount){
+//        MyProjectDto myProjectDto = studentService.myProject(leaderAccount.getAccount());
+//        return JSON.toJSONString(new Result(200,"-",myProjectDto.getCurrentProgress()));
+//    }
 
 //    /**
 //     * 文件上传

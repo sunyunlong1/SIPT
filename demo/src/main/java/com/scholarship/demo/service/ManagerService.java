@@ -11,40 +11,41 @@ public interface ManagerService {
 
     /**
      * 当前流程
-     * @param account
+     * @param account 账号+年份
      * @return
      */
-    ManagerTableDto currentProcess(String account);
+    ManagerTableDto currentProcess(String account,String year);
 
     /**
      * 提交结果
-     * @param managerDtoList
+     * @param managerDtoMap 只需要传年份+状态，姓名,等级
      * @return
      */
-    String apply(List<ManagerDto> managerDtoList);
+    String apply(Map<String,List<ManagerDto>> managerDtoMap);
 
     /**
      * 停止收取
-     * @param managerDto
+     * @param managerDtoMap 只需要传年份+状态，姓名
      * @return
      */
-    String stop(Map<String,List<ManagerDto>> managerDto);
+    String stop(Map<String,List<ManagerDto>> managerDtoMap);
 
     /**
      * 项目概览
+     * @param account 只传账号
      * @return
      */
-    List<OverviewResponse> overview();
+    List<OverviewResponse> overview(String account);
 
     /**
-     * 项目概览查看详情
-     * @param overview
+     * 项目概览查看详情 只需要传 2017SIPT 和 状态
+     * @param
      * @return
      */
-    List<ManagerViewProject> details(OverviewResponse overview);
+    List<ManagerViewProject> details(String name);
 
     /**
-     * 新建流程，编辑流程
+     * 新建流程 传流程类型，开始时间/结束时间
      * @param newProcessDto
      * @return
      */

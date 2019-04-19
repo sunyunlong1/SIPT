@@ -187,12 +187,25 @@ localhost:8080/manager/newAndEditProcess
 }
 
 
-1.保存/提交 学号+年份唯一标示
+1.保存/提交 学号+年份唯一标示 ok
 2./currentProcess 500
-3./myProject 返回list
+3./myProject 返回list ok
 4./process数据
 5./edit 传入参数 +年份
-6./details 只传年份
+6./details 只传年份 ok
 7.所有管理员 至少一个参数
 8.管理员新建流程
 9.上传文件地址，前端定义分隔符
+
+
+
+评委界面：
+进来之后两个状态的
+学号+年份
+
+四个接口
+一个查询，保存修改，提交结果，download
+
+老师界面：
+待审批  查询/审批接口 两个
+我的项目 所有名下项目 接口

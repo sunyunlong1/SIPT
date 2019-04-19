@@ -11,5 +11,5 @@ public class Admin {
     private String userName;
     private String userState;
     private String level;
-
+    private String college;
 }

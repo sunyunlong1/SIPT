@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class ManagerController {
     @ResponseBody
     public String currentProcess(@RequestBody LoginDto leaderAccount){
 
-        ManagerTableDto managerTableDto = managerService.currentProcess(leaderAccount.getAccount());
+        ManagerTableDto managerTableDto = managerService.currentProcess(leaderAccount.getAccount(),leaderAccount.getYear());
         if(managerTableDto == null){
             return JSON.toJSONString(new Result(200,"没有数据","null"));
         }else{
@@ -35,30 +34,30 @@ public class ManagerController {
 
     @RequestMapping("/apply")
     @ResponseBody
-    public String apply(@RequestBody List<ManagerDto> managerDto){
-        String apply = managerService.apply(managerDto);
+    public String apply(@RequestBody Map<String,List<ManagerDto>> managerDtoMap){
+        String apply = managerService.apply( managerDtoMap);
         return JSON.toJSONString(new Result(200,"-",apply));
     }
 
 
     @RequestMapping("/stop")
     @ResponseBody
-    public String stop(@RequestBody Map<String,List<ManagerDto>> managerDto){
-        String stop = managerService.stop(managerDto);
+    public String stop(@RequestBody Map<String,List<ManagerDto>> managerDtoMap){
+        String stop = managerService.stop(managerDtoMap);
         return JSON.toJSONString(new Result(200,"-",stop));
     }
 
     @RequestMapping("/overview")
     @ResponseBody
-    public String overview(HttpServletRequest request){
-        List<OverviewResponse> overview = managerService.overview();
+    public String overview(@RequestBody LoginDto leaderAccount){
+        List<OverviewResponse> overview = managerService.overview(leaderAccount.getAccount());
         return JSON.toJSONString(new Result(200,"-",overview));
     }
 
     @RequestMapping("/details")
     @ResponseBody
     public String details(@RequestBody OverviewResponse overview){
-        List<ManagerViewProject> details = managerService.details(overview);
+        List<ManagerViewProject> details = managerService.details(overview.getName());
         return JSON.toJSONString(new Result(200,"-",details));
     }
 

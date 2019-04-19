@@ -6,24 +6,25 @@ import lombok.Data;
 public class Project {
 
     private int id;
-    private String processId;
     private String pName;
     private String sAccount;
+    private String sName;
     private String memberNum;
     private String memberInf;
     private String tAccount;
+    private String tName;
+    private String tApproval;
     private String pSource;
     private String pCode;
     private String pType;
+    private String jAccount;
+    private String jName;
     private String pIntroduction;
-    private String pStatus;
-    private String years;
+    private String year;
     private String pathFirst;
     private String pathSecond;
     private String pathThird;
     private String avg;
-    private String demandPath;
     private String recordState;
-    private String currentProgress;
-    private String isCollect;
+    private String college;
 }

@@ -1,14 +1,15 @@
-package com.scholarship.demo.api;
+package com.scholarship.demo.model;
 
 import lombok.Data;
 
 @Data
-public class ManagerDto {
+public class PGrade {
 
-    private String college;
-    private String userName;
-    private String tName;
-    private String pType;
+    private int id;
+    private String sId;
+    private String sName;
+    private String year;
+    private String pStatus;
     private int oneGrade;
     private int twoGrade;
     private int threeGrade;

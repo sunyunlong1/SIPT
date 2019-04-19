@@ -2,10 +2,7 @@ package com.scholarship.demo.service.impl;
 
 import com.scholarship.demo.api.*;
 import com.scholarship.demo.dao.ManagerDao;
-import com.scholarship.demo.dao.StudentDao;
-import com.scholarship.demo.model.Project;
-import com.scholarship.demo.model.Student;
-import com.scholarship.demo.model.Teacher;
+import com.scholarship.demo.model.*;
 import com.scholarship.demo.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,141 +15,173 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     ManagerDao managerDao;
 
-    @Autowired
-    StudentDao studentDao;
 
     @Override
-    public ManagerTableDto currentProcess(String account) {
+    public ManagerTableDto currentProcess(String account,String year) {
         int index = 0;
-        ManagerTableDto managerDtos = new ManagerTableDto();
-        UnifiedTable unifiedTable =
-                managerDao.managerUnifiedTable(account);
-        List<ManagerDto> firstManagerDtos = new ArrayList<>();
-        List<ManagerDto> secondManagerDtos = new ArrayList<>();
-        Map<String,List<ManagerDto>> result = new HashMap<>();
-
-        Project projectFirst = managerDao.selectByStatus("立项");
-        if(projectFirst!=null){
-            unifiedTable.setCurrentProcess(projectFirst.getYears()+"立项");
-        }else {
-            Project project = managerDao.selectByStatus("中期检查");
-            Project projectEnd = managerDao.selectByStatus("结题");
-            unifiedTable.setCurrentProcess(project.getYears() + "中期检查" + "/" +projectEnd.getYears()+"结题");
+        ManagerTableDto result = new ManagerTableDto();
+        UnifiedTable unifiedTable = new UnifiedTable();
+        Map<String,List<ManagerDto>> resultMap = new HashMap<>();
+        List<ManagerDto> managerDtos = new ArrayList<>();
+        Admin admin = managerDao.selectById(account);
+        unifiedTable.setLevel(admin.getLevel());
+        SiptProcess siptProcess = managerDao.selectByYear(year);
+        List<Student> students = managerDao.selectByCollege(admin.getCollege());
+        for (Student student : students){
+            ManagerDto managerDto = new ManagerDto();
+            Project project = managerDao.selectBySidYear(student.getAccount(), year);
+            managerDto.setCollege(student.getCollege());
+            managerDto.setUserName(student.getUserName());
+            managerDto.setTName(project.getTName());
+            managerDto.setPType(project.getPType());
+            PGrade pGrade = managerDao.selectByIdYStatus(student.getAccount(), year, siptProcess.getStatus());
+            if(pGrade.getOneGrade() == 0
+                    || pGrade.getTwoGrade() == 0
+                    || pGrade.getThreeGrade() == 0
+                    || pGrade.getFourGrade() == 0){
+                index++;
+            }
+            managerDto.setOneGrade(pGrade.getOneGrade());
+            managerDto.setTwoGrade(pGrade.getTwoGrade());
+            managerDto.setThreeGrade(pGrade.getThreeGrade());
+            managerDto.setFourGrade(pGrade.getFourGrade());
+            managerDto.setPgAvg(pGrade.getPgAvg());
+            managerDtos.add(managerDto);
         }
+        if (siptProcess.getStatus().equals("立项")){
+            unifiedTable.setCurrentProcess(year+siptProcess.getStatus());
+            unifiedTable.setState("正在审批"+index+"/"+managerDtos.size());
+            resultMap.put(year+siptProcess.getStatus(),managerDtos);
+            result.setUnifiedTable(unifiedTable);
+            result.setManagerDtoList(resultMap);
+        }else if(siptProcess.getStatus().equals("中期检查")){
+            List<ManagerDto> managerDtotwo = new ArrayList<>();
 
-        if(unifiedTable.getCurrentProcess().contains("立项")){
+            Integer lastYear = Integer.valueOf(year)-1;
+            SiptProcess lastProcess = managerDao.selectByYear(lastYear.toString());
+            unifiedTable.setCurrentProcess(year+siptProcess.getStatus()+"/"+lastProcess.getStatus());
+            for (Student student : students){
+                ManagerDto managerDto = new ManagerDto();
+                Project project = managerDao.selectBySidYear(student.getAccount(), lastYear.toString());
+                managerDto.setCollege(student.getCollege());
+                managerDto.setUserName(student.getUserName());
+                managerDto.setTName(project.getTName());
+                managerDto.setPType(project.getPType());
+                PGrade pGrade = managerDao.selectByIdYStatus(student.getAccount(), lastYear.toString(), lastProcess.getStatus());
+                if(pGrade.getOneGrade() == 0
+                        || pGrade.getTwoGrade() == 0
+                        || pGrade.getThreeGrade() == 0
+                        || pGrade.getFourGrade() == 0){
+                    index++;
+                }
+                managerDto.setOneGrade(pGrade.getOneGrade());
+                managerDto.setTwoGrade(pGrade.getTwoGrade());
+                managerDto.setThreeGrade(pGrade.getThreeGrade());
+                managerDto.setFourGrade(pGrade.getFourGrade());
+                managerDto.setPgAvg(pGrade.getPgAvg());
+                managerDtotwo.add(managerDto);
+            }
+            unifiedTable.setState("正在审批"+index+"/"+managerDtos.size()+managerDtotwo.size());
+            resultMap.put(year+siptProcess.getStatus(),managerDtos);
+            resultMap.put(lastYear+lastProcess.getStatus(),managerDtotwo);
 
-            firstManagerDtos = managerDao.currentProcess("立项");
-            result.put(unifiedTable.getCurrentProcess(),firstManagerDtos);
-            for(ManagerDto managerDto : firstManagerDtos){
-                if (managerDto.getOneGrade() == 0
-                        || managerDto.getTwoGrade() == 0
-                        || managerDto.getThreeGrade() == 0
-                        || managerDto.getFourGrade() == 0
-                        || managerDto.getPgAvg() == 0.00){
+        }else if(siptProcess.getStatus().equals("结题")){
+            List<ManagerDto> managerDtothree = new ArrayList<>();
+
+            Integer nextYear = Integer.valueOf(year)+1;
+            SiptProcess nextProcess = managerDao.selectByYear(nextYear.toString());
+            unifiedTable.setCurrentProcess(nextProcess+nextProcess.getStatus()+"/"+year+siptProcess.getStatus());
+
+            for (Student student : students){
+                ManagerDto managerDto = new ManagerDto();
+                Project project = managerDao.selectBySidYear(student.getAccount(), nextYear.toString());
+                managerDto.setCollege(student.getCollege());
+                managerDto.setUserName(student.getUserName());
+                managerDto.setTName(project.getTName());
+                managerDto.setPType(project.getPType());
+                PGrade pGrade = managerDao.selectByIdYStatus(student.getAccount(), nextYear.toString(), nextProcess.getStatus());
+                if(pGrade.getOneGrade() == 0
+                        || pGrade.getTwoGrade() == 0
+                        || pGrade.getThreeGrade() == 0
+                        || pGrade.getFourGrade() == 0){
                     index++;
                 }
+                managerDto.setOneGrade(pGrade.getOneGrade());
+                managerDto.setTwoGrade(pGrade.getTwoGrade());
+                managerDto.setThreeGrade(pGrade.getThreeGrade());
+                managerDto.setFourGrade(pGrade.getFourGrade());
+                managerDto.setPgAvg(pGrade.getPgAvg());
+                managerDtothree.add(managerDto);
             }
-            if(index == 0){
-                unifiedTable.setState("审批完成"+firstManagerDtos.size()+"/"+firstManagerDtos.size());
-            }else{
-                unifiedTable.setState("正在审批"+index+"/"+firstManagerDtos.size());
-            }
-        }else{
-            firstManagerDtos = managerDao.currentProcess("中期检查");
-            secondManagerDtos = managerDao.currentProcess("结题");
-            String[] split = unifiedTable.getCurrentProcess().split("/");
-            result.put(split[0],firstManagerDtos);
-            result.put(split[1],secondManagerDtos);
-            for(ManagerDto managerDto : firstManagerDtos){
-                if (managerDto.getOneGrade() == 0
-                        || managerDto.getTwoGrade() == 0
-                        || managerDto.getThreeGrade() == 0
-                        || managerDto.getFourGrade() == 0
-                        || managerDto.getPgAvg() == 0.00){
-                    index++;
-                }
-            }
-            for(ManagerDto managerDto : secondManagerDtos){
-                if (managerDto.getOneGrade() == 0
-                        || managerDto.getTwoGrade() == 0
-                        || managerDto.getThreeGrade() == 0
-                        || managerDto.getFourGrade() == 0
-                        || managerDto.getPgAvg() == 0.00){
-                    index++;
-                }
-            }
-            int size = firstManagerDtos.size()+secondManagerDtos.size();
-            if(index == 0){
-                unifiedTable.setLevel("审批完成"+size+"/"+size);
-            }else{
-                unifiedTable.setLevel("正在审批"+index+"/"+size);
-            }
+            unifiedTable.setState("正在审批"+index+"/"+managerDtos.size()+managerDtothree.size());
+            resultMap.put(year+siptProcess.getStatus(),managerDtos);
+            resultMap.put(nextYear+nextProcess.getStatus(),managerDtothree);
         }
-        managerDtos.setUnifiedTable(unifiedTable);
-        managerDtos.setManagerDtoList(result);
-        return managerDtos;
+        return result;
     }
 
     @Override
-    public String apply(List<ManagerDto> managerDtoList) {
-
-        for(ManagerDto managerDto : managerDtoList){
-            Student student = managerDao.selecyByUserName(managerDto.getUserName());
-            Project project = studentDao.selectByLeaderAccount(student.getAccount());
-            managerDao.updateById(project.getSAccount(),project.getPStatus(),managerDto.getLevel());
+    public String apply(Map<String,List<ManagerDto>> managerDtoMap) {
+        List<ManagerDto> managerDtos = null;
+        String year = "";
+        String status = "";
+        Set<String> strings = managerDtoMap.keySet();
+        for(String s: strings){
+            managerDtos = managerDtoMap.get(s);
+            year = s.substring(0,3);
+            status = s.substring(4,s.length());
+        }
+        for(ManagerDto managerDto : managerDtos){
+            managerDao.UpdatePGradeLevel(managerDto.getUserName(),year,status,managerDto.getLevel());
         }
         return "提交结果成功";
     }
 
     @Override
-    public String stop(Map<String,List<ManagerDto>> managerDto) {
-        Set<String> strings = managerDto.keySet();
-        for(String status : strings){
-            List<ManagerDto> managerDtos = managerDto.get(status);
-            for(ManagerDto manager : managerDtos){
-                Student student = managerDao.selecyByUserName(manager.getUserName());
-                //todo 更新 if(status.lenght()>6) -->中期检查 else -->结题
-                if(status.length()>6){
-                    managerDao.stop("中期检查",student.getAccount());
-                }else{
-                    managerDao.stop("结题",student.getAccount());
-                }
-            }
+    public String stop(Map<String,List<ManagerDto>> managerDtoMap) {
+        List<ManagerDto> managerDtos = null;
+        String year = "";
+        String status = "";
+        Set<String> strings = managerDtoMap.keySet();
+        for(String s: strings){
+            managerDtos = managerDtoMap.get(s);
+            year = s.substring(0,3);
+            status = s.substring(4,s.length());
+        }
+        for(ManagerDto managerDto : managerDtos){
+            managerDao.UpdatePGradeCollect(managerDto.getUserName(),year,status,"已停止收取");
         }
         return "已改为不可收取";
     }
 
     @Override
-    public List<OverviewResponse> overview() {
+    public List<OverviewResponse> overview(String account) {
         List<OverviewResponse> resultList = new ArrayList<>();
-        String[] strings = {"2017","2018","2019"};
-        for (int i = 0; i < strings.length; i++) {
+        Admin admin = managerDao.selectById(account);
+        List<SiptProcess> siptProcesses = managerDao.selectProcess();
+        for (SiptProcess siptProcess : siptProcesses){
             OverviewResponse overviewResponse = new OverviewResponse();
-            overviewResponse.setName(strings[i]+"SIPT");
-            Integer sum = managerDao.sum(strings[i]);
-            overviewResponse.setSum(sum);
-            String status = managerDao.getStatus(strings[i]);
-            overviewResponse.setpStatus(status);
+            Integer integer = managerDao.selectSumProject(siptProcess.getYear(), admin.getCollege());
+            overviewResponse.setName(siptProcess.getYear()+"SIPT");
+            overviewResponse.setSum(integer);
+            overviewResponse.setPStatus(siptProcess.getStatus());
             resultList.add(overviewResponse);
         }
         return resultList;
     }
 
     @Override
-    public List<ManagerViewProject> details(OverviewResponse overview) {
+    public List<ManagerViewProject> details(String name) {
         List<ManagerViewProject> result = new ArrayList<>();
-        String years = overview.getName().substring(0, 4);
-        List<Project> projects = managerDao.selectByYears(years);
-        for(Project project : projects){
+        String year = name.substring(0, 4);
+        List<Project> projects = managerDao.selectProjectByYear(year);
+        for (Project project : projects){
             ManagerViewProject managerViewProject = new ManagerViewProject();
-            managerViewProject.setpName(project.getPName());
-            Student student = studentDao.selectByAccount(project.getSAccount());
-            managerViewProject.setLeaderUserName(student.getUserName());
-            managerViewProject.setCollege(student.getCollege());
-            Teacher teacher = studentDao.getTeacherUserName(project.getTAccount());
-            managerViewProject.setTeacherName(teacher.getUserName());
             managerViewProject.setAvg(project.getAvg());
+            managerViewProject.setTeacherName(project.getTName());
+            managerViewProject.setCollege(project.getCollege());
+            managerViewProject.setLeaderUserName(project.getSName());
+            managerViewProject.setPName(project.getPName());
             result.add(managerViewProject);
         }
         return result;
@@ -160,12 +189,15 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public String newAndEditProcess(NewProcessDto newProcessDto) {
-        String[] split = newProcessDto.getBeginTime().split("-");
-        managerDao.newAndEditProcess(newProcessDto.getProcessName(),split[0]);
+        String year = newProcessDto.getBeginTime().substring(0, 4);
         if(newProcessDto.getProcessName().equals("立项")){
-            return "新建成功";
+            Integer integer = managerDao.insertProcess(year, newProcessDto.getProcessName(), newProcessDto.getBeginTime(), newProcessDto.getEndTime(), "收取材料");
         }else{
-            return "编辑成功";
+            String[] split = newProcessDto.getProcessName().split("/");
+            managerDao.updateProcess(year,split[0]);
+            Integer lastYear = Integer.valueOf(year)-1;
+            managerDao.updateProcess(lastYear.toString(),split[1]);
         }
+        return "成功新建流程";
     }
 }
