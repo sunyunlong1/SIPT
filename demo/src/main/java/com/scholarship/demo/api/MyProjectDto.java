@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class MyProjectDto {
 
+    private String pName;
     private String userName;
     private String memberInf;
     private String teacherName;

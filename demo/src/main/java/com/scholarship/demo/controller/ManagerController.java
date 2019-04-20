@@ -44,7 +44,14 @@ public class ManagerController {
     @ResponseBody
     public String stop(@RequestBody OverviewResponse overview){
         String stop = managerService.stop(overview.getName());
-        return JSON.toJSONString(new Result(200,"-",stop));
+        if(stop.equals("success")){
+            stop = "成功改为停止收取状态";
+            return JSON.toJSONString(new Result(200,"-",stop));
+        }else{
+            stop = "当前已为停止收取状态，不可重复点击";
+            return JSON.toJSONString(new Result(405,"-",stop));
+
+        }
     }
 
     @RequestMapping("/overview")

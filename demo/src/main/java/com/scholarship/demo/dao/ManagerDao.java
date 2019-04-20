@@ -49,8 +49,8 @@ public interface ManagerDao {
     @ResultType(PGrade.class)
     PGrade selectByIdYStatus(String sId, String year, String pStatus);
 
-    @Update({"<script> update pGrade <set> level = #{level} </set> where sName = #{sName} and year = #{year} and pStatus = #{pStatus}  </script>"})
-    void UpdatePGradeLevel(String sName,String year,String pStatus,String level);
+    @Update({"<script> update pGrade <set> level = #{level} </set> where sId = #{sId} and year = #{year} and pStatus = #{pStatus}  </script>"})
+    void UpdatePGradeLevel(String sId,String year,String pStatus,String level);
 
     @Update({"<script> update process <set> isCollect = #{isCollect} </set> where year = #{year} and status = #{status}  </script>"})
     void UpdatePGradeCollect(String year,String status,String isCollect);

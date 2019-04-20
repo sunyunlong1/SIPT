@@ -23,7 +23,13 @@ public class StudentServiceImpl implements StudentService {
     public CurrentProcessRep currentPorcess(String year) {
         CurrentProcessRep result = new CurrentProcessRep();
         SiptProcess siptProcess = studentDao.selectByYear(year);
-        result.setProcessName(siptProcess.getYear()+" SIPT "+siptProcess.getStatus());
+        if(siptProcess.getStatus().equals("立项")){
+            result.setProcessName(siptProcess.getYear()+" SIPT "+siptProcess.getStatus());
+        }else{
+            Integer lastYear = Integer.valueOf(year)-1;
+            SiptProcess lastProcess = studentDao.selectByYear(lastYear.toString());
+            result.setProcessName(siptProcess.getYear()+" SIPT "+siptProcess.getStatus()+"/"+lastYear+" SIPT "+lastProcess.getStatus());
+        }
         result.setIsCollect(siptProcess.getIsCollect());
         result.setStartTime(siptProcess.getStartTime());
         result.setEndTime(siptProcess.getEndTime());
@@ -148,6 +154,7 @@ public class StudentServiceImpl implements StudentService {
         List<Project> projects = studentDao.selectByLeaderAccount(leaderAccount);
         for (Project project : projects) {
             MyProjectDto myProjectDto = new MyProjectDto();
+            myProjectDto.setPName(project.getPName());
             myProjectDto.setUserName(project.getSName());
             myProjectDto.setMemberInf(project.getMemberInf());
             myProjectDto.setTeacherName(project.getTName());
@@ -173,6 +180,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(student.getPassWord())){
                 loginResponse.setUserName(student.getUserName());
                 loginResponse.setUserType("student");
+                loginResponse.setAccount(student.getAccount());
             }else{
                 loginResponse.setUserName("");
             }
@@ -181,6 +189,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(teacher.getPassWord())){
                 loginResponse.setUserName(teacher.getUserName());
                 loginResponse.setUserType("teacher");
+                loginResponse.setAccount(teacher.getAccount());
             }else{
                 loginResponse.setUserName("");
             }
@@ -189,6 +198,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(judges.getPassWord())){
                 loginResponse.setUserName(judges.getUserName());
                 loginResponse.setUserType("judges");
+                loginResponse.setAccount(judges.getAccount());
             }else{
                 loginResponse.setUserName("");
             }
@@ -197,6 +207,7 @@ public class StudentServiceImpl implements StudentService {
             if(loginDto.getPassword().equals(admin.getPassWord())){
                 loginResponse.setUserName(admin.getUserName());
                 loginResponse.setUserType("manager");
+                loginResponse.setAccount(admin.getAccount());
             }else{
                 loginResponse.setUserName("");
             }

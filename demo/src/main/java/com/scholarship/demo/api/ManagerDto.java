@@ -6,7 +6,8 @@ import lombok.Data;
 public class ManagerDto {
 
     private String college;
-    private String userName;
+    private String leaderName;
+    private String leaderAccount;
     private String tName;
     private String pType;
     private int oneGrade;

@@ -41,7 +41,8 @@ localhost:8080/manager/currentProcess
                     "tName": "李晓明",
                     "threeGrade": 0,
                     "twoGrade": 0,
-                    "userName": "李浩然"
+                    "leaderName": "李浩然"
+                    "leaderId":"A19150251"
                 },
                 {
                     "college": "东北农业大学电气与信息学院",
@@ -53,6 +54,7 @@ localhost:8080/manager/currentProcess
                     "threeGrade": 0,
                     "twoGrade": 0,
                     "userName": "孙云龙"
+                    "leaderId":"A19150292"
                 }
             ]
         },
@@ -134,7 +136,7 @@ localhost:8080/manager/stop
     "name":"2019立项"
 }
 返回JSON成功样式
-<!-- 如果已为停止收取，则data里返回 已为不可收取，不可重复更爱状态 -->
+<!-- 如果已为停止收取，则data里返回 已为不可收取，不可重复更改状态 -->
 {
     "code": 200,
     "data": "已改为不可收取",
@@ -145,20 +147,19 @@ localhost:8080/manager/apply
 {
             "2019立项": [
                 {
-                    "userName": "李浩然",
+                    "leaderAccount": "A19150251",
                     "level":"A"
                 },
                 {
-                    "userName": "孙云龙",
+                    "leaderAccount": "A19150292",
                     "level":"A"
                 }
             ]
 }
-<!-- 更改样式 -->
 返回JSON成功样式
 {
     "code": 200,
-    "data": "已改为不可收取",
+    "data": "提交结果成功",
     "message": "-"
 }
 ----------------------------------------------------------------------
@@ -234,7 +235,6 @@ localhost:8080/student/apply
 }
 编辑
 localhost:8080/student/edit
-<!-- 缺少pathFirst -->
 {
 	"account":"A19150251",
 	"year":"2019"
@@ -252,6 +252,7 @@ localhost:8080/student/edit
             "memberInf": "成员信息",
             "memberNum": "4",
             "name": "SIPT项目测试",
+            "pathFirst": "c:/test",
             "pathSecond": "‘1’",
             "pathThird": "‘1’",
             "source": "学生自拟",

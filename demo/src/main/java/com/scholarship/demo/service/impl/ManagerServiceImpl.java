@@ -26,13 +26,13 @@ public class ManagerServiceImpl implements ManagerService {
         Admin admin = managerDao.selectById(account);
         unifiedTable.setLevel(admin.getLevel());
         SiptProcess siptProcess = managerDao.selectByYear(year);
-        //List<Student> students = managerDao.selectByCollege(admin.getCollege());
         List<Project> projects = managerDao.selectBySidYear(admin.getCollege(), year);
 
         for (Project project : projects){
             ManagerDto managerDto = new ManagerDto();
             managerDto.setCollege(project.getCollege());
-            managerDto.setUserName(project.getTName());
+            managerDto.setLeaderName(project.getSName());
+            managerDto.setLeaderAccount(project.getSAccount());
             managerDto.setTName(project.getTName());
             managerDto.setPType(project.getPType());
             PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), year, siptProcess.getStatus());
@@ -66,7 +66,8 @@ public class ManagerServiceImpl implements ManagerService {
             for (Project project : lastProjects){
                 ManagerDto managerDto = new ManagerDto();
                 managerDto.setCollege(project.getCollege());
-                managerDto.setUserName(project.getSName());
+                managerDto.setLeaderName(project.getSName());
+                managerDto.setLeaderAccount(project.getSAccount());
                 managerDto.setTName(project.getTName());
                 managerDto.setPType(project.getPType());
                 PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(),lastYear.toString(), lastProcess.getStatus());
@@ -98,7 +99,8 @@ public class ManagerServiceImpl implements ManagerService {
             for (Project project : nextProjects){
                 ManagerDto managerDto = new ManagerDto();
                 managerDto.setCollege(project.getCollege());
-                managerDto.setUserName(project.getSName());
+                managerDto.setLeaderName(project.getSName());
+                managerDto.setLeaderAccount(project.getSAccount());
                 managerDto.setTName(project.getTName());
                 managerDto.setPType(project.getPType());
                 PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), nextYear.toString(), nextProcess.getStatus());
@@ -134,7 +136,7 @@ public class ManagerServiceImpl implements ManagerService {
             status = s.substring(4,s.length());
         }
         for(ManagerDto managerDto : managerDtos){
-            managerDao.UpdatePGradeLevel(managerDto.getUserName(),year,status,managerDto.getLevel());
+            managerDao.UpdatePGradeLevel(managerDto.getLeaderAccount(),year,status,managerDto.getLevel());
         }
         return "提交结果成功";
     }
@@ -143,8 +145,14 @@ public class ManagerServiceImpl implements ManagerService {
     public String stop(String name) {
         String year = name.substring(0,4);
         String status = name.substring(4,name.length());
-        managerDao.UpdatePGradeCollect(year,status,"已停止收取");
-        return "已改为不可收取";
+
+        SiptProcess siptProcess = managerDao.selectByYear(year);
+        if(siptProcess.getIsCollect().equals("已停止收取")){
+            return "fail";
+        }else{
+            managerDao.UpdatePGradeCollect(year,status,"已停止收取");
+            return "success";
+        }
     }
 
     @Override
@@ -158,6 +166,7 @@ public class ManagerServiceImpl implements ManagerService {
             overviewResponse.setName(siptProcess.getYear()+"SIPT");
             overviewResponse.setSum(integer);
             overviewResponse.setPStatus(siptProcess.getStatus());
+            overviewResponse.setIsCollect(siptProcess.getIsCollect());
             resultList.add(overviewResponse);
         }
         return resultList;
@@ -167,10 +176,12 @@ public class ManagerServiceImpl implements ManagerService {
     public List<ManagerViewProject> details(String name) {
         List<ManagerViewProject> result = new ArrayList<>();
         String year = name.substring(0, 4);
+        SiptProcess siptProcess = managerDao.selectByYear(year);
         List<Project> projects = managerDao.selectProjectByYear(year);
         for (Project project : projects){
             ManagerViewProject managerViewProject = new ManagerViewProject();
-            managerViewProject.setAvg(project.getAvg());
+            PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), project.getYear(), siptProcess.getStatus());
+            managerViewProject.setAvg(pGrade.getLevel());
             managerViewProject.setTeacherName(project.getTName());
             managerViewProject.setCollege(project.getCollege());
             managerViewProject.setLeaderUserName(project.getSName());
@@ -184,7 +195,6 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public String newAndEditProcess(NewProcessDto newProcessDto) {
         //立项 begin年份+1
-        //
         String year = newProcessDto.getBeginTime().substring(0, 4);
         if(newProcessDto.getProcessName().equals("立项")){
             Integer LYear = Integer.valueOf(year)+1;
@@ -198,12 +208,13 @@ public class ManagerServiceImpl implements ManagerService {
             String[] split = newProcessDto.getProcessName().split("/");
             //同时新建成绩表中流程
             List<Project> projects = managerDao.selectProjectByYear(year);
+            Integer JYear = Integer.valueOf(year)-1;
             for(Project project : projects){
                 managerDao.insertpGrade(project.getSAccount(),project.getSName(),year,split[0]);
-                managerDao.insertpGrade(project.getSAccount(),project.getSName(),year,split[1]);
+                managerDao.insertpGrade(project.getSAccount(),project.getSName(),JYear.toString(),split[1]);
             }
             managerDao.updateProcess(year,split[0],newProcessDto.getBeginTime(),newProcessDto.getEndTime(),"收取材料");
-            managerDao.updateProcess(year,split[1],newProcessDto.getBeginTime(),newProcessDto.getEndTime(),"收取材料");
+            managerDao.updateProcess(JYear.toString(),split[1],newProcessDto.getBeginTime(),newProcessDto.getEndTime(),"收取材料");
         }
         return "成功新建流程";
     }
