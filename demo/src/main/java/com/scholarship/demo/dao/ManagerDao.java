@@ -18,12 +18,12 @@ public interface ManagerDao {
     SiptProcess selectByYear(String year);
 
     @SelectProvider(type = findCollege.class,method = "findById")
-    @ResultType(Student.class)
-    List<Student> selectByCollege(String college);
+    @ResultType(Project.class)
+    List<Project> selectByCollege(String college);
 
     class findCollege{
         public String findById(String college){
-            String sql = " select * from student ";
+            String sql = " select * from project ";
             if(!college.equals("-1")){
                 sql+= " where college = #{college} ";
             }
@@ -31,10 +31,19 @@ public interface ManagerDao {
         }
     }
 
-    @Select({"<script> select * from project where sAccount = #{sAccount} and year = #{year} </script>"})
+    @SelectProvider(type = findProject.class,method = "findById")
     @ResultType(Project.class)
-    Project selectBySidYear(String sAccount,String year);
+    List<Project> selectBySidYear(String college,String year);
 
+    class findProject{
+        public String findById(String college,String year){
+            String sql = " select * from project where year = #{year} ";
+            if(!college.equals("-1")){
+                sql+= " and college = #{college} ";
+            }
+            return sql;
+        }
+    }
 
     @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
     @ResultType(PGrade.class)

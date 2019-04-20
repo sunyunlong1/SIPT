@@ -12,12 +12,12 @@ public class StudentRequestDto {
     /**
      * 项目名称
      */
-    private String pName;
+    private String name;
 
     /**
      * 项目类型
      */
-    private String pType;
+    private String type;
 
     /**
      * 项目负责人姓名
@@ -57,17 +57,17 @@ public class StudentRequestDto {
     /**
      * 项目涞源
      */
-    private String pSource;
+    private String source;
 
     /**
      * 项目所属一级学科代码
      */
-    private String pCode;
+    private String code;
 
     /**
      * 项目简介
      */
-    private String pIntroduction;
+    private String introduction;
 
     /**
      * 立项上传文件

@@ -21,8 +21,8 @@ public interface StudentDao {
     @ResultType(Project.class)
     List<Project> selectByLeaderAccount(String leaderAccount);
 
-    @Insert({"<script> insert into project (pName,sAccount,memberNum,memberInf,tAccount,pSource,pCode,pType,pIntroduction,pathFirst,pathSecond,pathThird,recordState,college) " +
-            " VALUES(#{p.pName},#{p.sAccount},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pathFirst},#{p.pathSecond},#{p.pathThird},#{p.recordState},#{p.college}) " +
+    @Insert({"<script> insert into project (year,pName,sAccount,sName,memberNum,memberInf,tAccount,tName,pSource,pCode,pType,pIntroduction,pathFirst,pathSecond,pathThird,recordState,college) " +
+            " VALUES(#{p.year},#{p.pName},#{p.sAccount},#{p.sName},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.tName},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pathFirst},#{p.pathSecond},#{p.pathThird},#{p.recordState},#{p.college}) " +
             "</script>"})
     @ResultType(java.lang.Boolean.class)
     boolean studentSave(@Param("p") Project project);

@@ -52,8 +52,8 @@ public class StudentServiceImpl implements StudentService {
         Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
         if(projectFirst == null){
             Project project = new Project();
-            project.setPName(studentRequestDto.getPName());
-            project.setPType(studentRequestDto.getPType());
+            project.setPName(studentRequestDto.getName());
+            project.setPType(studentRequestDto.getType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
@@ -61,9 +61,9 @@ public class StudentServiceImpl implements StudentService {
             Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTeacherName());
             project.setTAccount(teacherAccount.getAccount());
             project.setTName(studentRequestDto.getTeacherName());
-            project.setPSource(studentRequestDto.getPSource());
-            project.setPCode(studentRequestDto.getPCode());
-            project.setPIntroduction(studentRequestDto.getPIntroduction());
+            project.setPSource(studentRequestDto.getSource());
+            project.setPCode(studentRequestDto.getCode());
+            project.setPIntroduction(studentRequestDto.getIntroduction());
             project.setPathFirst(studentRequestDto.getPathFirst());
             project.setPathSecond(studentRequestDto.getPathSecond());
             project.setPathThird(studentRequestDto.getPathThird());
@@ -83,8 +83,8 @@ public class StudentServiceImpl implements StudentService {
         Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
         if(projectFirst == null){
             Project project = new Project();
-            project.setPName(studentRequestDto.getPName());
-            project.setPType(studentRequestDto.getPType());
+            project.setPName(studentRequestDto.getName());
+            project.setPType(studentRequestDto.getType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
@@ -92,9 +92,9 @@ public class StudentServiceImpl implements StudentService {
             Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTeacherName());
             project.setTAccount(teacherAccount.getAccount());
             project.setTName(studentRequestDto.getTeacherName());
-            project.setPSource(studentRequestDto.getPSource());
-            project.setPCode(studentRequestDto.getPCode());
-            project.setPIntroduction(studentRequestDto.getPIntroduction());
+            project.setPSource(studentRequestDto.getSource());
+            project.setPCode(studentRequestDto.getCode());
+            project.setPIntroduction(studentRequestDto.getIntroduction());
             project.setPathFirst(studentRequestDto.getPathFirst());
             project.setPathSecond(studentRequestDto.getPathSecond());
             project.setPathThird(studentRequestDto.getPathThird());
@@ -116,8 +116,9 @@ public class StudentServiceImpl implements StudentService {
         Project project = studentDao.selectByLeaderAccountAndYear(leaderAccount,year);
         StudentRequestDto studentDto = new StudentRequestDto();
         if(project!=null){
-            studentDto.setPName(project.getPName());
-            studentDto.setPType(project.getPType());
+            studentDto.setYear(project.getYear());
+            studentDto.setName(project.getPName());
+            studentDto.setType(project.getPType());
             studentDto.setLeaderAccount(project.getSAccount());
             studentDto.setLeaderCollege(project.getCollege());
             studentDto.setLeaderName(project.getSName());
@@ -126,9 +127,12 @@ public class StudentServiceImpl implements StudentService {
             Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
             studentDto.setTeacherName(teacherUserName.getUserName());
             studentDto.setTeacherTitle(teacherUserName.getTitle());
-            studentDto.setPSource(project.getPSource());
-            studentDto.setPCode(project.getPCode());
-            studentDto.setPIntroduction(project.getPIntroduction());
+            studentDto.setSource(project.getPSource());
+            studentDto.setCode(project.getPCode());
+            studentDto.setIntroduction(project.getPIntroduction());
+            studentDto.setPathFirst(project.getPathFirst());
+            studentDto.setPathSecond(project.getPathSecond());
+            studentDto.setPathThird(project.getPathThird());
             resultMap.put("tableData",studentDto);
             resultMap.put("recordState",project.getRecordState());
         }else{
@@ -147,6 +151,10 @@ public class StudentServiceImpl implements StudentService {
             myProjectDto.setUserName(project.getSName());
             myProjectDto.setMemberInf(project.getMemberInf());
             myProjectDto.setTeacherName(project.getTName());
+            myProjectDto.setRecordStatus(project.getRecordState());
+            myProjectDto.setYear(project.getYear());
+            SiptProcess siptProcess = studentDao.selectByYear(project.getYear());
+            myProjectDto.setPStatus(siptProcess.getStatus());
             if (project != null || !project.getAvg().equals("")) {
                 myProjectDto.setAvg(project.getAvg());
             } else {

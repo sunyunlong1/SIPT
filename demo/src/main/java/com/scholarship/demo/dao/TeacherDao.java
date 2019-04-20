@@ -18,7 +18,7 @@ public interface TeacherDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByYear(String year);
 
-    @Select({"<script> select * from project where tAccount = #{tAccount} and year = #{year} </script>"})
+    @Select({"<script> select * from project where tAccount = #{tAccount} and year = #{year} and tApproval = '1' </script>"})
     @ResultType(Project.class)
     List<Project> selectByTidAndYear(String tAccount,String year);
 
@@ -26,8 +26,8 @@ public interface TeacherDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByStatus(String status);
 
-    @Update({"update project <set> tApproval = 1 </set> where sName = #{sName} and year = #{year} "})
-    void updateTApproval(String sName,String year);
+    @Update({"<script> update project <set> tApproval = #{pass} </set> where sName = #{sName} and year = #{year} </script>"})
+    void updateTApproval(String pass,String sName,String year);
 
 
     @Select({"<script> select * from process </script>"})

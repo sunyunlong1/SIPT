@@ -1,3 +1,24 @@
+统一登陆
+localhost:8080/login
+{
+	"account":"A19150292",
+	"password":"123",
+	"role":"学生"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": {
+        "userName": "孙云龙",
+        "userType": "student"
+    },
+    "message": "登陆成功"
+}
+检查登陆
+localhost:8080/checkLogin
+统一登出
+localhost:8080/exit
+-------------------------------------------------------
 管理员模块
 //当前流程
 localhost:8080/manager/currentProcess
@@ -138,7 +159,228 @@ localhost:8080/manager/apply
     "message": "-"
 }
 ----------------------------------------------------------------------
-
+学生模块
+当前流程查询模块
+localhost:8080/student/currentProcess
+{
+	"year":"2019"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": {
+        "endTime": "2019-06-04",
+        "isCollect": "收取材料",
+        "processName": "2019 SIPT 立项",
+        "startTime": "2019-03-04"
+    },
+    "message": "-"
+}
+保存
+localhost:8080/student/save
+{
+	"year":"2019",
+	"name":"SIPT项目申报",
+	"type":"创新项目",
+	"leaderName":"罗金猪",
+	"leaderCollege":"电气与信息学院",
+	"leaderAccount":"A19150345",
+	"memberNum":"5",
+	"memberInf":"汤敏锐，殷珂",
+	"teacherName":"李晓明",
+	"teacherTitle":"教授",
+	"source":"学生自拟",
+	"code":"000002",
+	"introduction":"毕设项目",
+	"pathFirst":"c:/test",
+	"pathSecond":"",
+	"pathThird":""
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": "保存成功",
+    "message": "-"
+}
+提交
+localhost:8080/student/apply
+{
+	"year":"2019",
+	"name":"SIPT项目申报",
+	"type":"创新项目",
+	"leaderName":"罗金猪",
+	"leaderCollege":"电气与信息学院",
+	"leaderAccount":"A19150345",
+	"memberNum":"5",
+	"memberInf":"汤敏锐，殷珂",
+	"teacherName":"李晓明",
+	"teacherTitle":"教授",
+	"source":"学生自拟",
+	"code":"000002",
+	"introduction":"毕设项目",
+	"pathFirst":"c:/test",
+	"pathSecond":"",
+	"pathThird":""
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": "提交成功",
+    "message": "-"
+}
+编辑
+localhost:8080/student/edit
+{
+	"account":"A19150251",
+	"year":"2019"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": {
+        "tableData": {
+            "code": "00001",
+            "introduction": "项目介绍",
+            "leaderAccount": "A19150251",
+            "leaderCollege": "电气与信息学院",
+            "leaderName": "李浩然",
+            "memberInf": "成员信息",
+            "memberNum": "4",
+            "name": "SIPT项目测试",
+            "pathSecond": "‘1’",
+            "pathThird": "‘1’",
+            "source": "学生自拟",
+            "teacherName": "李晓明",
+            "teacherTitle": "教授",
+            "type": "创新项目",
+            "year": "2019"
+        },
+        "recordState": "已提交"
+    },
+    "message": "-"
+}
+我的项目
+localhost:8080/student/myProject
+{
+	"account":"A19150292"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": [
+        {
+            "avg": "校级优秀项目",
+            "memberInf": "成员信息",
+            "pStatus": "立项",
+            "recordStatus": "已提交",
+            "teacherName": "李晓明",
+            "userName": "孙云龙",
+            "year": "2019"
+        },
+        {
+            "avg": "校级优秀项目",
+            "memberInf": "成员信息",
+            "pStatus": "中期检查",
+            "recordStatus": "已提交",
+            "teacherName": "李晓明",
+            "userName": "孙云龙",
+            "year": "2018"
+        }
+    ],
+    "message": "-"
+}
+----------------------------------------------------------
+老师模块
+待审批查询模块
+localhost:8080/teacher/pApproval
+{
+	"account":"A19150000",
+	"year":"2019"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": [
+        {
+            "college": "电气与信息学院",
+            "pName": "SIPT项目测试",
+            "pSource": "学生自拟",
+            "sName": "孙云龙",
+            "status": "立项",
+            "tName": "李晓明"
+        },
+        {
+            "college": "电气与信息学院",
+            "pName": "SIPT项目测试",
+            "pSource": "学生自拟",
+            "sName": "李浩然",
+            "status": "立项",
+            "tName": "李晓明"
+        },
+        {
+            "college": "电气与信息学院",
+            "pName": "SIPT项目申报",
+            "pSource": "学生自拟",
+            "sName": "罗金猪",
+            "status": "立项",
+            "tName": "李晓明"
+        }
+    ],
+    "message": "-"
+}
+审批
+localhost:8080/teacher/approve
+{
+	"leaderName":"孙云龙",
+	"status":"立项"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": "审批成功",
+    "message": "-"
+}
+我的项目
+localhost:8080/teacher/myProject
+{
+	"account":"A19150000"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": [
+        {
+            "avg": "校级优秀项目",
+            "college": "电气与信息学院",
+            "leaderName": "孙云龙",
+            "level": "A",
+            "pName": "SIPT项目测试",
+            "pSource": "学生自拟",
+            "status": "立项"
+        },
+        {
+            "avg": "校级优秀项目",
+            "college": "电气与信息学院",
+            "leaderName": "李浩然",
+            "level": "A",
+            "pName": "SIPT项目测试",
+            "pSource": "学生自拟",
+            "status": "立项"
+        },
+        {
+            "avg": "校级优秀项目",
+            "college": "电气与信息学院",
+            "leaderName": "孙云龙",
+            "level": "B",
+            "pName": "SIPT项目测试",
+            "pSource": "学生自拟",
+            "status": "中期检查"
+        }
+    ],
+    "message": "-"
+}
+--------------------------------------------------
+评委模块
 
 
 1.保存/提交 学号+年份唯一标示 ok

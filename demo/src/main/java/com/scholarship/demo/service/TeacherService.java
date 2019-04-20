@@ -11,7 +11,7 @@ import java.util.List;
 public interface TeacherService {
 
     /**
-     *
+     * 待审批
      * @param account 传账号，年份
      * @param year
      * @return
@@ -27,7 +27,7 @@ public interface TeacherService {
 
 
     /**
-     * 我的项目 只穿account
+     * 我的项目 只传account
      * @param account
      * @return
      */

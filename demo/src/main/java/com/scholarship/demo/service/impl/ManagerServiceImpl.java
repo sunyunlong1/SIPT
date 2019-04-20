@@ -26,15 +26,16 @@ public class ManagerServiceImpl implements ManagerService {
         Admin admin = managerDao.selectById(account);
         unifiedTable.setLevel(admin.getLevel());
         SiptProcess siptProcess = managerDao.selectByYear(year);
-        List<Student> students = managerDao.selectByCollege(admin.getCollege());
-        for (Student student : students){
+        //List<Student> students = managerDao.selectByCollege(admin.getCollege());
+        List<Project> projects = managerDao.selectBySidYear(admin.getCollege(), year);
+
+        for (Project project : projects){
             ManagerDto managerDto = new ManagerDto();
-            Project project = managerDao.selectBySidYear(student.getAccount(), year);
-            managerDto.setCollege(student.getCollege());
-            managerDto.setUserName(student.getUserName());
+            managerDto.setCollege(project.getCollege());
+            managerDto.setUserName(project.getTName());
             managerDto.setTName(project.getTName());
             managerDto.setPType(project.getPType());
-            PGrade pGrade = managerDao.selectByIdYStatus(student.getAccount(), year, siptProcess.getStatus());
+            PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), year, siptProcess.getStatus());
             if(pGrade.getOneGrade() == 0
                     || pGrade.getTwoGrade() == 0
                     || pGrade.getThreeGrade() == 0
@@ -60,14 +61,15 @@ public class ManagerServiceImpl implements ManagerService {
             Integer lastYear = Integer.valueOf(year)-1;
             SiptProcess lastProcess = managerDao.selectByYear(lastYear.toString());
             unifiedTable.setCurrentProcess(year+siptProcess.getStatus()+"/"+lastProcess.getStatus());
-            for (Student student : students){
+            List<Project> lastProjects = managerDao.selectBySidYear(admin.getAccount(), lastYear.toString());
+
+            for (Project project : lastProjects){
                 ManagerDto managerDto = new ManagerDto();
-                Project project = managerDao.selectBySidYear(student.getAccount(), lastYear.toString());
-                managerDto.setCollege(student.getCollege());
-                managerDto.setUserName(student.getUserName());
+                managerDto.setCollege(project.getCollege());
+                managerDto.setUserName(project.getSName());
                 managerDto.setTName(project.getTName());
                 managerDto.setPType(project.getPType());
-                PGrade pGrade = managerDao.selectByIdYStatus(student.getAccount(), lastYear.toString(), lastProcess.getStatus());
+                PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(),lastYear.toString(), lastProcess.getStatus());
                 if(pGrade.getOneGrade() == 0
                         || pGrade.getTwoGrade() == 0
                         || pGrade.getThreeGrade() == 0
@@ -91,15 +93,15 @@ public class ManagerServiceImpl implements ManagerService {
             Integer nextYear = Integer.valueOf(year)+1;
             SiptProcess nextProcess = managerDao.selectByYear(nextYear.toString());
             unifiedTable.setCurrentProcess(nextProcess+nextProcess.getStatus()+"/"+year+siptProcess.getStatus());
+            List<Project> nextProjects = managerDao.selectBySidYear(admin.getAccount(), nextYear.toString());
 
-            for (Student student : students){
+            for (Project project : nextProjects){
                 ManagerDto managerDto = new ManagerDto();
-                Project project = managerDao.selectBySidYear(student.getAccount(), nextYear.toString());
-                managerDto.setCollege(student.getCollege());
-                managerDto.setUserName(student.getUserName());
+                managerDto.setCollege(project.getCollege());
+                managerDto.setUserName(project.getSName());
                 managerDto.setTName(project.getTName());
                 managerDto.setPType(project.getPType());
-                PGrade pGrade = managerDao.selectByIdYStatus(student.getAccount(), nextYear.toString(), nextProcess.getStatus());
+                PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), nextYear.toString(), nextProcess.getStatus());
                 if(pGrade.getOneGrade() == 0
                         || pGrade.getTwoGrade() == 0
                         || pGrade.getThreeGrade() == 0

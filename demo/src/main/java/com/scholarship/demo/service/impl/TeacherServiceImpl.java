@@ -73,7 +73,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public String approve(TeacherApprove teacherApprove) {
         SiptProcess siptProcess = teacherDao.selectByStatus(teacherApprove.getStatus());
-        teacherDao.updateTApproval(teacherApprove.getLeaderName(),siptProcess.getYear());
+        teacherDao.updateTApproval("pass",teacherApprove.getLeaderName(),siptProcess.getYear());
         return "审批成功";
     }
 
