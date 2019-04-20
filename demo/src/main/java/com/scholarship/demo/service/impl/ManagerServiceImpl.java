@@ -128,7 +128,7 @@ public class ManagerServiceImpl implements ManagerService {
         Set<String> strings = managerDtoMap.keySet();
         for(String s: strings){
             managerDtos = managerDtoMap.get(s);
-            year = s.substring(0,3);
+            year = s.substring(0,4);
             status = s.substring(4,s.length());
         }
         for(ManagerDto managerDto : managerDtos){
@@ -138,19 +138,10 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public String stop(Map<String,List<ManagerDto>> managerDtoMap) {
-        List<ManagerDto> managerDtos = null;
-        String year = "";
-        String status = "";
-        Set<String> strings = managerDtoMap.keySet();
-        for(String s: strings){
-            managerDtos = managerDtoMap.get(s);
-            year = s.substring(0,3);
-            status = s.substring(4,s.length());
-        }
-        for(ManagerDto managerDto : managerDtos){
-            managerDao.UpdatePGradeCollect(managerDto.getUserName(),year,status,"已停止收取");
-        }
+    public String stop(String name) {
+        String year = name.substring(0,4);
+        String status = name.substring(4,name.length());
+        managerDao.UpdatePGradeCollect(year,status,"已停止收取");
         return "已改为不可收取";
     }
 
@@ -182,6 +173,7 @@ public class ManagerServiceImpl implements ManagerService {
             managerViewProject.setCollege(project.getCollege());
             managerViewProject.setLeaderUserName(project.getSName());
             managerViewProject.setPName(project.getPName());
+            managerViewProject.setPSource(project.getPSource());
             result.add(managerViewProject);
         }
         return result;

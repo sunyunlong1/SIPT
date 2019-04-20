@@ -17,13 +17,19 @@ public interface ManagerDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByYear(String year);
 
-    @Select({"<script> select * from student " +
-            "<if test = 'college != '-1''> " +
-            " where college = #{college} " +
-            "</if> " +
-            "</script>"})
+    @SelectProvider(type = findCollege.class,method = "findById")
     @ResultType(Student.class)
     List<Student> selectByCollege(String college);
+
+    class findCollege{
+        public String findById(String college){
+            String sql = " select * from student ";
+            if(!college.equals("-1")){
+                sql+= " where college = #{college} ";
+            }
+            return sql;
+        }
+    }
 
     @Select({"<script> select * from project where sAccount = #{sAccount} and year = #{year} </script>"})
     @ResultType(Project.class)
@@ -37,16 +43,27 @@ public interface ManagerDao {
     @Update({"<script> update pGrade <set> level = #{level} </set> where sName = #{sName} and year = #{year} and pStatus = #{pStatus}  </script>"})
     void UpdatePGradeLevel(String sName,String year,String pStatus,String level);
 
-    @Update({"<script> update pGrade <set> isCollect = #{isCollect} </set> where sName = #{sName} and year = #{year} and pStatus = #{pStatus}  </script>"})
-    void UpdatePGradeCollect(String sName,String year,String pStatus,String isCollect);
+    @Update({"<script> update process <set> isCollect = #{isCollect} </set> where year = #{year} and status = #{status}  </script>"})
+    void UpdatePGradeCollect(String year,String status,String isCollect);
 
     @Select({"<script> select * from process </script>"})
     @ResultType(SiptProcess.class)
     List<SiptProcess> selectProcess();
 
-    @Select({"<script> select count(1) from project where year = #{year} <if test = 'college != '-1''> and college = #{college} </if> </script>>"})
+    @SelectProvider(type = selectProject.class,method = "findById")
     @ResultType(java.lang.Integer.class)
     Integer selectSumProject(String year,String college);
+
+    class selectProject{
+        public String findById(String year,String college){
+            String sql = " select count(1) from project where year = #{year} ";
+            if(!college.equals("-1")){
+                sql+=" and college = #{college} ";
+            }
+            return sql;
+        }
+    }
+
 
     @Select({"<script> select * from project where year = #{year} </script>"})
     @ResultType(Project.class)

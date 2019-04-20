@@ -42,8 +42,8 @@ public class ManagerController {
 
     @RequestMapping("/stop")
     @ResponseBody
-    public String stop(@RequestBody Map<String,List<ManagerDto>> managerDtoMap){
-        String stop = managerService.stop(managerDtoMap);
+    public String stop(@RequestBody OverviewResponse overview){
+        String stop = managerService.stop(overview.getName());
         return JSON.toJSONString(new Result(200,"-",stop));
     }
 

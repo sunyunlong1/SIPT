@@ -1,190 +1,144 @@
-localhost:8080/student/apply
- {
- 	"pName":"测试",
- 	"pType":"1",
- 	"leaderName":"李浩然",
- 	"leaderCollege":"电气与信息学院",
- 	"leaderAccount":"A19150250",
- 	"memberNum":"3",
- 	"memberInf":"全体是大神",
- 	"teacherName":"李晓明",
- 	"teacherTitle":"教授",
- 	"pSource":"老师带队",
- 	"pCode":"00001",
- 	"pIntroduction":"test",
- 	"pathFirst":"/c:test",
- 	"pathSecond":"",
- 	"pathThird":"/e:test"
- }
-
- localhost:8080/student/save
- {
- 	"pName":"测试",
- 	"pType":"1",
- 	"leaderName":"李浩然",
- 	"leaderCollege":"电气与信息学院",
- 	"leaderAccount":"A19150250",
- 	"memberNum":"3",
- 	"memberInf":"全体是大神",
- 	"teacherName":"李晓明",
- 	"teacherTitle":"教授",
- 	"pSource":"老师带队",
- 	"pCode":"00001",
- 	"pIntroduction":"test",
- 	"pathFirst":"/c:test",
- 	"pathSecond":"",
- 	"pathThird":"/e:test"
- }
-
- localhost:8080/login
- {
- 	"account":"A19150251",
- 	"passWord":"123",
- 	"role":"学生" (学生，老师，评委，管理员)
- }
-
- localhost:8080/student/currentProcess
- {
- 	"account":"A19150250"
- }
-
- localhost:8080/student/edit
- {
- 	"account":"A19150251"
- }
-
- localhost:8080/student/myProject
-  {
-  	"account":"A19150251"
-  }
-
-  localhost:8080/student/currentProcess
-    {
-    	"account":"A19150251"
-    }
-   localhost:8080/student/update
-   {
-   参数名file
-   }
-  ----------------------------------------------------管理员模块
+管理员模块
+//当前流程
 localhost:8080/manager/currentProcess
 {
-	"account":"admin"
+	"account":"admin",
+	"year":"2019"
 }
-返回json：
+返回JSON成功样式
 {
     "code": 200,
     "data": {
         "managerDtoList": {
-            "2019结题": [
+            "2019立项": [
                 {
                     "college": "东北农业大学电气与信息学院",
-                    "fourGrade": 12,
-                    "level": "B",
-                    "oneGrade": 77,
-                    "pType": "SIPT项目",
-                    "pgAvg": 89.7,
-                    "tName": "李晓明",
-                    "threeGrade": 132,
-                    "twoGrade": 122,
-                    "userName": "孙云龙"
-                }
-            ],
-            "2018中期检查": [
-                {
-                    "college": "东北农业大学电气与信息学院",
-                    "fourGrade": 43,
-                    "level": "A",
-                    "oneGrade": 69,
+                    "fourGrade": 0,
+                    "oneGrade": 0,
                     "pType": "创新项目",
-                    "pgAvg": 67.2,
+                    "pgAvg": 0,
                     "tName": "李晓明",
-                    "threeGrade": 45,
-                    "twoGrade": 89,
+                    "threeGrade": 0,
+                    "twoGrade": 0,
                     "userName": "李浩然"
+                },
+                {
+                    "college": "东北农业大学电气与信息学院",
+                    "fourGrade": 0,
+                    "oneGrade": 0,
+                    "pType": "创新项目",
+                    "pgAvg": 0,
+                    "tName": "李晓明",
+                    "threeGrade": 0,
+                    "twoGrade": 0,
+                    "userName": "孙云龙"
                 }
             ]
         },
         "unifiedTable": {
-            "currentProcess": "2018中期检查/2019结题",
-            "level": "校级"
-            "state": "审批完成2/2"
+            "currentProcess": "2019立项",
+            "level": "校级",
+            "state": "正在审批2/2"
         }
     },
     "message": "-"
 }
-
-localhost:8080/manager/apply
-[
-                {
-                    "college": "东北农业大学电气与信息学院",
-                    "fourGrade": 12,
-                    "level": "B",
-                    "oneGrade": 77,
-                    "pType": "SIPT项目",
-                    "pgAvg": 89.7,
-                    "tName": "李晓明",
-                    "threeGrade": 132,
-                    "twoGrade": 122,
-                    "userName": "孙云龙"
-                }
-            ]
-localhost:8080/manager/stop
- {
- "2019结题":[
-                {
-                    "college": "东北农业大学电气与信息学院",
-                    "fourGrade": 12,
-                    "level": "B",
-                    "oneGrade": 77,
-                    "pType": "SIPT项目",
-                    "pgAvg": 89.7,
-                    "tName": "李晓明",
-                    "threeGrade": 132,
-                    "twoGrade": 122,
-                    "userName": "孙云龙"
-                }
-            ]
- }
-
- localhost:8080/manager/overview
- {
-
- }
- 返回json：
- {
-     "code": 200,
-     "data": [
-         {
-             "name": "2017SIPT",
-             "pStatus": "中期检查",
-             "sum": 1
-         },
-         {
-             "name": "2018SIPT",
-             "pStatus": "中期检查",
-             "sum": 1
-         },
-         {
-             "name": "2019SIPT",
-             "pStatus": "中期检查",
-             "sum": 2
-         }
-     ],
-     "message": "-"
- }
- localhost:8080/manager/details
-  {
-             "name": "2019",
-             "pStatus": "中期检查",
-             "sum": 2
-   }
+//新建流程（把中期/结题改为 中期检查/结题）
 localhost:8080/manager/newAndEditProcess
 {
-	"processName":"立项",
-	"beginTime":"2019-04-13",
-	"endTime":"2019-05-03"
+	"processName":"中期检查/结题",
+	"beginTime":"2019-06-05",
+	"endTiime":"2019-08-05"
 }
+返回JSON成功样式
+{
+    "code": 200,
+    "data": "成功新建流程",
+    "message": "-"
+}
+//项目概览
+localhost:8080/manager/overview
+{
+	"account":"admin"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": [
+        {
+            "name": "2019SIPT",
+            "pStatus": "中期检查",
+            "sum": 2
+        },
+        {
+            "name": "2018SIPT",
+            "pStatus": "结题",
+            "sum": 0
+        }
+    ],
+    "message": "-"
+}
+//项目概览查看详情
+localhost:8080/manager/details
+{
+	"name":"2019SIPT"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": [
+        {
+            "avg": "校级优秀项目",
+            "college": "电气与信息学院",
+            "leaderUserName": "孙云龙",
+            "pName": "SIPT项目测试",
+            "pSource": "学生自拟",
+            "teacherName": "李晓明"
+        },
+        {
+            "avg": "校级优秀项目",
+            "college": "电气与信息学院",
+            "leaderUserName": "李浩然",
+            "pName": "SIPT项目测试",
+            "pSource": "学生自拟",
+            "teacherName": "李晓明"
+        }
+    ],
+    "message": "-"
+}
+//停止收取
+localhost:8080/manager/stop
+{
+    "name":"2019立项"
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": "已改为不可收取",
+    "message": "-"
+}
+//提交结果
+localhost:8080/manager/apply
+{
+            "2019立项": [
+                {
+                    "userName": "李浩然",
+                    "level":"A"
+                },
+                {
+                    "userName": "孙云龙",
+                    "level":"A"
+                }
+            ]
+}
+返回JSON成功样式
+{
+    "code": 200,
+    "data": "已改为不可收取",
+    "message": "-"
+}
+----------------------------------------------------------------------
+
 
 
 1.保存/提交 学号+年份唯一标示 ok

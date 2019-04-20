@@ -22,7 +22,7 @@ public interface StudentDao {
     List<Project> selectByLeaderAccount(String leaderAccount);
 
     @Insert({"<script> insert into project (pName,sAccount,memberNum,memberInf,tAccount,pSource,pCode,pType,pIntroduction,pathFirst,pathSecond,pathThird,recordState,college) " +
-            " VALUES(#{p.pName},#{p.sAccount},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pathFirst},#{p.pathSecond},#{p.pathThird},#{p.recordState},#{college}) " +
+            " VALUES(#{p.pName},#{p.sAccount},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pathFirst},#{p.pathSecond},#{p.pathThird},#{p.recordState},#{p.college}) " +
             "</script>"})
     @ResultType(java.lang.Boolean.class)
     boolean studentSave(@Param("p") Project project);
@@ -35,8 +35,14 @@ public interface StudentDao {
     Teacher getTeacherAccount(String userName);
 
 
-    @Update({"<script> update project <set> pathSecond = #{pathSecond},pathThird = #{pathThird} <set> where sAccount = #{sAccount} and year = #{year} </script>"})
-    void updatePath(String pathSecond,String pathThird,String sAccount,String year);
+    @Update({"<script> " +
+            "update project " +
+            "<set> " +
+            " pathSecond = #{pathSecond},pathThird = #{pathThird} " +
+            "</set> " +
+            " where sAccount = #{sAccount} and year = #{year} " +
+            "</script>"})
+    void updatePathA(String pathSecond,String pathThird,String sAccount,String year);
 
 
     @Select({"<script> " +
@@ -75,6 +81,4 @@ public interface StudentDao {
     @Select({"<script> select * from process where year = #{year} </script>"})
     @ResultType(SiptProcess.class)
     SiptProcess selectByYear(String year);
-
-
 }

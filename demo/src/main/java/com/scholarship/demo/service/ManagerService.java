@@ -25,10 +25,10 @@ public interface ManagerService {
 
     /**
      * 停止收取
-     * @param managerDtoMap 只需要传年份+状态，姓名
+     * @param name 只需要传年份+状态
      * @return
      */
-    String stop(Map<String,List<ManagerDto>> managerDtoMap);
+    String stop(String name);
 
     /**
      * 项目概览

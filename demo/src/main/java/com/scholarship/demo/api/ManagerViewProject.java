@@ -10,4 +10,5 @@ public class ManagerViewProject {
     private String college;
     private String teacherName;
     private String avg;
+    private String pSource;
 }

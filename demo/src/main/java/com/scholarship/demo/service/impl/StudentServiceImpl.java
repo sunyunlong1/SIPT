@@ -7,8 +7,10 @@ import com.scholarship.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class StudentServiceImpl implements StudentService {
@@ -70,7 +72,7 @@ public class StudentServiceImpl implements StudentService {
             project.setRecordState("已保存");
             studentDao.studentSave(project);
         }else{
-            studentDao.updatePath(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
+            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
         }
         return "保存成功";
     }
@@ -103,7 +105,7 @@ public class StudentServiceImpl implements StudentService {
         }else if(projectFirst.getRecordState().equals("已保存")){
             studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
         }else{
-            studentDao.updatePath(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
+            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
         }
         return "提交成功";
     }
