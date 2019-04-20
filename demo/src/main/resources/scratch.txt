@@ -31,37 +31,51 @@ localhost:8080/manager/currentProcess
     "code": 200,
     "data": {
         "managerDtoList": {
-            "2019立项": [
+            "2018结题": [
                 {
-                    "college": "东北农业大学电气与信息学院",
+                    "college": "电气与信息学院",
                     "fourGrade": 0,
+                    "leaderAccount": "A19150292",
+                    "leaderName": "孙云龙",
                     "oneGrade": 0,
                     "pType": "创新项目",
                     "pgAvg": 0,
                     "tName": "李晓明",
                     "threeGrade": 0,
-                    "twoGrade": 0,
-                    "leaderName": "李浩然"
-                    "leaderId":"A19150251"
+                    "twoGrade": 0
+                }
+            ],
+            "2019中期检查": [
+                {
+                    "college": "电气与信息学院",
+                    "fourGrade": 0,
+                    "leaderAccount": "A19150292",
+                    "leaderName": "孙云龙",
+                    "oneGrade": 0,
+                    "pType": "创新项目",
+                    "pgAvg": 0,
+                    "tName": "李晓明",
+                    "threeGrade": 0,
+                    "twoGrade": 0
                 },
                 {
-                    "college": "东北农业大学电气与信息学院",
+                    "college": "电气与信息学院",
                     "fourGrade": 0,
+                    "leaderAccount": "A19150251",
+                    "leaderName": "李浩然",
                     "oneGrade": 0,
                     "pType": "创新项目",
                     "pgAvg": 0,
                     "tName": "李晓明",
                     "threeGrade": 0,
-                    "twoGrade": 0,
-                    "userName": "孙云龙"
-                    "leaderId":"A19150292"
+                    "twoGrade": 0
                 }
             ]
         },
         "unifiedTable": {
-            "currentProcess": "2019立项",
+            "currentProcess": "2019中期检查/结题",
             "level": "校级",
-            "state": "正在审批2/2"
+            "state": "正在审批3/3"
         }
     },
     "message": "-"
@@ -111,8 +125,7 @@ localhost:8080/manager/details
     "code": 200,
     "data": [
         {
-            <!-- 返回level字段 -->
-            "avg": "校级优秀项目",
+            "avg": "-",
             "college": "电气与信息学院",
             "leaderUserName": "孙云龙",
             "pName": "SIPT项目测试",
@@ -120,7 +133,7 @@ localhost:8080/manager/details
             "teacherName": "李晓明"
         },
         {
-            "avg": "校级优秀项目",
+            "avg": "-",
             "college": "电气与信息学院",
             "leaderUserName": "李浩然",
             "pName": "SIPT项目测试",

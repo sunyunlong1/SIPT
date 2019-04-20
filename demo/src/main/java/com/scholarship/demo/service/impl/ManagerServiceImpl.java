@@ -61,7 +61,7 @@ public class ManagerServiceImpl implements ManagerService {
             Integer lastYear = Integer.valueOf(year)-1;
             SiptProcess lastProcess = managerDao.selectByYear(lastYear.toString());
             unifiedTable.setCurrentProcess(year+siptProcess.getStatus()+"/"+lastProcess.getStatus());
-            List<Project> lastProjects = managerDao.selectBySidYear(admin.getAccount(), lastYear.toString());
+            List<Project> lastProjects = managerDao.selectBySidYear(admin.getCollege(), lastYear.toString());
 
             for (Project project : lastProjects){
                 ManagerDto managerDto = new ManagerDto();
@@ -84,17 +84,19 @@ public class ManagerServiceImpl implements ManagerService {
                 managerDto.setPgAvg(pGrade.getPgAvg());
                 managerDtotwo.add(managerDto);
             }
-            unifiedTable.setState("正在审批"+index+"/"+managerDtos.size()+managerDtotwo.size());
+            int sum = managerDtos.size() + managerDtotwo.size();
+            unifiedTable.setState("正在审批"+index+"/"+sum);
             resultMap.put(year+siptProcess.getStatus(),managerDtos);
             resultMap.put(lastYear+lastProcess.getStatus(),managerDtotwo);
-
+            result.setUnifiedTable(unifiedTable);
+            result.setManagerDtoList(resultMap);
         }else if(siptProcess.getStatus().equals("结题")){
             List<ManagerDto> managerDtothree = new ArrayList<>();
 
             Integer nextYear = Integer.valueOf(year)+1;
             SiptProcess nextProcess = managerDao.selectByYear(nextYear.toString());
             unifiedTable.setCurrentProcess(nextProcess+nextProcess.getStatus()+"/"+year+siptProcess.getStatus());
-            List<Project> nextProjects = managerDao.selectBySidYear(admin.getAccount(), nextYear.toString());
+            List<Project> nextProjects = managerDao.selectBySidYear(admin.getCollege(), nextYear.toString());
 
             for (Project project : nextProjects){
                 ManagerDto managerDto = new ManagerDto();
@@ -117,9 +119,12 @@ public class ManagerServiceImpl implements ManagerService {
                 managerDto.setPgAvg(pGrade.getPgAvg());
                 managerDtothree.add(managerDto);
             }
-            unifiedTable.setState("正在审批"+index+"/"+managerDtos.size()+managerDtothree.size());
+            int sum = managerDtos.size() + managerDtothree.size();
+            unifiedTable.setState("正在审批"+index+"/"+sum);
             resultMap.put(year+siptProcess.getStatus(),managerDtos);
             resultMap.put(nextYear+nextProcess.getStatus(),managerDtothree);
+            result.setUnifiedTable(unifiedTable);
+            result.setManagerDtoList(resultMap);
         }
         return result;
     }
@@ -181,7 +186,12 @@ public class ManagerServiceImpl implements ManagerService {
         for (Project project : projects){
             ManagerViewProject managerViewProject = new ManagerViewProject();
             PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), project.getYear(), siptProcess.getStatus());
-            managerViewProject.setAvg(pGrade.getLevel());
+            if (pGrade.getLevel() == null || pGrade.getLevel().equals("")){
+                managerViewProject.setAvg("-");
+            }else{
+                managerViewProject.setAvg(pGrade.getLevel());
+
+            }
             managerViewProject.setTeacherName(project.getTName());
             managerViewProject.setCollege(project.getCollege());
             managerViewProject.setLeaderUserName(project.getSName());
