@@ -82,6 +82,11 @@ public interface ManagerDao {
     @ResultType(java.lang.Integer.class)
     Integer insertProcess(String year,String status,String startTime,String endTime,String isCollect);
 
-    @Update({"<script> update process <set> status = #{status} </set> where year = #{year} </script>"})
-    void updateProcess(String year,String status);
+    @Update({"<script> update process <set> status = #{status},startTime = #{startTime},endTime = #{endTime},isCollect = #{isCollect} </set> where year = #{year} </script>"})
+    void updateProcess(String year,String status,String startTime,String endTime,String isCollect);
+
+    @Insert({"<script> insert into pGrade(sId,sName,year,pStatus) values(#{sId},#{sName},#{year},#{pStatus}) </script>"})
+    @ResultType(java.lang.Integer.class)
+    Integer insertpGrade(String sId,String sName,String year,String pStatus);
+
 }

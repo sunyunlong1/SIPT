@@ -5,7 +5,6 @@ import com.scholarship.demo.dao.JudgeDao;
 import com.scholarship.demo.model.Project;
 import com.scholarship.demo.model.SiptProcess;
 import com.scholarship.demo.service.JudgeService;
-import com.sun.deploy.panel.JHighDPITable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

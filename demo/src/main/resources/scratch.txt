@@ -69,7 +69,7 @@ localhost:8080/manager/newAndEditProcess
 {
 	"processName":"中期检查/结题",
 	"beginTime":"2019-06-05",
-	"endTiime":"2019-08-05"
+	"endTime":"2019-08-05"
 }
 返回JSON成功样式
 {
@@ -109,6 +109,7 @@ localhost:8080/manager/details
     "code": 200,
     "data": [
         {
+            <!-- 返回level字段 -->
             "avg": "校级优秀项目",
             "college": "电气与信息学院",
             "leaderUserName": "孙云龙",
@@ -133,6 +134,7 @@ localhost:8080/manager/stop
     "name":"2019立项"
 }
 返回JSON成功样式
+<!-- 如果已为停止收取，则data里返回 已为不可收取，不可重复更爱状态 -->
 {
     "code": 200,
     "data": "已改为不可收取",
@@ -152,6 +154,7 @@ localhost:8080/manager/apply
                 }
             ]
 }
+<!-- 更改样式 -->
 返回JSON成功样式
 {
     "code": 200,
@@ -161,6 +164,7 @@ localhost:8080/manager/apply
 ----------------------------------------------------------------------
 学生模块
 当前流程查询模块
+<!-- 如果是2019中期检查 将上面的字符串拼接 拼成2019SIPT中期检查/2018SIPT中期检查 -->
 localhost:8080/student/currentProcess
 {
 	"year":"2019"
@@ -230,6 +234,7 @@ localhost:8080/student/apply
 }
 编辑
 localhost:8080/student/edit
+<!-- 缺少pathFirst -->
 {
 	"account":"A19150251",
 	"year":"2019"
@@ -330,6 +335,7 @@ localhost:8080/teacher/pApproval
 }
 审批
 localhost:8080/teacher/approve
+改成account
 {
 	"leaderName":"孙云龙",
 	"status":"立项"

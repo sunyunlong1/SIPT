@@ -183,14 +183,27 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public String newAndEditProcess(NewProcessDto newProcessDto) {
+        //立项 begin年份+1
+        //
         String year = newProcessDto.getBeginTime().substring(0, 4);
         if(newProcessDto.getProcessName().equals("立项")){
-            Integer integer = managerDao.insertProcess(year, newProcessDto.getProcessName(), newProcessDto.getBeginTime(), newProcessDto.getEndTime(), "收取材料");
+            Integer LYear = Integer.valueOf(year)+1;
+            Integer integer = managerDao.insertProcess(LYear.toString(), newProcessDto.getProcessName(), newProcessDto.getBeginTime(), newProcessDto.getEndTime(), "收取材料");
+            //同时新建成绩表中流程
+            List<Project> projects = managerDao.selectProjectByYear(LYear.toString());
+            for(Project project : projects){
+                managerDao.insertpGrade(project.getSAccount(),project.getSName(),LYear.toString(),"立项");
+            }
         }else{
             String[] split = newProcessDto.getProcessName().split("/");
-            managerDao.updateProcess(year,split[0]);
-            Integer lastYear = Integer.valueOf(year)-1;
-            managerDao.updateProcess(lastYear.toString(),split[1]);
+            //同时新建成绩表中流程
+            List<Project> projects = managerDao.selectProjectByYear(year);
+            for(Project project : projects){
+                managerDao.insertpGrade(project.getSAccount(),project.getSName(),year,split[0]);
+                managerDao.insertpGrade(project.getSAccount(),project.getSName(),year,split[1]);
+            }
+            managerDao.updateProcess(year,split[0],newProcessDto.getBeginTime(),newProcessDto.getEndTime(),"收取材料");
+            managerDao.updateProcess(year,split[1],newProcessDto.getBeginTime(),newProcessDto.getEndTime(),"收取材料");
         }
         return "成功新建流程";
     }
