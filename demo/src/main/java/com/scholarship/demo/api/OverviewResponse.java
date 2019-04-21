@@ -9,4 +9,5 @@ public class OverviewResponse {
     private int sum;
     private String pStatus;
     private String isCollect;
+    private String key;
 }

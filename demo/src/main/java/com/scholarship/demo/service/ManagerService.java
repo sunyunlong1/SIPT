@@ -11,17 +11,17 @@ public interface ManagerService {
 
     /**
      * 当前流程
-     * @param account 账号+年份
+     * @param account 账号
      * @return
      */
-    ManagerTableDto currentProcess(String account,String year);
+    ManagerTableDto currentProcess(String account);
 
     /**
      * 提交结果
-     * @param managerDtoMap 只需要传年份+状态，姓名,等级
+     * @param keyMap 只需要传年份+状态，姓名,等级
      * @return
      */
-    String apply(Map<String,List<ManagerDto>> managerDtoMap);
+    String apply(Map<String,List<Key>> keyMap);
 
     /**
      * 停止收取
@@ -42,7 +42,7 @@ public interface ManagerService {
      * @param
      * @return
      */
-    List<ManagerViewProject> details(String name);
+    List<ManagerViewProject> details(Key key);
 
     /**
      * 新建流程 传流程类型，开始时间/结束时间

@@ -12,4 +12,5 @@ public class TeacherAppRep {
     private String status;
     private String pSource;
     private String path;
+    private String key;
 }

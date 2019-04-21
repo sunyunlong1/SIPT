@@ -52,6 +52,9 @@ public interface ManagerDao {
     @Update({"<script> update pGrade <set> level = #{level} </set> where sId = #{sId} and year = #{year} and pStatus = #{pStatus}  </script>"})
     void UpdatePGradeLevel(String sId,String year,String pStatus,String level);
 
+    @Update({"<script> update pGrade <set> cLevel = #{cLevel} </set> where sId = #{sId} and year = #{year} and pStatus = #{pStatus}  </script>"})
+    void UpdatePGradeCLevel(String sId,String year,String pStatus,String cLevel);
+
     @Update({"<script> update process <set> isCollect = #{isCollect} </set> where year = #{year} and status = #{status}  </script>"})
     void UpdatePGradeCollect(String year,String status,String isCollect);
 
@@ -78,15 +81,24 @@ public interface ManagerDao {
     @ResultType(Project.class)
     List<Project> selectProjectByYear(String year);
 
-    @Insert({"<script> insert process (year,status,startTime,endTime,isCollect) values(#{year},#{status},#{startTime},#{endTime},#{isCollect} ) </script>"})
+    @Insert({"<script> insert process (year,status,startTime,endTime,isCollect,isConduct) values(#{year},#{status},#{startTime},#{endTime},#{isCollect},#{isConduct} ) </script>"})
     @ResultType(java.lang.Integer.class)
-    Integer insertProcess(String year,String status,String startTime,String endTime,String isCollect);
+    Integer insertProcess(String year,String status,String startTime,String endTime,String isCollect,String isConduct);
 
-    @Update({"<script> update process <set> status = #{status},startTime = #{startTime},endTime = #{endTime},isCollect = #{isCollect} </set> where year = #{year} </script>"})
-    void updateProcess(String year,String status,String startTime,String endTime,String isCollect);
+    @Update({"<script> update process <set> status = #{status},startTime = #{startTime},endTime = #{endTime},isCollect = #{isCollect},isConduct = #{isConduct} </set> where year = #{year} </script>"})
+    void updateProcess(String year,String status,String startTime,String endTime,String isCollect,String isConduct);
 
     @Insert({"<script> insert into pGrade(sId,sName,year,pStatus) values(#{sId},#{sName},#{year},#{pStatus}) </script>"})
     @ResultType(java.lang.Integer.class)
     Integer insertpGrade(String sId,String sName,String year,String pStatus);
 
+    @Update({"<script> update process <set> isConduct = #{isConduct} </set> where year = year </script>"})
+    void UpdateConduct(String year,String isConduct);
+
+    @Update({"<script> update process <set> isCollect = #{isCollect} </set> where year = #{year} </script>"})
+    void UpdateCollect(String isCollect,String year);
+
+    @Select({"<script> select * from process where isConduct = #{isConduct} </script>"})
+    @ResultType(SiptProcess.class)
+    List<SiptProcess> selectByConduct(String isConduct);
 }

@@ -12,10 +12,10 @@ public interface StudentService {
 
     /**
      * 当前流程查询接口
-     * @param year 只传year
+     * @param
      * @return
      */
-    CurrentProcessRep currentPorcess(String year);
+    CurrentProcessRep currentPorcess(String account);
 
     /**
      * 下载前查询存放地址
@@ -40,10 +40,10 @@ public interface StudentService {
 
     /**
      * 学生编辑
-     * @param leaderAccount 传studentId，year
+     * @param key 传studentId，year
      * @return
      */
-    Map<String,Object> edit(String leaderAccount,String year);
+    Map<String,Object> edit(Key key);
 
     /**
      * 我的项目查询数据接口

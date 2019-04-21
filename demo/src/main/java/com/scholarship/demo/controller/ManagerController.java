@@ -24,7 +24,7 @@ public class ManagerController {
     @ResponseBody
     public String currentProcess(@RequestBody LoginDto leaderAccount){
 
-        ManagerTableDto managerTableDto = managerService.currentProcess(leaderAccount.getAccount(),leaderAccount.getYear());
+        ManagerTableDto managerTableDto = managerService.currentProcess(leaderAccount.getAccount());
         if(managerTableDto == null){
             return JSON.toJSONString(new Result(200,"没有数据","null"));
         }else{
@@ -34,8 +34,8 @@ public class ManagerController {
 
     @RequestMapping("/apply")
     @ResponseBody
-    public String apply(@RequestBody Map<String,List<ManagerDto>> managerDtoMap){
-        String apply = managerService.apply( managerDtoMap);
+    public String apply(@RequestBody Map<String,List<Key>> keyMap){
+        String apply = managerService.apply(keyMap);
         return JSON.toJSONString(new Result(200,"-",apply));
     }
 
@@ -63,8 +63,8 @@ public class ManagerController {
 
     @RequestMapping("/details")
     @ResponseBody
-    public String details(@RequestBody OverviewResponse overview){
-        List<ManagerViewProject> details = managerService.details(overview.getName());
+    public String details(@RequestBody Key key){
+        List<ManagerViewProject> details = managerService.details(key);
         return JSON.toJSONString(new Result(200,"-",details));
     }
 

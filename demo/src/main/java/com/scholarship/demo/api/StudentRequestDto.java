@@ -6,10 +6,6 @@ import lombok.Data;
 public class StudentRequestDto {
 
     /**
-     * 当前年份
-     */
-    private String year;
-    /**
      * 项目名称
      */
     private String name;
@@ -83,4 +79,8 @@ public class StudentRequestDto {
      *  结题上传文件
      */
     private String pathThird;
+    /**
+     * key
+     */
+    private String key;
 }

@@ -16,4 +16,5 @@ public class PGrade {
     private int fourGrade;
     private double pgAvg;
     private String level;
+    private String cLevel;
 }

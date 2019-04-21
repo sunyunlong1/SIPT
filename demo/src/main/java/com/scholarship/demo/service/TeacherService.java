@@ -13,17 +13,16 @@ public interface TeacherService {
     /**
      * 待审批
      * @param account 传账号，年份
-     * @param year
      * @return
      */
-    List<TeacherAppRep> pApproval(String account,String year);
+    List<TeacherAppRep> pApproval(String account);
 
     /**
      * 指导教师提交 传leaderName，状态
-     * @param teacherApprove
+     * @param key
      * @return
      */
-    String approve(TeacherApprove teacherApprove);
+    String approve(String key);
 
 
     /**

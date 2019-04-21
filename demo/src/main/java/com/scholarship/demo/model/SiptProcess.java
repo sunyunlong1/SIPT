@@ -11,4 +11,5 @@ public class SiptProcess {
     private String startTime;
     private String endTime;
     private String isCollect;
+    private String isConduct;
 }

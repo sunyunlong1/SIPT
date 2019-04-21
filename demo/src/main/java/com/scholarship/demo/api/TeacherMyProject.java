@@ -13,4 +13,5 @@ public class TeacherMyProject {
     private String avg;
     private String pSource;
     private String path;
+    private String key;
 }

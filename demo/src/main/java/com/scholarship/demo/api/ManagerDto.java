@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ManagerDto {
 
+    private String key;
     private String college;
     private String leaderName;
     private String leaderAccount;

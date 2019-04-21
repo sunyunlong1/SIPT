@@ -1,10 +1,7 @@
 package com.scholarship.demo.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.scholarship.demo.api.CurrentProcessRep;
-import com.scholarship.demo.api.LoginDto;
-import com.scholarship.demo.api.MyProjectDto;
-import com.scholarship.demo.api.StudentRequestDto;
+import com.scholarship.demo.api.*;
 import com.scholarship.demo.response.Result;
 import com.scholarship.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,7 @@ public class StudentController {
     @RequestMapping("/currentProcess")
     @ResponseBody
     public String currentPorcess(@RequestBody LoginDto loginDto){
-        CurrentProcessRep result = studentService.currentPorcess(loginDto.getYear());
+        CurrentProcessRep result = studentService.currentPorcess(loginDto.getAccount());
         return JSON.toJSONString(new Result(200,"-",result));
 
     }
@@ -57,8 +54,8 @@ public class StudentController {
 
     @RequestMapping("/edit")
     @ResponseBody
-    public String edit(@RequestBody LoginDto leaderAccount){
-        Map<String, Object> resultMap = studentService.edit(leaderAccount.getAccount(),leaderAccount.getYear());
+    public String edit(@RequestBody Key key){
+        Map<String, Object> resultMap = studentService.edit(key);
         return JSON.toJSONString(new Result(200,"-",resultMap));
     }
 

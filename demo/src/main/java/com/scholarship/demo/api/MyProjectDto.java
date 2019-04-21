@@ -13,4 +13,5 @@ public class MyProjectDto {
     private String pStatus;
     private String year;
     private String avg;
+    private String key;
 }

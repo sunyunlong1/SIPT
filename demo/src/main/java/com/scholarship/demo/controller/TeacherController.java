@@ -1,10 +1,7 @@
 package com.scholarship.demo.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.scholarship.demo.api.LoginDto;
-import com.scholarship.demo.api.TeacherAppRep;
-import com.scholarship.demo.api.TeacherApprove;
-import com.scholarship.demo.api.TeacherMyProject;
+import com.scholarship.demo.api.*;
 import com.scholarship.demo.response.Result;
 import com.scholarship.demo.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +22,14 @@ public class TeacherController {
     @RequestMapping("/pApproval")
     @ResponseBody
     public String pApproval(@RequestBody LoginDto loginDto){
-        List<TeacherAppRep> result = teacherService.pApproval(loginDto.getAccount(), loginDto.getYear());
+        List<TeacherAppRep> result = teacherService.pApproval(loginDto.getAccount());
         return JSON.toJSONString(new Result(200,"-",result));
     }
 
     @RequestMapping("/approve")
     @ResponseBody
-    public String approve(@RequestBody TeacherApprove teacherApprove){
-        String result = teacherService.approve(teacherApprove);
+    public String approve(@RequestBody Key key){
+        String result = teacherService.approve(key.getKey());
         return JSON.toJSONString(new Result(200,"-",result));
     }
 

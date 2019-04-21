@@ -23,9 +23,9 @@ localhost:8080/exit
 //当前流程
 localhost:8080/manager/currentProcess
 {
-	"account":"admin",
-	"year":"2019"
+	"account":"admin"
 }
+返回了key
 返回JSON成功样式
 {
     "code": 200,
@@ -117,6 +117,7 @@ localhost:8080/manager/overview
 }
 //项目概览查看详情
 localhost:8080/manager/details
+传key
 {
 	"name":"2019SIPT"
 }
@@ -195,6 +196,7 @@ localhost:8080/student/currentProcess
     "message": "-"
 }
 保存
+增加key字段，在当前流程返回
 localhost:8080/student/save
 {
 	"year":"2019",
@@ -221,6 +223,7 @@ localhost:8080/student/save
     "message": "-"
 }
 提交
+增加key字段，在当前流程中返回
 localhost:8080/student/apply
 {
 	"year":"2019",
@@ -313,8 +316,7 @@ localhost:8080/student/myProject
 待审批查询模块
 localhost:8080/teacher/pApproval
 {
-	"account":"A19150000",
-	"year":"2019"
+	"account":"A19150000"
 }
 返回JSON成功样式
 {
@@ -351,8 +353,7 @@ localhost:8080/teacher/pApproval
 localhost:8080/teacher/approve
 改成account
 {
-	"leaderName":"孙云龙",
-	"status":"立项"
+	"key":"A19150292#2019"
 }
 返回JSON成功样式
 {

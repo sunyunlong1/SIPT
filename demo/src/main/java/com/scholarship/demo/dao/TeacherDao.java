@@ -26,8 +26,8 @@ public interface TeacherDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByStatus(String status);
 
-    @Update({"<script> update project <set> tApproval = #{pass} </set> where sName = #{sName} and year = #{year} </script>"})
-    void updateTApproval(String pass,String sName,String year);
+    @Update({"<script> update project <set> tApproval = #{pass} </set> where sAccount = #{sAccount} and year = #{year} </script>"})
+    void updateTApproval(String pass,String sAccount,String year);
 
 
     @Select({"<script> select * from process </script>"})
@@ -42,6 +42,10 @@ public interface TeacherDao {
     @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
     @ResultType(PGrade.class)
     PGrade selectById(String sId,String year,String pStatus);
+
+    @Select({"<script> select * from process where isConduct = #{isConduct} </script>"})
+    @ResultType(SiptProcess.class)
+    List<SiptProcess> selectByConduct(String isConduct);
 
 
 }

@@ -20,19 +20,47 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public CurrentProcessRep currentPorcess(String year) {
+    public CurrentProcessRep currentPorcess(String account) {
         CurrentProcessRep result = new CurrentProcessRep();
-        SiptProcess siptProcess = studentDao.selectByYear(year);
-        if(siptProcess.getStatus().equals("立项")){
-            result.setProcessName(siptProcess.getYear()+" SIPT "+siptProcess.getStatus());
-        }else{
-            Integer lastYear = Integer.valueOf(year)-1;
-            SiptProcess lastProcess = studentDao.selectByYear(lastYear.toString());
-            result.setProcessName(siptProcess.getYear()+" SIPT "+siptProcess.getStatus()+"/"+lastYear+" SIPT "+lastProcess.getStatus());
+        //SiptProcess siptProcess = studentDao.selectByYear(year);
+
+        List<SiptProcess> siptProcessList = studentDao.selectByConduct("流程中");
+        if(siptProcessList.size() == 0){
+            return null;
+        }else if(siptProcessList.size() == 1){
+            result.setProcessName(siptProcessList.get(0).getYear()+" SIPT "+siptProcessList.get(0).getStatus());
+            result.setKey(account+"#"+siptProcessList.get(0).getYear());
+            result.setStartTime(siptProcessList.get(0).getStartTime());
+            result.setEndTime(siptProcessList.get(0).getEndTime());
+            result.setIsCollect(siptProcessList.get(0).getIsCollect());
+        }else {
+
+            List<Project> projects = studentDao.selectByLeaderAccount(account);
+
+            Integer year = Integer.valueOf(siptProcessList.get(0).getYear());
+            Integer nYear = Integer.valueOf(siptProcessList.get(1).getYear());
+            if (year > nYear) {
+                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString());
+                if(project != null){
+                    result.setMiddlePName(project.getPName());
+                }
+                result.setKey(account+"#"+year);
+                result.setProcessName(siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus());
+                result.setIsCollect(siptProcessList.get(0).getIsCollect());
+                result.setStartTime(siptProcessList.get(0).getStartTime());
+                result.setEndTime(siptProcessList.get(0).getEndTime());
+            } else {
+                Project project = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
+                if (project != null){
+                    result.setEndPName(project.getPName());
+                }
+                result.setKey(account+"#"+nYear);
+                result.setProcessName(siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus());
+                result.setIsCollect(siptProcessList.get(1).getIsCollect());
+                result.setStartTime(siptProcessList.get(1).getStartTime());
+                result.setEndTime(siptProcessList.get(1).getEndTime());
+            }
         }
-        result.setIsCollect(siptProcess.getIsCollect());
-        result.setStartTime(siptProcess.getStartTime());
-        result.setEndTime(siptProcess.getEndTime());
         return result;
     }
 
@@ -53,9 +81,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String studentSave(StudentRequestDto studentRequestDto) {
-
+        String[] split = studentRequestDto.getKey().split("#");
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
+        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1]);
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
@@ -73,20 +101,21 @@ public class StudentServiceImpl implements StudentService {
             project.setPathFirst(studentRequestDto.getPathFirst());
             project.setPathSecond(studentRequestDto.getPathSecond());
             project.setPathThird(studentRequestDto.getPathThird());
-            project.setYear(studentRequestDto.getYear());
+            project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已保存");
             studentDao.studentSave(project);
         }else{
-            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
+            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
         }
         return "保存成功";
     }
 
     @Override
     public String studentApply(StudentRequestDto studentRequestDto) {
+        String[] split = studentRequestDto.getKey().split("#");
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
+        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1]);
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
@@ -104,25 +133,28 @@ public class StudentServiceImpl implements StudentService {
             project.setPathFirst(studentRequestDto.getPathFirst());
             project.setPathSecond(studentRequestDto.getPathSecond());
             project.setPathThird(studentRequestDto.getPathThird());
-            project.setYear(studentRequestDto.getYear());
+            project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
             studentDao.studentSave(project);
+
+
+
         }else if(projectFirst.getRecordState().equals("已保存")){
-            studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
+            studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount(),split[1]);
         }else{
-            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),studentRequestDto.getYear());
+            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
         }
         return "提交成功";
     }
 
     @Override
-    public Map<String,Object> edit(String leaderAccount,String year) {
+    public Map<String,Object> edit(Key key) {
+        String[] split = key.getKey().split("#");
         Map<String,Object> resultMap = new HashMap<>();
-        Project project = studentDao.selectByLeaderAccountAndYear(leaderAccount,year);
+        Project project = studentDao.selectByLeaderAccountAndYear(split[0],split[1]);
         StudentRequestDto studentDto = new StudentRequestDto();
         if(project!=null){
-            studentDto.setYear(project.getYear());
             studentDto.setName(project.getPName());
             studentDto.setType(project.getPType());
             studentDto.setLeaderAccount(project.getSAccount());
@@ -155,6 +187,7 @@ public class StudentServiceImpl implements StudentService {
         for (Project project : projects) {
             MyProjectDto myProjectDto = new MyProjectDto();
             myProjectDto.setPName(project.getPName());
+            myProjectDto.setKey(leaderAccount+"#"+project.getYear());
             myProjectDto.setUserName(project.getSName());
             myProjectDto.setMemberInf(project.getMemberInf());
             myProjectDto.setTeacherName(project.getTName());

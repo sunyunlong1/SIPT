@@ -21,59 +21,30 @@ public class TeacherServiceImpl implements TeacherService {
     TeacherDao teacherDao;
 
     @Override
-    public List<TeacherAppRep> pApproval(String account, String year) {
+    public List<TeacherAppRep> pApproval(String account) {
         List<TeacherAppRep> result = new ArrayList<>();
-        SiptProcess siptProcess = teacherDao.selectByYear(year);
-        List<Project> projects = teacherDao.selectByTidAndYear(account, year);
-        for(Project project : projects){
-            TeacherAppRep teacherAppRep = new TeacherAppRep();
-            teacherAppRep.setCollege(project.getCollege());
-            teacherAppRep.setPName(project.getPName());
-            teacherAppRep.setPSource(project.getPSource());
-            teacherAppRep.setSName(project.getSName());
-            teacherAppRep.setStatus(siptProcess.getStatus());
-            teacherAppRep.setTName(project.getTName());
-            result.add(teacherAppRep);
-        }
-        if(siptProcess.getStatus().equals("立项")){
-            return result;
-        }else if(siptProcess.getStatus().equals("中期检查")){
-            Integer lastYear = Integer.valueOf(year)-1;
-            SiptProcess lastSiptProcess = teacherDao.selectByYear(lastYear.toString());
-            List<Project> lastProjects = teacherDao.selectByTidAndYear(account, lastYear.toString());
-            for(Project project : lastProjects){
+        List<SiptProcess> siptProcessList = teacherDao.selectByConduct("流程中");
+        for(SiptProcess siptProcess : siptProcessList){
+            List<Project> projects = teacherDao.selectByTidAndYear(account, siptProcess.getYear());
+            for(Project project : projects){
                 TeacherAppRep teacherAppRep = new TeacherAppRep();
                 teacherAppRep.setCollege(project.getCollege());
                 teacherAppRep.setPName(project.getPName());
                 teacherAppRep.setPSource(project.getPSource());
                 teacherAppRep.setSName(project.getSName());
-                teacherAppRep.setStatus(lastSiptProcess.getStatus());
+                teacherAppRep.setStatus(siptProcess.getStatus());
                 teacherAppRep.setTName(project.getTName());
+                teacherAppRep.setKey(project.getSName()+"#"+project.getYear());
                 result.add(teacherAppRep);
             }
-        }else if(siptProcess.getStatus().equals("结题")){
-            Integer nextYear = Integer.valueOf(year)+1;
-            SiptProcess nextSiptProcess = teacherDao.selectByYear(nextYear.toString());
-            List<Project> nextProjects = teacherDao.selectByTidAndYear(account, nextYear.toString());
-            for(Project project : nextProjects){
-                TeacherAppRep teacherAppRep = new TeacherAppRep();
-                teacherAppRep.setCollege(project.getCollege());
-                teacherAppRep.setPName(project.getPName());
-                teacherAppRep.setPSource(project.getPSource());
-                teacherAppRep.setSName(project.getSName());
-                teacherAppRep.setStatus(nextSiptProcess.getStatus());
-                teacherAppRep.setTName(project.getTName());
-                result.add(teacherAppRep);
-            }
-
         }
         return result;
     }
 
     @Override
-    public String approve(TeacherApprove teacherApprove) {
-        SiptProcess siptProcess = teacherDao.selectByStatus(teacherApprove.getStatus());
-        teacherDao.updateTApproval("pass",teacherApprove.getLeaderName(),siptProcess.getYear());
+    public String approve(String key) {
+        String[] split = key.split("#");
+        teacherDao.updateTApproval("pass",split[0],split[1]);
         return "审批成功";
     }
 
@@ -93,6 +64,7 @@ public class TeacherServiceImpl implements TeacherService {
                 teacherMyProject.setPName(project.getPName());
                 teacherMyProject.setPSource(project.getPSource());
                 teacherMyProject.setStatus(siptProcess.getStatus());
+                teacherMyProject.setKey(project.getSAccount()+"#"+project.getYear());
                 result.add(teacherMyProject);
             }
         }
