@@ -1,11 +1,10 @@
 package com.scholarship.demo.service.impl;
 
 import com.scholarship.demo.api.*;
+import com.scholarship.demo.dao.JudgeDao;
 import com.scholarship.demo.dao.ManagerDao;
-import com.scholarship.demo.model.Admin;
-import com.scholarship.demo.model.PGrade;
-import com.scholarship.demo.model.Project;
-import com.scholarship.demo.model.SiptProcess;
+import com.scholarship.demo.model.*;
+import com.scholarship.demo.service.JudgeService;
 import com.scholarship.demo.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,17 +16,19 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     ManagerDao managerDao;
-
+    @Autowired
+    JudgeService judgeService;
+    @Autowired
+    JudgeDao judgeDao;
 
     @Override
     public ManagerTableDto currentProcess(String account) {
-        int index = 0;
+        //int index = 0;
         ManagerTableDto result = new ManagerTableDto();
-        UnifiedTable unifiedTable = new UnifiedTable();
         Map<String, List<ManagerDto>> resultMap = new HashMap<>();
+        List<UnifiedTable> unifiedTables = new ArrayList<>();
         List<ManagerDto> managerDtos = new ArrayList<>();
         Admin admin = managerDao.selectById(account);
-        unifiedTable.setLevel(admin.getLevel());
         List<SiptProcess> siptProcessList = managerDao.selectByConduct("流程中");
         if (siptProcessList.size() == 0) {
             return null;
@@ -43,12 +44,6 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDto.setPType(project.getPType());
                     managerDto.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
                     PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), siptProcessList.get(0).getYear(), siptProcess.getStatus());
-                    if (pGrade.getOneGrade() == 0
-                            || pGrade.getTwoGrade() == 0
-                            || pGrade.getThreeGrade() == 0
-                            || pGrade.getFourGrade() == 0) {
-                        index++;
-                    }
                     managerDto.setOneGrade(pGrade.getOneGrade());
                     managerDto.setTwoGrade(pGrade.getTwoGrade());
                     managerDto.setThreeGrade(pGrade.getThreeGrade());
@@ -56,40 +51,104 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDto.setPgAvg(pGrade.getPgAvg());
                     managerDtos.add(managerDto);
                 }
-                unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcess.getStatus());
-                unifiedTable.setState("正在审批" + index + "/" + managerDtos.size());
                 resultMap.put(siptProcessList.get(0).getYear() + siptProcess.getStatus(), managerDtos);
-                result.setUnifiedTable(unifiedTable);
                 result.setManagerDtoList(resultMap);
+
+                UnifiedTable unifiedTable = new UnifiedTable();
+                unifiedTable.setLevel(admin.getLevel());
+                if (siptProcessList.size() == 1) {
+                    unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus());
+                } else if (siptProcessList.size() == 2) {
+                    Integer year = Integer.valueOf(siptProcessList.get(0).getYear());
+                    Integer nYear = Integer.valueOf(siptProcessList.get(1).getYear());
+                    if (year > nYear) {
+                        unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1).getYear() + siptProcessList.get(1).getStatus());
+                    } else {
+                        unifiedTable.setCurrentProcess(siptProcessList.get(1).getYear() + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus());
+                    }
+                }
+
+                if (admin.getLevel().equals("院级")) {
+                    if (siptProcess.getIsCollect().equals("收集材料")) {
+                        unifiedTable.setState(siptProcess.getIsCollect());
+                    }else if(!admin.getIsApply().equals("-")){
+                        unifiedTable.setState(admin.getIsApply());
+                    } else if (siptProcess.getIsCollect().equals("正在审批")) {
+                        int index = 0;
+                        List<Judges> judgeList = managerDao.selectByJAccount(admin.getCollege());
+                        for (Judges judge : judgeList){
+                            int num = 0;
+                            List<Project> Judgeproject = judgeDao.selectByCollege(judge.getCollege());
+                            for(Project project : Judgeproject){
+                                PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
+                                if (judge.getNumber().equals("one") && pGrade.getOneGrade() == -1) {
+                                    num++;
+                                } else if (judge.getNumber().equals("two") && pGrade.getTwoGrade() == -1) {
+                                    num++;
+                                } else if (judge.getNumber().equals("three") && pGrade.getThreeGrade() == -1) {
+                                    num++;
+                                } else if (judge.getNumber().equals("four") && pGrade.getFourGrade() == -1) {
+                                    num++;
+                                }
+                            }
+                            if(num == 0){
+                                index++;
+                            }
+                        }
+                        if(index == 4){
+                            unifiedTable.setState("待提交");
+                        }else{
+                            unifiedTable.setState("正在审批("+index+"/4)");
+                        }
+                    }
+                }else{
+                        if (siptProcess.getIsCollect().equals("收集材料")) {
+                            unifiedTable.setState(siptProcess.getIsCollect());
+                        }else if(siptProcess.getIsCollect().equals("正在审批")){
+                            List<Admin> admins = managerDao.selectAllIsApply("院级");
+                            if(admins.size() == 0){
+                                unifiedTable.setState("待提交");
+                                managerDao.UpdateCollect("待提交",siptProcess.getYear());
+                            }else{
+                                unifiedTable.setState(siptProcessList.get(0).getIsCollect());
+                            }
+                        }else{
+                            unifiedTable.setState(siptProcess.getStatus());
+                        }
+                    }
+                unifiedTables.add(unifiedTable);
             }
+            result.setUnifiedTable(unifiedTables);
+
         }
         return result;
     }
 
     @Override
-    public String apply(Map<String,List<Key>> keyMap) {
+    public String apply(Map<String, List<Key>> keyMap) {
         String year = "";
         String account = "";
         Set<String> strings = keyMap.keySet();
         List<Key> keyList = null;
-        for(String s : strings){
+        for (String s : strings) {
             keyList = keyMap.get(s);
             account = s;
         }
         Admin admin = managerDao.selectById(account);
-        if(admin.getLevel().equals("校级")){
+        if (admin.getLevel().equals("校级")) {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("#");
                 year = split[0];
                 managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
             }
             managerDao.UpdateConduct(year, "流程结束");
-            managerDao.UpdateCollect("已提交",year);
-        }else{
+            managerDao.UpdateCollect("已提交", year);
+        } else {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("#");
                 managerDao.UpdatePGradeCLevel(split[2], split[0], split[1], key.getLevel());
             }
+            managerDao.updateApply(account, "已提交");
         }
         return "提交结果成功";
     }
@@ -165,28 +224,52 @@ public class ManagerServiceImpl implements ManagerService {
                 return "已存在当前流程，不可重复新建";
             }
             Integer integer = managerDao.insertProcess(LYear.toString(), newProcessDto.getProcessName(), newProcessDto.getBeginTime(), newProcessDto.getEndTime(), "收取材料", "流程中");
-            //同时新建成绩表中流程
-            List<Project> projects = managerDao.selectProjectByYear(LYear.toString());
-            for (Project project : projects) {
-                managerDao.insertpGrade(project.getSAccount(), project.getSName(), LYear.toString(), "立项");
-            }
+
         } else {
             String[] split = newProcessDto.getProcessName().split("/");
-            //同时新建成绩表中流程
-            List<Project> projects = managerDao.selectProjectByYear(year);
             Integer JYear = Integer.valueOf(year) - 1;
             SiptProcess siptProcess = managerDao.selectByYear(year);
             SiptProcess YsiptProcess = managerDao.selectByYear(JYear.toString());
             if (siptProcess.getStatus().equals("中期检查") || YsiptProcess.equals("结项")) {
                 return "已存在当前流程，不可重复新建";
             }
-            for (Project project : projects) {
-                managerDao.insertpGrade(project.getSAccount(), project.getSName(), year, split[0]);
-                managerDao.insertpGrade(project.getSAccount(), project.getSName(), JYear.toString(), split[1]);
-            }
             managerDao.updateProcess(year, split[0], newProcessDto.getBeginTime(), newProcessDto.getEndTime(), "收取材料", "流程中");
             managerDao.updateProcess(JYear.toString(), split[1], newProcessDto.getBeginTime(), newProcessDto.getEndTime(), "收取材料", "流程中");
         }
         return "成功新建流程";
+    }
+
+
+    public List<String> findNum(String college) {
+        Integer index = 0;
+        List<Judges> judgeList = managerDao.selectByJAccount(college);
+        String s = "";
+        List<SiptProcess> siptProcessList = judgeDao.selectByConduct("流程中");
+        List<String> result = new ArrayList<>();
+        for (SiptProcess siptProcess : siptProcessList) {
+            for (Judges judge : judgeList) {
+                List<JudgeViewRep> resultList = new ArrayList<>();
+                List<Project> projects = judgeDao.selectByCollege(judge.getCollege());
+                for (Project project : projects) {
+                    PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
+                    JudgeViewRep judgeViewRep = new JudgeViewRep();
+                    if (judge.getNumber().equals("one") && pGrade.getOneGrade() == -1) {
+                        resultList.add(judgeViewRep);
+                    } else if (judge.getNumber().equals("two") && pGrade.getTwoGrade() == -1) {
+                        resultList.add(judgeViewRep);
+                    } else if (judge.getNumber().equals("three") && pGrade.getThreeGrade() == -1) {
+                        resultList.add(judgeViewRep);
+                    } else if (judge.getNumber().equals("four") && pGrade.getFourGrade() == -1) {
+                        resultList.add(judgeViewRep);
+                    }
+                }
+                if(resultList.size() == 0){
+                    index++;
+                }
+            }
+            s = siptProcess.getStatus()+"#"+index;
+            result.add(s);
+        }
+        return result;
     }
 }

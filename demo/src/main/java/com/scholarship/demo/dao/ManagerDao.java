@@ -88,10 +88,6 @@ public interface ManagerDao {
     @Update({"<script> update process <set> status = #{status},startTime = #{startTime},endTime = #{endTime},isCollect = #{isCollect},isConduct = #{isConduct} </set> where year = #{year} </script>"})
     void updateProcess(String year,String status,String startTime,String endTime,String isCollect,String isConduct);
 
-    @Insert({"<script> insert into pGrade(sId,sName,year,pStatus) values(#{sId},#{sName},#{year},#{pStatus}) </script>"})
-    @ResultType(java.lang.Integer.class)
-    Integer insertpGrade(String sId,String sName,String year,String pStatus);
-
     @Update({"<script> update process <set> isConduct = #{isConduct} </set> where year = year </script>"})
     void UpdateConduct(String year,String isConduct);
 
@@ -101,4 +97,32 @@ public interface ManagerDao {
     @Select({"<script> select * from process where isConduct = #{isConduct} </script>"})
     @ResultType(SiptProcess.class)
     List<SiptProcess> selectByConduct(String isConduct);
+
+
+    @Update("<script> update admin <set> isApply = #{isApply} </set> where account = #{account} </script>")
+    void updateApply(String account,String isApply);
+
+    @Select({"<script> select * from judges where college = #{college} </script>"})
+    @ResultType(Judges.class)
+    List<Judges> selectByJAccount(String college);
+
+    @Select({"<script> select * from admin where isApply != '-' and level = #{level} </script>"})
+    @ResultType(Admin.class)
+    List<Admin> selectAllIsApply(String level);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

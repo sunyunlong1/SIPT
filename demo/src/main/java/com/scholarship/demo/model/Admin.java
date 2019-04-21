@@ -11,4 +11,6 @@ public class Admin {
     private String userName;
     private String level;
     private String college;
+    private String isApply;
 }
+

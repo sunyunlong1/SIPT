@@ -85,4 +85,8 @@ public interface StudentDao {
     @Select({"<script> select * from process where isConduct = #{isConduct} </script>"})
     @ResultType(SiptProcess.class)
     List<SiptProcess> selectByConduct(String isConduct);
+
+    @Insert({"<script> insert into pGrade(sId,sName,year,pStatus) values(#{sId},#{sName},#{year},#{pStatus}) </script>"})
+    @ResultType(java.lang.Integer.class)
+    Integer insertpGrade(String sId,String sName,String year,String pStatus);
 }

@@ -114,8 +114,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public String studentApply(StudentRequestDto studentRequestDto) {
         String[] split = studentRequestDto.getKey().split("#");
+        SiptProcess siptProcess = studentDao.selectByYear(split[1]);
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1]);
+        Project projectFirst = studentDao.selectByLeaderAccountAndYear(split[0],split[1]);
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
@@ -139,11 +140,14 @@ public class StudentServiceImpl implements StudentService {
             studentDao.studentSave(project);
 
 
+            studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
 
         }else if(projectFirst.getRecordState().equals("已保存")){
             studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount(),split[1]);
+            studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
         }else{
             studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
+            studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
         }
         return "提交成功";
     }
@@ -171,11 +175,12 @@ public class StudentServiceImpl implements StudentService {
             studentDto.setPathFirst(project.getPathFirst());
             studentDto.setPathSecond(project.getPathSecond());
             studentDto.setPathThird(project.getPathThird());
+            studentDto.setKey(key.getKey());
             resultMap.put("tableData",studentDto);
             resultMap.put("recordState",project.getRecordState());
         }else{
             resultMap.put("tableData",null);
-            resultMap.put("recordState",project.getRecordState());
+            resultMap.put("recordState",null);
         }
         return resultMap;
     }

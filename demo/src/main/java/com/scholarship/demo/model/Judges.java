@@ -12,5 +12,5 @@ public class Judges {
     private String passWord;
     private String userName;
     private String college;
-
+    private String number;
 }

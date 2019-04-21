@@ -17,8 +17,6 @@ public class Project {
     private String pSource;
     private String pCode;
     private String pType;
-    private String jAccount;
-    private String jName;
     private String pIntroduction;
     private String year;
     private String pathFirst;

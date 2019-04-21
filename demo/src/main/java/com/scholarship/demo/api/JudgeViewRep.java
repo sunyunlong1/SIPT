@@ -7,4 +7,8 @@ public class JudgeViewRep {
 
     private String pName;
     private String pType;
+    private String path;
+    private String grade;
+    private String inf;
+    private String key;
 }
