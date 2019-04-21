@@ -56,17 +56,18 @@ public class ManagerServiceImpl implements ManagerService {
 
                 UnifiedTable unifiedTable = new UnifiedTable();
                 unifiedTable.setLevel(admin.getLevel());
-                if (siptProcessList.size() == 1) {
-                    unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus());
-                } else if (siptProcessList.size() == 2) {
-                    Integer year = Integer.valueOf(siptProcessList.get(0).getYear());
-                    Integer nYear = Integer.valueOf(siptProcessList.get(1).getYear());
-                    if (year > nYear) {
-                        unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1).getYear() + siptProcessList.get(1).getStatus());
-                    } else {
-                        unifiedTable.setCurrentProcess(siptProcessList.get(1).getYear() + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus());
-                    }
-                }
+//                if (siptProcessList.size() == 1) {
+////                    unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus());
+////                } else if (siptProcessList.size() == 2) {
+////                    Integer year = Integer.valueOf(siptProcessList.get(0).getYear());
+////                    Integer nYear = Integer.valueOf(siptProcessList.get(1).getYear());
+////                    if (year > nYear) {
+////                        unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1).getYear() + siptProcessList.get(1).getStatus());
+////                    } else {
+////                        unifiedTable.setCurrentProcess(siptProcessList.get(1).getYear() + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus());
+////                    }
+////                }
+                unifiedTable.setCurrentProcess(siptProcess.getYear()+siptProcess.getStatus());
 
                 if (admin.getLevel().equals("院级")) {
                     if (siptProcess.getIsCollect().equals("收集材料")) {
