@@ -3,8 +3,8 @@ package com.scholarship.demo.api;
 import lombok.Data;
 
 @Data
-public class KeyUser {
+public class ManagerList {
     private String status;
-    private String key;
-    private String fileName;
+    private String pKey;
+    private String pName;
 }

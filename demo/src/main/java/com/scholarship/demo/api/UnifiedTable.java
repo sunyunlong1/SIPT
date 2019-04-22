@@ -11,5 +11,6 @@ public class UnifiedTable {
     private String currentProcess;
     private String level;
     private String state;
+    private String key;
     private Map<String, List<ManagerDto>> managerDtoList;
 }

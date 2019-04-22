@@ -23,23 +23,26 @@ public class StudentServiceImpl implements StudentService {
     public CurrentProcessRep currentPorcess(String account) {
         CurrentProcessRep result = new CurrentProcessRep();
         //SiptProcess siptProcess = studentDao.selectByYear(year);
-        Map<String,KeyUser> map = new HashMap<>();
+        //Map<String,KeyUser> map = new HashMap<>();
+        List<KeyUser> keyUserList = new ArrayList<>();
         List<SiptProcess> siptProcessList = studentDao.selectByConduct("流程中");
         if(siptProcessList.size() == 0){
             return null;
         }else if(siptProcessList.size() == 1){
             KeyUser keyUser = new KeyUser();
             result.setProcessName(siptProcessList.get(0).getYear()+" SIPT "+siptProcessList.get(0).getStatus());
-            keyUser.setKey(account+"#"+siptProcessList.get(0).getYear());
+            result.setKey(account+"#"+siptProcessList.get(0).getYear());
             result.setStartTime(siptProcessList.get(0).getStartTime());
             result.setEndTime(siptProcessList.get(0).getEndTime());
             result.setIsCollect(siptProcessList.get(0).getIsCollect());
             Project project = studentDao.selectByLeaderAccountAndYear(account, siptProcessList.get(0).getYear());
             if(project != null){
+                keyUser.setKey(account+"#"+siptProcessList.get(0).getYear());
                 keyUser.setFileName(project.getPName());
+                keyUser.setStatus(siptProcessList.get(0).getStatus());
             }
-            map.put("立项",keyUser);
-            result.setKeyMap(map);
+            keyUserList.add(keyUser);
+            result.setProjectList(keyUserList);
         }else {
 
             List<Project> projects = studentDao.selectByLeaderAccount(account);
@@ -52,17 +55,19 @@ public class StudentServiceImpl implements StudentService {
 
                 Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString());
                 Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
-                keyUser.setKey(account+"#"+year);
                 if(project != null){
+                    keyUser.setStatus(siptProcessList.get(0).getStatus());
                     keyUser.setFileName(project.getPName());
+                    keyUser.setKey(account+"#"+year);
                 }
-                map.put("中期检查",keyUser);
-                nkeyUser.setKey(account+"#"+nYear);
+                keyUserList.add(keyUser);
                 if(nProject != null){
+                    nkeyUser.setStatus(siptProcessList.get(1).getStatus());
                     nkeyUser.setFileName(nProject.getPName());
+                    nkeyUser.setKey(account+"#"+nYear);
                 }
-                map.put("结项",nkeyUser);
-                result.setKeyMap(map);
+                keyUserList.add(nkeyUser);
+                result.setProjectList(keyUserList);
                 result.setProcessName(siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus());
                 result.setIsCollect(siptProcessList.get(0).getIsCollect());
                 result.setStartTime(siptProcessList.get(0).getStartTime());
@@ -73,17 +78,19 @@ public class StudentServiceImpl implements StudentService {
 
                 Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString());
                 Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
-                keyUser.setKey(account+"#"+year);
                 if(project != null){
-                    keyUser.setFileName(project.getPName());
+                    nkeyUser.setStatus(siptProcessList.get(0).getStatus());
+                    nkeyUser.setFileName(project.getPName());
+                    nkeyUser.setKey(account+"#"+year);
                 }
-                map.put("结项",keyUser);
-                nkeyUser.setKey(account+"#"+nYear);
+                keyUserList.add(nkeyUser);
                 if(nProject != null){
-                    nkeyUser.setFileName(nProject.getPName());
+                    keyUser.setStatus(siptProcessList.get(1).getStatus());
+                    keyUser.setFileName(nProject.getPName());
+                    keyUser.setKey(account+"#"+nYear);
                 }
-                map.put("中期检查",nkeyUser);
-                result.setKeyMap(map);
+                keyUserList.add(keyUser);
+                result.setProjectList(keyUserList);
 
                 result.setProcessName(siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus());
                 result.setIsCollect(siptProcessList.get(1).getIsCollect());
