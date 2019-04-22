@@ -145,7 +145,8 @@ public class StudentServiceImpl implements StudentService {
             project.setRecordState("已保存");
             studentDao.studentSave(project);
         }else{
-            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
+            studentDao.updateSave(projectFirst);
+           // studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
         }
         return "保存成功";
     }
@@ -155,7 +156,7 @@ public class StudentServiceImpl implements StudentService {
         String[] split = studentRequestDto.getKey().split("#");
         SiptProcess siptProcess = studentDao.selectByYear(split[1]);
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByLeaderAccountAndYear(split[0],split[1],"已保存");
+        Project projectFirst = studentDao.selectByAccountAndYear(split[0],split[1]);
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());

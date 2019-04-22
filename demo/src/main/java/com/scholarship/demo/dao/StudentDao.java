@@ -34,6 +34,9 @@ public interface StudentDao {
     @ResultType(java.lang.Boolean.class)
     boolean studentSave(@Param("p") Project project);
 
+    @Update({"<script> update project <set> year = #{p.year},pName = #{p.pName},sAccount = #{p.sAccount},sName = #{p.sName},memberNum = #{p.memberNum},memberInf = #{p.memberInf},tAccount = #{p.tAccount},tName = #{p.tName},pSource = #{p.pSource},pCode = #{p.pCode},pType = #{p.pType},pIntroduction = #{p.pIntroduction},pathFirst = #{p.pathFirst},pathSecond = #{p.pathSecond},pathThird = #{p.pathThird},recordState = #{p.recordState},college = #{p.college} </set> where sAccount = #{p.sAccount} and year = #{p.year} </script>"})
+    void updateSave(@Param("p") Project project);
+
 
     @Select({"<script> " +
             "select * from teacher where account = #{tId} " +
