@@ -92,14 +92,12 @@ public class StudentServiceImpl implements StudentService {
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
-
-            if(studentRequestDto.getTAccount().equals("")){
-                project.setTAccount("");
-                project.setTName("");
-            }
-            Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
             if (teacherAccount == null) {
                 return "指导教师不存在";
+            }else{
+                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTName(studentRequestDto.getTeacherName());
             }
             project.setPSource(studentRequestDto.getSource());
             project.setPCode(studentRequestDto.getCode());
@@ -131,13 +129,12 @@ public class StudentServiceImpl implements StudentService {
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
-            if(studentRequestDto.getTAccount().equals("")){
-                project.setTAccount("");
-                project.setTName("");
-            }
-            Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
             if (teacherAccount == null) {
                 return "指导教师不存在";
+            }else{
+                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTName(studentRequestDto.getTeacherName());
             }
             project.setPSource(studentRequestDto.getSource());
             project.setPCode(studentRequestDto.getCode());

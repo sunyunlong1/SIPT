@@ -41,7 +41,11 @@ public class StudentController {
     @ResponseBody
     public String save(@RequestBody StudentRequestDto studentRequestDto) {
         String result = studentService.studentSave(studentRequestDto);
-        return JSON.toJSONString(new Result(200,"-",result));
+        if(result.equals("指导教师不存在")){
+            return JSON.toJSONString(new Result(405,"-",result));
+        }else{
+            return JSON.toJSONString(new Result(200,"-",result));
+        }
     }
 
 
@@ -49,7 +53,11 @@ public class StudentController {
     @ResponseBody
     public String apply(@RequestBody StudentRequestDto studentRequestDto) {
         String result = studentService.studentApply(studentRequestDto);
-        return JSON.toJSONString(new Result(200,"-",result));
+        if(result.equals("指导教师不存在")){
+            return JSON.toJSONString(new Result(405,"-",result));
+        }else{
+            return JSON.toJSONString(new Result(200,"-",result));
+        }
     }
 
     @RequestMapping("/edit")
