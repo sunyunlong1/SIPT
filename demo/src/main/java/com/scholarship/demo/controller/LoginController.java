@@ -86,7 +86,7 @@ public class LoginController {
 
     @RequestMapping("/exit")
     @ResponseBody
-    public String exit(@RequestParam LoginDto loginDto, HttpServletRequest request,HttpServletResponse response){
+    public String exit(HttpServletRequest request,HttpServletResponse response){
         Cookie[] cookies = request.getCookies();
         for(Cookie subCookie : cookies){
             if(subCookie.getName().equals("login_ticket")){

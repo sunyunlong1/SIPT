@@ -9,6 +9,5 @@ import java.util.Map;
 public class ManagerTableDto {
 
     private List<UnifiedTable> unifiedTable;
-    private Map<String,List<ManagerDto>> managerDtoList;
 
 }

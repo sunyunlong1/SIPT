@@ -34,6 +34,7 @@ public class ManagerServiceImpl implements ManagerService {
             return null;
         } else {
             for (SiptProcess siptProcess : siptProcessList) {
+                UnifiedTable unifiedTable = new UnifiedTable();
                 List<Project> projects = managerDao.selectBySidYear(admin.getCollege(), siptProcessList.get(0).getYear());
                 for (Project project : projects) {
                     ManagerDto managerDto = new ManagerDto();
@@ -52,9 +53,9 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDtos.add(managerDto);
                 }
                 resultMap.put(siptProcessList.get(0).getYear() + siptProcess.getStatus(), managerDtos);
-                result.setManagerDtoList(resultMap);
+                unifiedTable.setManagerDtoList(resultMap);
 
-                UnifiedTable unifiedTable = new UnifiedTable();
+
                 unifiedTable.setLevel(admin.getLevel());
 //                if (siptProcessList.size() == 1) {
 ////                    unifiedTable.setCurrentProcess(siptProcessList.get(0).getYear() + siptProcessList.get(0).getStatus());
