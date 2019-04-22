@@ -173,12 +173,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String studentApply(StudentRequestDto studentRequestDto) {
+        Project project = new Project();
         String[] split = studentRequestDto.getKey().split("#");
         SiptProcess siptProcess = studentDao.selectByYear(split[1]);
         //先查询是否有记录
         Project projectFirst = studentDao.selectByAccountAndYear(split[0],split[1]);
         if(projectFirst == null){
-            Project project = new Project();
+
             project.setPName(studentRequestDto.getName());
             project.setPType(studentRequestDto.getType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
@@ -207,9 +208,56 @@ public class StudentServiceImpl implements StudentService {
             studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
 
         }else if(projectFirst.getRecordState().equals("已保存")){
+            project.setPName(studentRequestDto.getName());
+            project.setPType(studentRequestDto.getType());
+            project.setSAccount(studentRequestDto.getLeaderAccount());
+            project.setSName(studentRequestDto.getLeaderName());
+            project.setMemberNum(studentRequestDto.getMemberNum());
+            project.setMemberInf(studentRequestDto.getMemberInf());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            if (teacherAccount == null) {
+                return "指导教师不存在";
+            }else{
+                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTName(studentRequestDto.getTeacherName());
+            }
+            project.setPSource(studentRequestDto.getSource());
+            project.setPCode(studentRequestDto.getCode());
+            project.setPIntroduction(studentRequestDto.getIntroduction());
+            project.setPathFirst(studentRequestDto.getPathFirst());
+            project.setPathSecond(studentRequestDto.getPathSecond());
+            project.setPathThird(studentRequestDto.getPathThird());
+            project.setYear(split[1]);
+            project.setCollege(studentRequestDto.getLeaderCollege());
+            project.setRecordState("已提交");
+            studentDao.updateSave(project);
             studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount(),split[1]);
             studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
         }else{
+            project.setPName(studentRequestDto.getName());
+            project.setPType(studentRequestDto.getType());
+            project.setSAccount(studentRequestDto.getLeaderAccount());
+            project.setSName(studentRequestDto.getLeaderName());
+            project.setMemberNum(studentRequestDto.getMemberNum());
+            project.setMemberInf(studentRequestDto.getMemberInf());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            if (teacherAccount == null) {
+                return "指导教师不存在";
+            }else{
+                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTName(studentRequestDto.getTeacherName());
+            }
+            project.setPSource(studentRequestDto.getSource());
+            project.setPCode(studentRequestDto.getCode());
+            project.setPIntroduction(studentRequestDto.getIntroduction());
+            project.setPathFirst(studentRequestDto.getPathFirst());
+            project.setPathSecond(studentRequestDto.getPathSecond());
+            project.setPathThird(studentRequestDto.getPathThird());
+            project.setYear(split[1]);
+            project.setCollege(studentRequestDto.getLeaderCollege());
+            project.setRecordState("已提交");
+            studentDao.updateSave(project);
+
             studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
             studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
         }
