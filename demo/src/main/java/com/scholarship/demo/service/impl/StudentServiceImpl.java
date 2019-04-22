@@ -120,7 +120,7 @@ public class StudentServiceImpl implements StudentService {
     public String studentSave(StudentRequestDto studentRequestDto) {
         String[] split = studentRequestDto.getKey().split("#");
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1],"已保存");
+        Project projectFirst = studentDao.selectByAccountAndYear(studentRequestDto.getLeaderAccount(),split[1]);
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
