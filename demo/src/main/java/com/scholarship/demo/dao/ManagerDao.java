@@ -33,11 +33,11 @@ public interface ManagerDao {
 
     @SelectProvider(type = findProject.class,method = "findById")
     @ResultType(Project.class)
-    List<Project> selectBySidYear(String college,String year);
+    List<Project> selectBySidYear(String college,String year,String recordState);
 
     class findProject{
-        public String findById(String college,String year){
-            String sql = " select * from project where year = #{year} ";
+        public String findById(String college,String year,String recordState){
+            String sql = " select * from project where year = #{year} and recordState != #{recordState}  ";
             if(!college.equals("-1")){
                 sql+= " and college = #{college} ";
             }
