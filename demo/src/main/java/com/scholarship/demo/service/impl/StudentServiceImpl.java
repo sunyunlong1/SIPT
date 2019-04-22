@@ -130,9 +130,7 @@ public class StudentServiceImpl implements StudentService {
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
             Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
-            if (teacherAccount == null) {
-                return "指导教师不存在";
-            }else{
+            if (teacherAccount != null) {
                 project.setTAccount(studentRequestDto.getTAccount());
                 project.setTName(studentRequestDto.getTeacherName());
             }
