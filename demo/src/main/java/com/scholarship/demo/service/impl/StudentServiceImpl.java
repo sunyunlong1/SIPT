@@ -120,9 +120,9 @@ public class StudentServiceImpl implements StudentService {
     public String studentSave(StudentRequestDto studentRequestDto) {
         String[] split = studentRequestDto.getKey().split("#");
         //先查询是否有记录
+        Project project = new Project();
         Project projectFirst = studentDao.selectByAccountAndYear(studentRequestDto.getLeaderAccount(),split[1]);
         if(projectFirst == null){
-            Project project = new Project();
             project.setPName(studentRequestDto.getName());
             project.setPType(studentRequestDto.getType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
@@ -145,7 +145,27 @@ public class StudentServiceImpl implements StudentService {
             project.setRecordState("已保存");
             studentDao.studentSave(project);
         }else{
-            studentDao.updateSave(projectFirst);
+            project.setPName(studentRequestDto.getName());
+            project.setPType(studentRequestDto.getType());
+            project.setSAccount(studentRequestDto.getLeaderAccount());
+            project.setSName(studentRequestDto.getLeaderName());
+            project.setMemberNum(studentRequestDto.getMemberNum());
+            project.setMemberInf(studentRequestDto.getMemberInf());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            if (teacherAccount != null) {
+                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTName(studentRequestDto.getTeacherName());
+            }
+            project.setPSource(studentRequestDto.getSource());
+            project.setPCode(studentRequestDto.getCode());
+            project.setPIntroduction(studentRequestDto.getIntroduction());
+            project.setPathFirst(studentRequestDto.getPathFirst());
+            project.setPathSecond(studentRequestDto.getPathSecond());
+            project.setPathThird(studentRequestDto.getPathThird());
+            project.setYear(split[1]);
+            project.setCollege(studentRequestDto.getLeaderCollege());
+            project.setRecordState("已保存");
+            studentDao.updateSave(project);
            // studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
         }
         return "保存成功";
