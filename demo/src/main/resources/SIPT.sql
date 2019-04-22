@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : 毕业设计
  Source Server Type    : MySQL
- Source Server Version : 80015
+ Source Server Version : 80013
  Source Host           : localhost:3306
  Source Schema         : SIPT
 
  Target Server Type    : MySQL
- Target Server Version : 80015
+ Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 22/04/2019 14:57:35
+ Date: 23/04/2019 00:25:27
 */
 
 SET NAMES utf8mb4;
@@ -104,7 +104,14 @@ CREATE TABLE `pGrade` (
   `level` varchar(255) DEFAULT NULL,
   `cLevel` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pGrade
+-- ----------------------------
+BEGIN;
+INSERT INTO `pGrade` VALUES (00000000030, 'A19150251', '', '2018', '立项', -1, NULL, NULL, -1, NULL, NULL, -1, NULL, NULL, -1, NULL, NULL, 0.00, NULL, NULL);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for process
@@ -119,7 +126,14 @@ CREATE TABLE `process` (
   `isCollect` varchar(255) DEFAULT NULL,
   `isConduct` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of process
+-- ----------------------------
+BEGIN;
+INSERT INTO `process` VALUES (12, '2018', '立项', '2018-11-01', '2019-02-01', '收取材料', '流程中');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for project
@@ -127,29 +141,36 @@ CREATE TABLE `process` (
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
   `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `pName` varchar(255) DEFAULT NULL,
-  `sAccount` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `sName` varchar(255) DEFAULT NULL,
-  `memberNum` varchar(255) DEFAULT NULL,
-  `memberInf` varchar(255) DEFAULT NULL,
-  `tAccount` varchar(255) DEFAULT NULL,
-  `tName` varchar(255) DEFAULT NULL,
-  `tApproval` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '1',
-  `pSource` varchar(255) DEFAULT NULL,
-  `pCode` varchar(255) DEFAULT NULL,
-  `pIntroduction` varchar(255) DEFAULT NULL,
-  `jAccount` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `jName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `year` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `pathFirst` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `pathSecond` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '1',
-  `pathThird` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '1',
-  `avg` varchar(255) DEFAULT NULL,
-  `pType` varchar(255) DEFAULT NULL,
-  `recordState` varchar(255) DEFAULT NULL,
-  `college` varchar(255) DEFAULT NULL,
+  `pName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `sAccount` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `sName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `memberNum` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `memberInf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `tAccount` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `tName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `tApproval` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pSource` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pIntroduction` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `jAccount` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `jName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `year` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pathFirst` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pathSecond` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pathThird` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `avg` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pType` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `recordState` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `college` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of project
+-- ----------------------------
+BEGIN;
+INSERT INTO `project` VALUES (00000000034, 'test1', 'A19150251', 'aaa', '1', 'bbb', 'A19150000', '李晓明', '', '瞎整的', '502', '啦啦啦', '', '', '2018', '', '', '', '', '1', '已提交', '1');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for student
