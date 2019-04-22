@@ -46,6 +46,11 @@ public class StudentRequestDto {
     private String teacherName;
 
     /**
+     * 指导教师工号
+     */
+    private String tAccount;
+
+    /**
      * 指导教师职称
      */
     private String teacherTitle;

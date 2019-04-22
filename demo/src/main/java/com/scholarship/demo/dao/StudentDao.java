@@ -29,10 +29,11 @@ public interface StudentDao {
 
 
     @Select({"<script> " +
-            "select * from teacher where userName = #{userName} " +
+            "select * from teacher where tId = #{tId} " +
             "</script>"})
     @ResultType(Teacher.class)
-    Teacher getTeacherAccount(String userName);
+    Teacher getTeacherAccount(String tId);
+
 
 
     @Update({"<script> " +
