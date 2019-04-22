@@ -10,7 +10,7 @@ public interface StudentDao {
 
 
     @Select({"<script> select * from project " +
-            " where sAccount = #{leaderAccount} and year = #{year} and recordState != #{recordState}" +
+            " where sAccount = #{leaderAccount} and year = #{year} and recordState != #{recordState} " +
             "</script>"})
     @ResultType(Project.class)
     Project selectByLeaderAccountAndYear(String leaderAccount,String year,String recordState);
@@ -36,7 +36,7 @@ public interface StudentDao {
 
 
     @Select({"<script> " +
-            "select * from teacher where tId = #{tId} " +
+            "select * from teacher where account = #{tId} " +
             "</script>"})
     @ResultType(Teacher.class)
     Teacher getTeacherAccount(String tId);
