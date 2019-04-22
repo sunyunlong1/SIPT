@@ -41,8 +41,8 @@ public class StudentServiceImpl implements StudentService {
                 keyUser.setFileName(project.getPName());
                 keyUser.setStatus(siptProcessList.get(0).getStatus());
                 keyUserList.add(keyUser);
-                result.setProjectList(keyUserList);
             }
+            result.setProjectList(keyUserList);
         }else {
 
             List<Project> projects = studentDao.selectByLeaderAccount(account);
