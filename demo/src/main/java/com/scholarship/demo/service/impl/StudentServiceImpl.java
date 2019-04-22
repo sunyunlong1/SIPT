@@ -76,8 +76,8 @@ public class StudentServiceImpl implements StudentService {
                 KeyUser keyUser = new KeyUser();
                 KeyUser nkeyUser = new KeyUser();
 
-                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString(),"已保存");
-                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString(),"已保存");
+                Project project = studentDao.selectByAccountAndYear(account, year.toString());
+                Project nProject = studentDao.selectByAccountAndYear(account, nYear.toString());
                 if(project != null){
                     nkeyUser.setStatus(siptProcessList.get(0).getStatus());
                     nkeyUser.setFileName(project.getPName());
