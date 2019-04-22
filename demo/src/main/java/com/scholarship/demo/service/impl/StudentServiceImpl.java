@@ -35,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
             result.setStartTime(siptProcessList.get(0).getStartTime());
             result.setEndTime(siptProcessList.get(0).getEndTime());
             result.setIsCollect(siptProcessList.get(0).getIsCollect());
-            Project project = studentDao.selectByLeaderAccountAndYear(account, siptProcessList.get(0).getYear());
+            Project project = studentDao.selectByLeaderAccountAndYear(account, siptProcessList.get(0).getYear(),"已保存");
             if(project != null){
                 keyUser.setKey(account+"#"+siptProcessList.get(0).getYear());
                 keyUser.setFileName(project.getPName());
@@ -53,8 +53,8 @@ public class StudentServiceImpl implements StudentService {
                 KeyUser keyUser = new KeyUser();
                 KeyUser nkeyUser = new KeyUser();
 
-                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString());
-                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
+                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString(),"已保存");
+                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString(),"已保存");
                 if(project != null){
                     keyUser.setStatus(siptProcessList.get(0).getStatus());
                     keyUser.setFileName(project.getPName());
@@ -76,8 +76,8 @@ public class StudentServiceImpl implements StudentService {
                 KeyUser keyUser = new KeyUser();
                 KeyUser nkeyUser = new KeyUser();
 
-                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString());
-                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
+                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString(),"已保存");
+                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString(),"已保存");
                 if(project != null){
                     nkeyUser.setStatus(siptProcessList.get(0).getStatus());
                     nkeyUser.setFileName(project.getPName());
@@ -120,7 +120,7 @@ public class StudentServiceImpl implements StudentService {
     public String studentSave(StudentRequestDto studentRequestDto) {
         String[] split = studentRequestDto.getKey().split("#");
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1]);
+        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1],"已保存");
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
@@ -157,7 +157,7 @@ public class StudentServiceImpl implements StudentService {
         String[] split = studentRequestDto.getKey().split("#");
         SiptProcess siptProcess = studentDao.selectByYear(split[1]);
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByLeaderAccountAndYear(split[0],split[1]);
+        Project projectFirst = studentDao.selectByLeaderAccountAndYear(split[0],split[1],"已保存");
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
@@ -201,7 +201,7 @@ public class StudentServiceImpl implements StudentService {
     public Map<String,Object> edit(Key key) {
         String[] split = key.getKey().split("#");
         Map<String,Object> resultMap = new HashMap<>();
-        Project project = studentDao.selectByLeaderAccountAndYear(split[0],split[1]);
+        Project project = studentDao.selectByAccountAndYear(split[0],split[1]);
         StudentRequestDto studentDto = new StudentRequestDto();
         if(project!=null){
             studentDto.setName(project.getPName());
