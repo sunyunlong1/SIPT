@@ -39,6 +39,7 @@ public class StudentServiceImpl implements StudentService {
                 keyUser.setFileName(project.getPName());
             }
             map.put("立项",keyUser);
+            result.setKeyMap(map);
         }else {
 
             List<Project> projects = studentDao.selectByLeaderAccount(account);
@@ -205,8 +206,13 @@ public class StudentServiceImpl implements StudentService {
             studentDto.setTAccount(project.getTAccount());
             studentDto.setMemberInf(project.getMemberInf());
             Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
-            studentDto.setTeacherName(teacherUserName.getUserName());
-            studentDto.setTeacherTitle(teacherUserName.getTitle());
+            if(teacherUserName == null){
+                studentDto.setTeacherName(teacherUserName.getUserName());
+                studentDto.setTeacherTitle(teacherUserName.getTitle());
+            }else{
+                studentDto.setTeacherName(project.getTName());
+                studentDto.setTeacherTitle("");
+            }
             studentDto.setSource(project.getPSource());
             studentDto.setCode(project.getPCode());
             studentDto.setIntroduction(project.getPIntroduction());

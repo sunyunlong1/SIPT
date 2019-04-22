@@ -49,7 +49,7 @@ public class LoginController {
         cookie.setMaxAge(60*60*24);
         response.addCookie(cookie);
         LoginResponse login = studentService.login(loginDto);
-        if(login != null || !login.getUserName().equals("")){
+        if(login != null && !login.getUserName().equals("")){
             //String login_ticket = login.getUserType();
             HttpSession session = httpRequest.getSession();
             session.setMaxInactiveInterval(60*60*24);
