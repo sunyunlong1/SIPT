@@ -40,9 +40,9 @@ public class StudentServiceImpl implements StudentService {
                 keyUser.setKey(account+"#"+siptProcessList.get(0).getYear());
                 keyUser.setFileName(project.getPName());
                 keyUser.setStatus(siptProcessList.get(0).getStatus());
+                keyUserList.add(keyUser);
+                result.setProjectList(keyUserList);
             }
-            keyUserList.add(keyUser);
-            result.setProjectList(keyUserList);
         }else {
 
             List<Project> projects = studentDao.selectByLeaderAccount(account);
@@ -59,14 +59,14 @@ public class StudentServiceImpl implements StudentService {
                     keyUser.setStatus(siptProcessList.get(0).getStatus());
                     keyUser.setFileName(project.getPName());
                     keyUser.setKey(account+"#"+year);
+                    keyUserList.add(keyUser);
                 }
-                keyUserList.add(keyUser);
                 if(nProject != null){
                     nkeyUser.setStatus(siptProcessList.get(1).getStatus());
                     nkeyUser.setFileName(nProject.getPName());
                     nkeyUser.setKey(account+"#"+nYear);
+                    keyUserList.add(nkeyUser);
                 }
-                keyUserList.add(nkeyUser);
                 result.setProjectList(keyUserList);
                 result.setProcessName(siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus());
                 result.setIsCollect(siptProcessList.get(0).getIsCollect());
@@ -82,14 +82,14 @@ public class StudentServiceImpl implements StudentService {
                     nkeyUser.setStatus(siptProcessList.get(0).getStatus());
                     nkeyUser.setFileName(project.getPName());
                     nkeyUser.setKey(account+"#"+year);
+                    keyUserList.add(nkeyUser);
                 }
-                keyUserList.add(nkeyUser);
                 if(nProject != null){
                     keyUser.setStatus(siptProcessList.get(1).getStatus());
                     keyUser.setFileName(nProject.getPName());
                     keyUser.setKey(account+"#"+nYear);
+                    keyUserList.add(keyUser);
                 }
-                keyUserList.add(keyUser);
                 result.setProjectList(keyUserList);
 
                 result.setProcessName(siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus());
