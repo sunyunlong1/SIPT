@@ -35,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
             result.setStartTime(siptProcessList.get(0).getStartTime());
             result.setEndTime(siptProcessList.get(0).getEndTime());
             result.setIsCollect(siptProcessList.get(0).getIsCollect());
-            Project project = studentDao.selectByLeaderAccountAndYear(account, siptProcessList.get(0).getYear(),"已保存");
+            Project project = studentDao.selectByAccountAndYear(account, siptProcessList.get(0).getYear());
             if(project != null){
                 keyUser.setKey(account+"#"+siptProcessList.get(0).getYear());
                 keyUser.setFileName(project.getPName());
@@ -53,8 +53,8 @@ public class StudentServiceImpl implements StudentService {
                 KeyUser keyUser = new KeyUser();
                 KeyUser nkeyUser = new KeyUser();
 
-                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString(),"已保存");
-                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString(),"已保存");
+                Project project = studentDao.selectByAccountAndYear(account, year.toString());
+                Project nProject = studentDao.selectByAccountAndYear(account, nYear.toString());
                 if(project != null){
                     keyUser.setStatus(siptProcessList.get(0).getStatus());
                     keyUser.setFileName(project.getPName());
@@ -211,7 +211,7 @@ public class StudentServiceImpl implements StudentService {
             studentDto.setTAccount(project.getTAccount());
             studentDto.setMemberInf(project.getMemberInf());
             Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
-            if(teacherUserName == null){
+            if(teacherUserName != null){
                 studentDto.setTeacherName(teacherUserName.getUserName());
                 studentDto.setTeacherTitle(teacherUserName.getTitle());
             }else{
