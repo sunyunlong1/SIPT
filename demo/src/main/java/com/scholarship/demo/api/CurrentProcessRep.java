@@ -2,6 +2,8 @@ package com.scholarship.demo.api;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class CurrentProcessRep {
 
@@ -9,8 +11,5 @@ public class CurrentProcessRep {
     private String isCollect;
     private String startTime;
     private String endTime;
-    private String key;
-    private String keyTwo;
-    private String middlePName;
-    private String endPName;
+    private Map<String,KeyUser> keyMap;
 }

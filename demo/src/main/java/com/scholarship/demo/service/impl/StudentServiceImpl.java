@@ -23,16 +23,22 @@ public class StudentServiceImpl implements StudentService {
     public CurrentProcessRep currentPorcess(String account) {
         CurrentProcessRep result = new CurrentProcessRep();
         //SiptProcess siptProcess = studentDao.selectByYear(year);
-
+        Map<String,KeyUser> map = new HashMap<>();
         List<SiptProcess> siptProcessList = studentDao.selectByConduct("流程中");
         if(siptProcessList.size() == 0){
             return null;
         }else if(siptProcessList.size() == 1){
+            KeyUser keyUser = new KeyUser();
             result.setProcessName(siptProcessList.get(0).getYear()+" SIPT "+siptProcessList.get(0).getStatus());
-            result.setKey(account+"#"+siptProcessList.get(0).getYear());
+            keyUser.setKey(account+"#"+siptProcessList.get(0).getYear());
             result.setStartTime(siptProcessList.get(0).getStartTime());
             result.setEndTime(siptProcessList.get(0).getEndTime());
             result.setIsCollect(siptProcessList.get(0).getIsCollect());
+            Project project = studentDao.selectByLeaderAccountAndYear(account, siptProcessList.get(0).getYear());
+            if(project != null){
+                keyUser.setFileName(project.getPName());
+            }
+            map.put("立项",keyUser);
         }else {
 
             List<Project> projects = studentDao.selectByLeaderAccount(account);
@@ -40,21 +46,44 @@ public class StudentServiceImpl implements StudentService {
             Integer year = Integer.valueOf(siptProcessList.get(0).getYear());
             Integer nYear = Integer.valueOf(siptProcessList.get(1).getYear());
             if (year > nYear) {
+                KeyUser keyUser = new KeyUser();
+                KeyUser nkeyUser = new KeyUser();
+
                 Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString());
+                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
+                keyUser.setKey(account+"#"+year);
                 if(project != null){
-                    result.setMiddlePName(project.getPName());
+                    keyUser.setFileName(project.getPName());
                 }
-                result.setKey(account+"#"+year);
+                map.put("中期检查",keyUser);
+                nkeyUser.setKey(account+"#"+nYear);
+                if(nProject != null){
+                    nkeyUser.setFileName(nProject.getPName());
+                }
+                map.put("结项",nkeyUser);
+                result.setKeyMap(map);
                 result.setProcessName(siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus());
                 result.setIsCollect(siptProcessList.get(0).getIsCollect());
                 result.setStartTime(siptProcessList.get(0).getStartTime());
                 result.setEndTime(siptProcessList.get(0).getEndTime());
             } else {
-                Project project = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
-                if (project != null){
-                    result.setEndPName(project.getPName());
+                KeyUser keyUser = new KeyUser();
+                KeyUser nkeyUser = new KeyUser();
+
+                Project project = studentDao.selectByLeaderAccountAndYear(account, year.toString());
+                Project nProject = studentDao.selectByLeaderAccountAndYear(account, nYear.toString());
+                keyUser.setKey(account+"#"+year);
+                if(project != null){
+                    keyUser.setFileName(project.getPName());
                 }
-                result.setKey(account+"#"+nYear);
+                map.put("结项",keyUser);
+                nkeyUser.setKey(account+"#"+nYear);
+                if(nProject != null){
+                    nkeyUser.setFileName(nProject.getPName());
+                }
+                map.put("中期检查",nkeyUser);
+                result.setKeyMap(map);
+
                 result.setProcessName(siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus());
                 result.setIsCollect(siptProcessList.get(1).getIsCollect());
                 result.setStartTime(siptProcessList.get(1).getStartTime());
