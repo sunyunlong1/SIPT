@@ -93,8 +93,13 @@ public class StudentServiceImpl implements StudentService {
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
             Teacher teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTeacherName());
-            project.setTAccount(teacherAccount.getAccount());
-            project.setTName(studentRequestDto.getTeacherName());
+            if (teacherAccount == null){
+                project.setTAccount(teacherAccount.getAccount());
+                project.setTName(studentRequestDto.getTeacherName());
+            }else{
+                project.setTAccount("");
+                project.setTName("");
+            }
             project.setPSource(studentRequestDto.getSource());
             project.setPCode(studentRequestDto.getCode());
             project.setPIntroduction(studentRequestDto.getIntroduction());
