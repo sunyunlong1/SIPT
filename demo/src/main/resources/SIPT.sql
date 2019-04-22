@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 毕业设计
+ Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 80013
+ Source Server Version : 80015
  Source Host           : localhost:3306
  Source Schema         : SIPT
 
  Target Server Type    : MySQL
- Target Server Version : 80013
+ Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 22/04/2019 00:07:51
+ Date: 22/04/2019 14:57:35
 */
 
 SET NAMES utf8mb4;
@@ -72,7 +72,10 @@ CREATE TABLE `judges` (
 -- Records of judges
 -- ----------------------------
 BEGIN;
-INSERT INTO `judges` VALUES (0, 'A19151111', '123', '评委老师', '电气与信息学院', NULL);
+INSERT INTO `judges` VALUES (1, 'A19151111', '123', '一号评委', '电气与信息学院', 'one');
+INSERT INTO `judges` VALUES (2, 'A19152222', '123', '二号评委', '电气与信息学院', 'two');
+INSERT INTO `judges` VALUES (3, 'A19153333', '123', '三号评委', '电气与信息学院', 'three');
+INSERT INTO `judges` VALUES (4, 'A19154444', '123', '四号评委', '电气与信息学院', 'four');
 COMMIT;
 
 -- ----------------------------
@@ -85,34 +88,23 @@ CREATE TABLE `pGrade` (
   `sName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `year` varchar(255) DEFAULT NULL,
   `pStatus` varchar(255) DEFAULT NULL,
-  `oneGrade` int(11) DEFAULT '0',
+  `oneGrade` int(11) DEFAULT '-1',
   `oneInf` varchar(255) DEFAULT NULL,
   `oneApply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `twoGrade` int(11) DEFAULT '0',
+  `twoGrade` int(11) DEFAULT '-1',
   `twoInf` varchar(255) DEFAULT NULL,
   `twoApply` varchar(255) DEFAULT NULL,
-  `threeGrade` int(11) DEFAULT '0',
+  `threeGrade` int(11) DEFAULT '-1',
   `threeInf` varchar(255) DEFAULT NULL,
   `threeApply` varchar(255) DEFAULT NULL,
-  `fourGrade` int(11) DEFAULT '0',
+  `fourGrade` int(11) DEFAULT '-1',
   `fourInf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `fourApply` varchar(255) DEFAULT NULL,
   `pgAvg` double(20,2) DEFAULT '0.00',
   `level` varchar(255) DEFAULT NULL,
   `cLevel` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of pGrade
--- ----------------------------
-BEGIN;
-INSERT INTO `pGrade` VALUES (00000000013, 'A19150251', '李浩然', '2019', '中期检查', 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0.00, 'A', NULL);
-INSERT INTO `pGrade` VALUES (00000000016, 'A19150292', '孙云龙', '2019', '立项', 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0.00, 'A', NULL);
-INSERT INTO `pGrade` VALUES (00000000019, 'A19150251', '李浩然', '2019', '立项', 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0.00, 'A', NULL);
-INSERT INTO `pGrade` VALUES (00000000021, 'A19150292', '孙云龙', '2019', '中期检查', 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0.00, NULL, NULL);
-INSERT INTO `pGrade` VALUES (00000000022, 'A19150292', '孙云龙', '2018', '结题', 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0.00, NULL, NULL);
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for process
@@ -127,15 +119,7 @@ CREATE TABLE `process` (
   `isCollect` varchar(255) DEFAULT NULL,
   `isConduct` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of process
--- ----------------------------
-BEGIN;
-INSERT INTO `process` VALUES (9, '2019', '中期检查', '2019-12-05', '2020-03-05', '收取材料', NULL);
-INSERT INTO `process` VALUES (10, '2018', '结题', '2019-12-05', '2020-03-05', '收取材料', NULL);
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for project
@@ -165,16 +149,7 @@ CREATE TABLE `project` (
   `recordState` varchar(255) DEFAULT NULL,
   `college` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of project
--- ----------------------------
-BEGIN;
-INSERT INTO `project` VALUES (00000000001, 'SIPT项目测试', 'A19150292', '孙云龙', '4', '成员信息', 'A19150000', '李晓明', 'pass', '学生自拟', '00001', '项目介绍', 'A19151111', '评委', '2019', 'c:/test', '‘1’', '\'1\'', '校级优秀项目', '创新项目', '已提交', '电气与信息学院');
-INSERT INTO `project` VALUES (00000000002, 'SIPT项目测试', 'A19150251', '李浩然', '4', '成员信息', 'A19150000', '李晓明', '1', '学生自拟', '00001', '项目介绍', 'A19151111', '评委', '2019', '\'1\'', '‘1’', '‘1’', '校级优秀项目', '创新项目', '已提交', '电气与信息学院');
-INSERT INTO `project` VALUES (00000000004, 'SIPT项目测试', 'A19150292', '孙云龙', '4', '成员信息', 'A19150000', '李晓明', '1', '学生自拟', '00001', '项目介绍', 'A19151111', '评委', '2018', 'c:/test', '\'1\'', '\'1\'', '校级优秀项目', '创新项目', '已提交', '电气与信息学院');
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for student

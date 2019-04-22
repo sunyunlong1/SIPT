@@ -34,7 +34,7 @@ public class TeacherServiceImpl implements TeacherService {
                 teacherAppRep.setSName(project.getSName());
                 teacherAppRep.setStatus(siptProcess.getStatus());
                 teacherAppRep.setTName(project.getTName());
-                teacherAppRep.setKey(project.getSName()+"#"+project.getYear());
+                teacherAppRep.setKey(project.getSAccount()+"#"+project.getYear());
                 result.add(teacherAppRep);
             }
         }

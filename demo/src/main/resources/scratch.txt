@@ -25,72 +25,47 @@ localhost:8080/manager/currentProcess
 {
 	"account":"admin"
 }
-返回了key
-返回JSON成功样式
 {
     "code": 200,
     "data": {
         "managerDtoList": {
-            "2018结题": [
+            "2019立项": [
                 {
                     "college": "电气与信息学院",
-                    "fourGrade": 0,
-                    "leaderAccount": "A19150292",
-                    "leaderName": "孙云龙",
-                    "oneGrade": 0,
+                    "fourGrade": -1,
+                    "key": "2019#立项#A19150345",
+                    "leaderAccount": "A19150345",
+                    "leaderName": "罗金猪",
+                    "oneGrade": 90,
                     "pType": "创新项目",
-                    "pgAvg": 0,
+                    "pgAvg": 21,
                     "tName": "李晓明",
-                    "threeGrade": 0,
-                    "twoGrade": 0
-                }
-            ],
-            "2019中期检查": [
-                {
-                    "college": "电气与信息学院",
-                    "fourGrade": 0,
-                    "leaderAccount": "A19150292",
-                    "leaderName": "孙云龙",
-                    "oneGrade": 0,
-                    "pType": "创新项目",
-                    "pgAvg": 0,
-                    "tName": "李晓明",
-                    "threeGrade": 0,
-                    "twoGrade": 0
-                },
-                {
-                    "college": "电气与信息学院",
-                    "fourGrade": 0,
-                    "leaderAccount": "A19150251",
-                    "leaderName": "李浩然",
-                    "oneGrade": 0,
-                    "pType": "创新项目",
-                    "pgAvg": 0,
-                    "tName": "李晓明",
-                    "threeGrade": 0,
-                    "twoGrade": 0
+                    "threeGrade": -1,
+                    "twoGrade": -1
                 }
             ]
         },
-        "unifiedTable": {
-            "currentProcess": "2019中期检查/结题",
-            "level": "校级",
-            "state": "正在审批3/3"
-        }
+        "unifiedTable": [
+            {
+                "currentProcess": "2019立项",
+                "level": "校级",
+                "state": "收取材料"
+            }
+        ]
     },
     "message": "-"
 }
 //新建流程（把中期/结题改为 中期检查/结题）
 localhost:8080/manager/newAndEditProcess
 {
-	"processName":"中期检查/结题",
-	"beginTime":"2019-06-05",
-	"endTime":"2019-08-05"
+	"processName":"立项",
+	"beginTime":"2018-11-01",
+	"endTime":"2019-02-01"
 }
 返回JSON成功样式
 {
     "code": 200,
-    "data": "成功新建流程",
+    "data": "已存在当前流程，不可重复新建",
     "message": "-"
 }
 //项目概览
@@ -103,14 +78,11 @@ localhost:8080/manager/overview
     "code": 200,
     "data": [
         {
+            "isCollect": "已提交",
+            "key": "2019#立项",
             "name": "2019SIPT",
-            "pStatus": "中期检查",
-            "sum": 2
-        },
-        {
-            "name": "2018SIPT",
-            "pStatus": "结题",
-            "sum": 0
+            "pStatus": "立项",
+            "sum": 1
         }
     ],
     "message": "-"
@@ -119,25 +91,18 @@ localhost:8080/manager/overview
 localhost:8080/manager/details
 传key
 {
-	"name":"2019SIPT"
+	"key": "2019#立项"
 }
 返回JSON成功样式
 {
     "code": 200,
     "data": [
         {
-            "avg": "-",
+            "avg": "A",
             "college": "电气与信息学院",
-            "leaderUserName": "孙云龙",
-            "pName": "SIPT项目测试",
-            "pSource": "学生自拟",
-            "teacherName": "李晓明"
-        },
-        {
-            "avg": "-",
-            "college": "电气与信息学院",
-            "leaderUserName": "李浩然",
-            "pName": "SIPT项目测试",
+            "key": "2019#立项#A19150345",
+            "leaderUserName": "罗金猪",
+            "pName": "SIPT项目申报",
             "pSource": "学生自拟",
             "teacherName": "李晓明"
         }
@@ -147,28 +112,23 @@ localhost:8080/manager/details
 //停止收取
 localhost:8080/manager/stop
 {
-    "name":"2019立项"
+	"key": "2019#立项"
 }
 返回JSON成功样式
-<!-- 如果已为停止收取，则data里返回 已为不可收取，不可重复更改状态 -->
 {
-    "code": 200,
-    "data": "已改为不可收取",
+    "code": 405,
+    "data": "当前已为停止收取状态，不可重复点击",
     "message": "-"
 }
 //提交结果
 localhost:8080/manager/apply
 {
-            "2019立项": [
-                {
-                    "leaderAccount": "A19150251",
-                    "level":"A"
-                },
-                {
-                    "leaderAccount": "A19150292",
-                    "level":"A"
-                }
-            ]
+	"admin":[
+			{
+				"key":"2019#立项#A19150345",
+				"level":"A"
+			}
+		]
 }
 返回JSON成功样式
 {
@@ -179,10 +139,9 @@ localhost:8080/manager/apply
 ----------------------------------------------------------------------
 学生模块
 当前流程查询模块
-<!-- 如果是2019中期检查 将上面的字符串拼接 拼成2019SIPT中期检查/2018SIPT中期检查 -->
 localhost:8080/student/currentProcess
 {
-	"year":"2019"
+	"account":"A19150251"
 }
 返回JSON成功样式
 {
@@ -199,6 +158,7 @@ localhost:8080/student/currentProcess
 增加key字段，在当前流程返回
 localhost:8080/student/save
 {
+	"key":"A19150345#2019",
 	"year":"2019",
 	"name":"SIPT项目申报",
 	"type":"创新项目",
@@ -226,6 +186,7 @@ localhost:8080/student/save
 增加key字段，在当前流程中返回
 localhost:8080/student/apply
 {
+	"key":"A19150345#2019",
 	"year":"2019",
 	"name":"SIPT项目申报",
 	"type":"创新项目",
@@ -252,30 +213,29 @@ localhost:8080/student/apply
 编辑
 localhost:8080/student/edit
 {
-	"account":"A19150251",
-	"year":"2019"
+	"key":"A19150345#2019"
 }
 返回JSON成功样式
 {
     "code": 200,
     "data": {
         "tableData": {
-            "code": "00001",
-            "introduction": "项目介绍",
-            "leaderAccount": "A19150251",
+            "code": "000002",
+            "introduction": "毕设项目",
+            "key": "A19150345#2019",
+            "leaderAccount": "A19150345",
             "leaderCollege": "电气与信息学院",
-            "leaderName": "李浩然",
-            "memberInf": "成员信息",
-            "memberNum": "4",
-            "name": "SIPT项目测试",
+            "leaderName": "罗金猪",
+            "memberInf": "汤敏锐，殷珂",
+            "memberNum": "5",
+            "name": "SIPT项目申报",
             "pathFirst": "c:/test",
-            "pathSecond": "‘1’",
-            "pathThird": "‘1’",
+            "pathSecond": "",
+            "pathThird": "",
             "source": "学生自拟",
             "teacherName": "李晓明",
             "teacherTitle": "教授",
-            "type": "创新项目",
-            "year": "2019"
+            "type": "创新项目"
         },
         "recordState": "已提交"
     },
@@ -284,29 +244,21 @@ localhost:8080/student/edit
 我的项目
 localhost:8080/student/myProject
 {
-	"account":"A19150292"
+	"account":"A19150345"
 }
 返回JSON成功样式
 {
     "code": 200,
     "data": [
         {
-            "avg": "校级优秀项目",
-            "memberInf": "成员信息",
+            "key": "A19150345#2019",
+            "memberInf": "汤敏锐，殷珂",
+            "pName": "SIPT项目申报",
             "pStatus": "立项",
             "recordStatus": "已提交",
             "teacherName": "李晓明",
-            "userName": "孙云龙",
+            "userName": "罗金猪",
             "year": "2019"
-        },
-        {
-            "avg": "校级优秀项目",
-            "memberInf": "成员信息",
-            "pStatus": "中期检查",
-            "recordStatus": "已提交",
-            "teacherName": "李晓明",
-            "userName": "孙云龙",
-            "year": "2018"
         }
     ],
     "message": "-"
@@ -321,32 +273,7 @@ localhost:8080/teacher/pApproval
 返回JSON成功样式
 {
     "code": 200,
-    "data": [
-        {
-            "college": "电气与信息学院",
-            "pName": "SIPT项目测试",
-            "pSource": "学生自拟",
-            "sName": "孙云龙",
-            "status": "立项",
-            "tName": "李晓明"
-        },
-        {
-            "college": "电气与信息学院",
-            "pName": "SIPT项目测试",
-            "pSource": "学生自拟",
-            "sName": "李浩然",
-            "status": "立项",
-            "tName": "李晓明"
-        },
-        {
-            "college": "电气与信息学院",
-            "pName": "SIPT项目申报",
-            "pSource": "学生自拟",
-            "sName": "罗金猪",
-            "status": "立项",
-            "tName": "李晓明"
-        }
-    ],
+    "data": [],
     "message": "-"
 }
 审批
@@ -371,46 +298,68 @@ localhost:8080/teacher/myProject
     "code": 200,
     "data": [
         {
-            "avg": "校级优秀项目",
             "college": "电气与信息学院",
-            "leaderName": "孙云龙",
+            "key": "A19150345#2019",
+            "leaderName": "罗金猪",
             "level": "A",
-            "pName": "SIPT项目测试",
+            "pName": "SIPT项目申报",
             "pSource": "学生自拟",
             "status": "立项"
-        },
-        {
-            "avg": "校级优秀项目",
-            "college": "电气与信息学院",
-            "leaderName": "李浩然",
-            "level": "A",
-            "pName": "SIPT项目测试",
-            "pSource": "学生自拟",
-            "status": "立项"
-        },
-        {
-            "avg": "校级优秀项目",
-            "college": "电气与信息学院",
-            "leaderName": "孙云龙",
-            "level": "B",
-            "pName": "SIPT项目测试",
-            "pSource": "学生自拟",
-            "status": "中期检查"
         }
     ],
     "message": "-"
 }
 --------------------------------------------------
 评委模块
-
+进来的查询
+localhost:8080/judge/view
+{
+	"account":"A19151111"
+}
+返回JSON
+{
+    "code": 200,
+    "data": {
+        "已审批": {},
+        "待审批": {}
+    },
+    "message": "-"
+}
+保存
+localhost:8080/judge/save
+{
+	"account":"A19151111",
+	"table":[
+			{
+				"key":"2019#立项#A19150345",
+				"grade":"90",
+				"inf":"干的不错!"
+			}
+		]
+}
+提交
+localhost:8080/judge/apply
+{
+	"account":"A19151111",
+	"table":[
+			{
+				"key":"2019#立项#A19150345",
+				"grade":"90",
+				"inf":"干的不错!"
+			}
+		]
+}
+返回JSON
+{
+    "code": 200,
+    "data": "已成功提交",
+    "message": "-"
+}
 
 1.保存/提交 学号+年份唯一标示 ok
-2./currentProcess 500
+2./currentProcess 500 ok
 3./myProject 返回list ok
-4./process数据
-5./edit 传入参数 +年份
-6./details 只传年份 ok
-7.所有管理员 至少一个参数
+4./process数据 ok
 8.管理员新建流程
 9.上传文件地址，前端定义分隔符
 

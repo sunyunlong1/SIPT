@@ -114,7 +114,7 @@ public class ManagerServiceImpl implements ManagerService {
                                 unifiedTable.setState(siptProcessList.get(0).getIsCollect());
                             }
                         }else{
-                            unifiedTable.setState(siptProcess.getStatus());
+                            unifiedTable.setState(siptProcess.getIsCollect());
                         }
                     }
                 unifiedTables.add(unifiedTable);
@@ -221,8 +221,10 @@ public class ManagerServiceImpl implements ManagerService {
 
             Integer LYear = Integer.valueOf(year) + 1;
             SiptProcess siptProcess = managerDao.selectByYear(LYear.toString());
-            if (siptProcess.getStatus().equals("立项")) {
-                return "已存在当前流程，不可重复新建";
+            if(siptProcess != null){
+                if (siptProcess.getStatus().equals("立项")) {
+                    return "已存在当前流程，不可重复新建";
+                }
             }
             Integer integer = managerDao.insertProcess(LYear.toString(), newProcessDto.getProcessName(), newProcessDto.getBeginTime(), newProcessDto.getEndTime(), "收取材料", "流程中");
 

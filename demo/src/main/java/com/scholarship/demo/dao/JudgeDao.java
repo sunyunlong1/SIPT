@@ -28,7 +28,7 @@ public interface JudgeDao {
     @ResultType(Project.class)
     List<Project> selectByCollege(String college);
 
-    @Select({"<script> select from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
+    @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
     @ResultType(PGrade.class)
     PGrade selectByGId(String sId, String year,String pStatus);
 

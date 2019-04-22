@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,6 @@ public class StudentController {
     public String currentPorcess(@RequestBody LoginDto loginDto){
         CurrentProcessRep result = studentService.currentPorcess(loginDto.getAccount());
         return JSON.toJSONString(new Result(200,"-",result));
-
     }
 
     @RequestMapping("/save")

@@ -43,7 +43,7 @@ public class ManagerController {
     @RequestMapping("/stop")
     @ResponseBody
     public String stop(@RequestBody OverviewResponse overview){
-        String stop = managerService.stop(overview.getName());
+        String stop = managerService.stop(overview.getKey());
         if(stop.equals("success")){
             stop = "成功改为停止收取状态";
             return JSON.toJSONString(new Result(200,"-",stop));
