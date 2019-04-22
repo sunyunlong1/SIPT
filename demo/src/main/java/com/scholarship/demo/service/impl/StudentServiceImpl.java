@@ -129,9 +129,9 @@ public class StudentServiceImpl implements StudentService {
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
-            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getAccount());
             if (teacherAccount != null) {
-                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTAccount(studentRequestDto.getAccount());
                 project.setTName(studentRequestDto.getTeacherName());
             }
             project.setPSource(studentRequestDto.getSource());
@@ -151,9 +151,9 @@ public class StudentServiceImpl implements StudentService {
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
-            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getAccount());
             if (teacherAccount != null) {
-                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTAccount(studentRequestDto.getAccount());
                 project.setTName(studentRequestDto.getTeacherName());
             }
             project.setPSource(studentRequestDto.getSource());
@@ -173,24 +173,23 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String studentApply(StudentRequestDto studentRequestDto) {
-        Project project = new Project();
         String[] split = studentRequestDto.getKey().split("#");
         SiptProcess siptProcess = studentDao.selectByYear(split[1]);
         //先查询是否有记录
         Project projectFirst = studentDao.selectByAccountAndYear(split[0],split[1]);
         if(projectFirst == null){
-
+            Project project = new Project();
             project.setPName(studentRequestDto.getName());
             project.setPType(studentRequestDto.getType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
-            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getAccount());
             if (teacherAccount == null) {
                 return "指导教师不存在";
             }else{
-                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTAccount(studentRequestDto.getAccount());
                 project.setTName(studentRequestDto.getTeacherName());
             }
             project.setPSource(studentRequestDto.getSource());
@@ -208,17 +207,18 @@ public class StudentServiceImpl implements StudentService {
             studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
 
         }else if(projectFirst.getRecordState().equals("已保存")){
+            Project project = new Project();
             project.setPName(studentRequestDto.getName());
             project.setPType(studentRequestDto.getType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
-            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getAccount());
             if (teacherAccount == null) {
                 return "指导教师不存在";
             }else{
-                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTAccount(studentRequestDto.getAccount());
                 project.setTName(studentRequestDto.getTeacherName());
             }
             project.setPSource(studentRequestDto.getSource());
@@ -234,17 +234,18 @@ public class StudentServiceImpl implements StudentService {
             studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount(),split[1]);
             studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
         }else{
+            Project project = new Project();
             project.setPName(studentRequestDto.getName());
             project.setPType(studentRequestDto.getType());
             project.setSAccount(studentRequestDto.getLeaderAccount());
             project.setSName(studentRequestDto.getLeaderName());
             project.setMemberNum(studentRequestDto.getMemberNum());
             project.setMemberInf(studentRequestDto.getMemberInf());
-            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getTAccount());
+            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getAccount());
             if (teacherAccount == null) {
                 return "指导教师不存在";
             }else{
-                project.setTAccount(studentRequestDto.getTAccount());
+                project.setTAccount(studentRequestDto.getAccount());
                 project.setTName(studentRequestDto.getTeacherName());
             }
             project.setPSource(studentRequestDto.getSource());
@@ -277,7 +278,7 @@ public class StudentServiceImpl implements StudentService {
             studentDto.setLeaderCollege(project.getCollege());
             studentDto.setLeaderName(project.getSName());
             studentDto.setMemberNum(project.getMemberNum());
-            studentDto.setTAccount(project.getTAccount());
+            studentDto.setAccount(project.getTAccount());
             studentDto.setMemberInf(project.getMemberInf());
             Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
             if(teacherUserName != null){
