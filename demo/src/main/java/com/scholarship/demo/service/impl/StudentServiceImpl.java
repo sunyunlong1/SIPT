@@ -214,6 +214,7 @@ public class StudentServiceImpl implements StudentService {
             project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
+            project.setTApproval("待审批");
             studentDao.studentSave(project);
             if(siptProcess != null){
                 studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
@@ -242,6 +243,7 @@ public class StudentServiceImpl implements StudentService {
             project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
+            project.setTApproval("待审批");
             studentDao.updateSave(project,split[0],split[1]);
             if(siptProcess != null){
                 studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());

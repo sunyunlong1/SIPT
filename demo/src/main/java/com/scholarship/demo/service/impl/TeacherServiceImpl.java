@@ -44,7 +44,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public String approve(String key) {
         String[] split = key.split("::");
-        teacherDao.updateTApproval("pass",split[0],split[1]);
+        teacherDao.updateTApproval("pass",split[0],split[1],"已审批");
         return "审批成功";
     }
 

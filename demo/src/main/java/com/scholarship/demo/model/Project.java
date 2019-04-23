@@ -25,4 +25,5 @@ public class Project {
     private String avg;
     private String recordState;
     private String college;
+    private String trecordState;
 }
