@@ -1,7 +1,6 @@
 package com.scholarship.demo.service.impl;
 
-import com.scholarship.demo.api.JudgeViewRep;
-import com.scholarship.demo.api.JudgesSave;
+import com.scholarship.demo.api.*;
 import com.scholarship.demo.dao.JudgeDao;
 import com.scholarship.demo.model.Judges;
 import com.scholarship.demo.model.PGrade;
@@ -23,15 +22,17 @@ public class JudgeServiceImpl implements JudgeService {
     JudgeDao judgeDao;
 
     @Override
-    public Map<String,Object> view(String jAccount) {
-        Map<String,Object> resultMap = new HashMap<>();
+    public JudgeResult view(String jAccount) {
+        //List<JudgeResult> resultLIst = new ArrayList<>();
+        JudgeResult result = new JudgeResult();
 
-        Map<String, Object> result = new HashMap<>();
+        List<JudgeRep> judgeRepList = new ArrayList<>();
         String oStatus = "";
         String tStatus = "";
         Judges judges = judgeDao.selectById(jAccount);
         List<SiptProcess> siptProcessList = judgeDao.selectByConduct("流程中");
         for (SiptProcess siptProcess : siptProcessList) {
+            JudgeRep judgeRep = new JudgeRep();
             List<JudgeViewRep> resultList = new ArrayList<>();
             List<Project> projects = judgeDao.selectByCollege(judges.getCollege());
             for (Project project : projects) {
@@ -55,27 +56,31 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
                 }
                 resultList.add(judgeViewRep);
+                judgeRep.setData(resultList);
             }
-            result.put(siptProcess.getYear() + siptProcess.getStatus(), resultList);
+            judgeRep.setTitle(siptProcess.getYear() + siptProcess.getStatus());
+            judgeRepList.add(judgeRep);
         }
-        resultMap.put("待审批",result);
-        //已审批
-        Map<String, Object> Yresult = new HashMap<>();
+        result.setNotApproval(judgeRepList);
 
+        //已审批
+        //Map<String, Object> Yresult = new HashMap<>();
+        List<JudgeRep> YJudgeRepList = new ArrayList<>();
         for (SiptProcess siptProcess : siptProcessList) {
+            JudgeRep YJudgeRep = new JudgeRep();
             List<JudgeViewRep> resultList = new ArrayList<>();
             List<Project> projects = judgeDao.selectByCollege(judges.getCollege());
             for (Project project : projects) {
                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
                 JudgeViewRep judgeViewRep = new JudgeViewRep();
-                if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1){
+                if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1 && pGrade.getOneApply().equals("已提交")){
                     tStatus = pGrade.getOneApply();
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setGrade(String.valueOf(pGrade.getOneGrade()));
                     judgeViewRep.setInf(pGrade.getOneInf());
                     judgeViewRep.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
-                }else if(judges.getNumber().equals("two") && pGrade.getTwoGrade() != -1){
+                }else if(judges.getNumber().equals("two") && pGrade.getTwoGrade() != -1 && pGrade.getTwoApply().equals("已提交")){
                     tStatus = pGrade.getTwoApply();
 
                     judgeViewRep.setPType(project.getPType());
@@ -83,7 +88,7 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setGrade(String.valueOf(pGrade.getTwoGrade()));
                     judgeViewRep.setInf(pGrade.getTwoInf());
                     judgeViewRep.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
-                }else if(judges.getNumber().equals("three") && pGrade.getThreeGrade() != -1){
+                }else if(judges.getNumber().equals("three") && pGrade.getThreeGrade() != -1 && pGrade.getThreeApply().equals("已提交")){
                     tStatus = pGrade.getThreeApply();
 
                     judgeViewRep.setPType(project.getPType());
@@ -91,7 +96,7 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setGrade(String.valueOf(pGrade.getThreeGrade()));
                     judgeViewRep.setInf(pGrade.getThreeInf());
                     judgeViewRep.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
-                }else if(judges.getNumber().equals("four") && pGrade.getFourGrade() != -1){
+                }else if(judges.getNumber().equals("four") && pGrade.getFourGrade() != -1 && pGrade.getFourApply().equals("已提交")){
                     tStatus = pGrade.getFourApply();
 
 
@@ -102,31 +107,32 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
                 }
                 resultList.add(judgeViewRep);
-            }
-            Yresult.put(siptProcess.getYear() + siptProcess.getStatus(), resultList);
-            Yresult.put("status",tStatus);
-        }
+                YJudgeRep.setData(resultList);
 
-        resultMap.put("已审批",Yresult);
-        return resultMap;
+            }
+            YJudgeRep.setTitle(siptProcess.getYear() + siptProcess.getStatus());
+
+            YJudgeRepList.add(YJudgeRep);
+        }
+        result.setIsApproval(YJudgeRepList);
+        return result;
     }
 
     @Override
-    public String save(Map<String,Object> map) {
-        String  account = (String) map.get("account");
+    public String save(JudgeRepList list) {
+
+
+        String  account = list.getAccount();
         Judges judges = judgeDao.selectById(account);
-        JSONArray list = JSONArray.fromObject(map.get("table"));
-        Iterator<Object> it = list.iterator();
-        while (it.hasNext()) {
-            JSONObject ob = (JSONObject) it.next();
+        for(JudgeViewRep judgeViewRep : list.getData()){
 
        // for (JudgesSave judgesSave : judgesSaveList) {
-            String[] split = ob.getString("key").split("#");
+            String[] split = judgeViewRep.getKey().split("#");
             String year = split[0];
             String status = split[1];
             String leaderAccount = split[2];
-            String grade = ob.getString("grade");
-            String inf = ob.getString("inf");
+            String grade = judgeViewRep.getGrade();
+            String inf = judgeViewRep.getInf();
             if (judges.getNumber().equals("one")) {
                 judgeDao.updateOneGrade(leaderAccount, year, status, grade, inf);
             } else if (judges.getNumber().equals("two")) {
@@ -153,21 +159,19 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
     @Override
-    public String apply(Map<String,Object> map) {
+    public String apply(JudgeRepList list) {
         DecimalFormat df = new DecimalFormat("0.00");
-        String  account = (String) map.get("account");
+
+        String  account = list.getAccount();
         Judges judges = judgeDao.selectById(account);
-        JSONArray list = JSONArray.fromObject(map.get("table"));
-        Iterator<Object> it = list.iterator();
-        while (it.hasNext()) {
-            JSONObject ob = (JSONObject) it.next();
-        //for (JudgesSave judgesSave : judgesSaveList) {
-            String[] split = ob.getString("key").split("#");
+        for (JudgeViewRep judgeViewRep : list.getData()){
+
+            String[] split = judgeViewRep.getKey().split("#");
             String year = split[0];
             String status = split[1];
             String leaderAccount = split[2];
-            String grade = ob.getString("grade");
-            String inf = ob.getString("inf");
+            String grade = judgeViewRep.getGrade();
+            String inf = judgeViewRep.getInf();
             PGrade pGrade = judgeDao.selectByGId(leaderAccount, year, status);
             if (judges.getNumber().equals("one")) {
                 judgeDao.updateOneGrade(leaderAccount, year, status, grade, inf);
