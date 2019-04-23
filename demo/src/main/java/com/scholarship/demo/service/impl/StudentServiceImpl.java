@@ -349,7 +349,7 @@ public class StudentServiceImpl implements StudentService {
             }else{
                 loginResponse.setUserName("");
             }
-        }else{
+        }else if(loginDto.getRole().equals("管理员")){
             Admin admin = studentDao.getAdmin(loginDto.getAccount());
             if(loginDto.getPassword().equals(admin.getPassWord())){
                 loginResponse.setUserName(admin.getUserName());

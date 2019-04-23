@@ -1,7 +1,6 @@
 package com.scholarship.demo.service;
 
 import com.scholarship.demo.api.TeacherAppRep;
-import com.scholarship.demo.api.TeacherApprove;
 import com.scholarship.demo.api.TeacherMyProject;
 import org.springframework.stereotype.Service;
 
