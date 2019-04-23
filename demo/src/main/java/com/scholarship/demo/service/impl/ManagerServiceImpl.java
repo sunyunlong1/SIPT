@@ -253,36 +253,36 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
 
-    public List<String> findNum(String college) {
-        Integer index = 0;
-        List<Judges> judgeList = managerDao.selectByJAccount(college);
-        String s = "";
-        List<SiptProcess> siptProcessList = judgeDao.selectByConduct("流程中");
-        List<String> result = new ArrayList<>();
-        for (SiptProcess siptProcess : siptProcessList) {
-            for (Judges judge : judgeList) {
-                List<JudgeViewRep> resultList = new ArrayList<>();
-                List<Project> projects = judgeDao.selectByCollege(judge.getCollege());
-                for (Project project : projects) {
-                    PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
-                    JudgeViewRep judgeViewRep = new JudgeViewRep();
-                    if (judge.getNumber().equals("one") && pGrade.getOneGrade() == -1) {
-                        resultList.add(judgeViewRep);
-                    } else if (judge.getNumber().equals("two") && pGrade.getTwoGrade() == -1) {
-                        resultList.add(judgeViewRep);
-                    } else if (judge.getNumber().equals("three") && pGrade.getThreeGrade() == -1) {
-                        resultList.add(judgeViewRep);
-                    } else if (judge.getNumber().equals("four") && pGrade.getFourGrade() == -1) {
-                        resultList.add(judgeViewRep);
-                    }
-                }
-                if(resultList.size() == 0){
-                    index++;
-                }
-            }
-            s = siptProcess.getStatus()+"::"+index;
-            result.add(s);
-        }
-        return result;
-    }
+//    public List<String> findNum(String college) {
+//        Integer index = 0;
+//        List<Judges> judgeList = managerDao.selectByJAccount(college);
+//        String s = "";
+//        List<SiptProcess> siptProcessList = judgeDao.selectByConduct("流程中");
+//        List<String> result = new ArrayList<>();
+//        for (SiptProcess siptProcess : siptProcessList) {
+//            for (Judges judge : judgeList) {
+//                List<JudgeViewRep> resultList = new ArrayList<>();
+//                List<Project> projects = judgeDao.selectByCollege(judge.getCollege());
+//                for (Project project : projects) {
+//                    PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
+//                    JudgeViewRep judgeViewRep = new JudgeViewRep();
+//                    if (judge.getNumber().equals("one") && pGrade.getOneGrade() == -1) {
+//                        resultList.add(judgeViewRep);
+//                    } else if (judge.getNumber().equals("two") && pGrade.getTwoGrade() == -1) {
+//                        resultList.add(judgeViewRep);
+//                    } else if (judge.getNumber().equals("three") && pGrade.getThreeGrade() == -1) {
+//                        resultList.add(judgeViewRep);
+//                    } else if (judge.getNumber().equals("four") && pGrade.getFourGrade() == -1) {
+//                        resultList.add(judgeViewRep);
+//                    }
+//                }
+//                if(resultList.size() == 0){
+//                    index++;
+//                }
+//            }
+//            s = siptProcess.getStatus()+"::"+index;
+//            result.add(s);
+//        }
+//        return result;
+//    }
 }
