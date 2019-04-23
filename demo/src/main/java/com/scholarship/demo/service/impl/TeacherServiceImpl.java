@@ -34,7 +34,7 @@ public class TeacherServiceImpl implements TeacherService {
                 teacherAppRep.setSName(project.getSName());
                 teacherAppRep.setStatus(siptProcess.getStatus());
                 teacherAppRep.setTName(project.getTName());
-                teacherAppRep.setKey(project.getSAccount()+"#"+project.getYear());
+                teacherAppRep.setKey(project.getSAccount()+"::"+project.getYear());
                 result.add(teacherAppRep);
             }
         }
@@ -43,7 +43,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public String approve(String key) {
-        String[] split = key.split("#");
+        String[] split = key.split("::");
         teacherDao.updateTApproval("pass",split[0],split[1]);
         return "审批成功";
     }
@@ -64,7 +64,7 @@ public class TeacherServiceImpl implements TeacherService {
                 teacherMyProject.setPName(project.getPName());
                 teacherMyProject.setPSource(project.getPSource());
                 teacherMyProject.setStatus(siptProcess.getStatus());
-                teacherMyProject.setKey(project.getSAccount()+"#"+project.getYear());
+                teacherMyProject.setKey(project.getSAccount()+"::"+project.getYear());
                 result.add(teacherMyProject);
             }
         }

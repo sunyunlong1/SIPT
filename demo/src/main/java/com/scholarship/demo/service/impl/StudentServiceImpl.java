@@ -31,13 +31,13 @@ public class StudentServiceImpl implements StudentService {
         }else if(siptProcessList.size() == 1){
             KeyUser keyUser = new KeyUser();
             result.setProcessName(siptProcessList.get(0).getYear()+" SIPT "+siptProcessList.get(0).getStatus());
-            result.setKey(account+"#"+siptProcessList.get(0).getYear());
+            result.setKey(account+"::"+siptProcessList.get(0).getYear());
             result.setStartTime(siptProcessList.get(0).getStartTime());
             result.setEndTime(siptProcessList.get(0).getEndTime());
             result.setIsCollect(siptProcessList.get(0).getIsCollect());
             Project project = studentDao.selectByAccountAndYear(account, siptProcessList.get(0).getYear());
             if(project != null){
-                keyUser.setKey(account+"#"+siptProcessList.get(0).getYear());
+                keyUser.setKey(account+"::"+siptProcessList.get(0).getYear());
                 keyUser.setFileName(project.getPName());
                 keyUser.setStatus(siptProcessList.get(0).getStatus());
                 keyUserList.add(keyUser);
@@ -58,13 +58,13 @@ public class StudentServiceImpl implements StudentService {
                 if(project != null){
                     keyUser.setStatus(siptProcessList.get(0).getStatus());
                     keyUser.setFileName(project.getPName());
-                    keyUser.setKey(account+"#"+year);
+                    keyUser.setKey(account+"::"+year);
                     keyUserList.add(keyUser);
                 }
                 if(nProject != null){
                     nkeyUser.setStatus(siptProcessList.get(1).getStatus());
                     nkeyUser.setFileName(nProject.getPName());
-                    nkeyUser.setKey(account+"#"+nYear);
+                    nkeyUser.setKey(account+"::"+nYear);
                     keyUserList.add(nkeyUser);
                 }
                 result.setProjectList(keyUserList);
@@ -81,13 +81,13 @@ public class StudentServiceImpl implements StudentService {
                 if(project != null){
                     nkeyUser.setStatus(siptProcessList.get(0).getStatus());
                     nkeyUser.setFileName(project.getPName());
-                    nkeyUser.setKey(account+"#"+year);
+                    nkeyUser.setKey(account+"::"+year);
                     keyUserList.add(nkeyUser);
                 }
                 if(nProject != null){
                     keyUser.setStatus(siptProcessList.get(1).getStatus());
                     keyUser.setFileName(nProject.getPName());
-                    keyUser.setKey(account+"#"+nYear);
+                    keyUser.setKey(account+"::"+nYear);
                     keyUserList.add(keyUser);
                 }
                 result.setProjectList(keyUserList);
@@ -118,7 +118,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String studentSave(StudentRequestDto studentRequestDto) {
-        String[] split = studentRequestDto.getKey().split("#");
+        String[] split = studentRequestDto.getKey().split("::");
         //先查询是否有记录
         Project project = new Project();
 
@@ -180,7 +180,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String studentApply(StudentRequestDto studentRequestDto) {
-        String[] split = studentRequestDto.getKey().split("#");
+        String[] split = studentRequestDto.getKey().split("::");
         SiptProcess siptProcess = studentDao.selectByYear(split[1]);
 
         //先查询是否有已提交的项目，如果有直接return，如果没有则继续判断
@@ -248,7 +248,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Map<String,Object> edit(Key key) {
-        String[] split = key.getKey().split("#");
+        String[] split = key.getKey().split("::");
         Map<String,Object> resultMap = new HashMap<>();
         Project project = studentDao.selectByAccountAndYear(split[0],split[1]);
         StudentRequestDto studentDto = new StudentRequestDto();
@@ -290,7 +290,7 @@ public class StudentServiceImpl implements StudentService {
         for (Project project : projects) {
             MyProjectDto myProjectDto = new MyProjectDto();
             myProjectDto.setPName(project.getPName());
-            myProjectDto.setKey(leaderAccount+"#"+project.getYear());
+            myProjectDto.setKey(leaderAccount+"::"+project.getYear());
             myProjectDto.setUserName(project.getSName());
             myProjectDto.setMemberInf(project.getMemberInf());
             myProjectDto.setTeacherName(project.getTName());

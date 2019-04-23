@@ -44,7 +44,7 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDto.setTName(project.getTName());
                     managerDto.setPName(project.getPName());
                     managerDto.setPType(project.getPType());
-                    managerDto.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
+                    managerDto.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
                     PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), siptProcessList.get(0).getYear(), siptProcess.getStatus());
                     if(pGrade != null){
                         managerDto.setOneGrade(pGrade.getOneGrade() == -1 ? 0 : pGrade.getOneGrade());
@@ -56,7 +56,7 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDtos.add(managerDto);
 
                 }
-                unifiedTable.setKey(siptProcess.getYear()+"#"+siptProcess.getStatus());
+                unifiedTable.setKey(siptProcess.getYear()+"::"+siptProcess.getStatus());
                 resultMap.put(siptProcess.getYear() + siptProcess.getStatus(), managerDtos);
                 unifiedTable.setManagerDtoList(resultMap);
 
@@ -144,7 +144,7 @@ public class ManagerServiceImpl implements ManagerService {
         Admin admin = managerDao.selectById(account);
         if (admin.getLevel().equals("校级")) {
             for (Key key : keyList) {
-                String[] split = key.getKey().split("#");
+                String[] split = key.getKey().split("::");
                 year = split[0];
                 managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
             }
@@ -152,7 +152,7 @@ public class ManagerServiceImpl implements ManagerService {
             managerDao.UpdateCollect("已提交", year);
         } else {
             for (Key key : keyList) {
-                String[] split = key.getKey().split("#");
+                String[] split = key.getKey().split("::");
                 managerDao.UpdatePGradeCLevel(split[2], split[0], split[1], key.getLevel());
             }
             managerDao.updateApply(account, "已提交");
@@ -165,7 +165,7 @@ public class ManagerServiceImpl implements ManagerService {
         //String year = name.substring(0, 4);
         //String status = name.substring(4, name.length());
 
-        String[] split = name.split("#");
+        String[] split = name.split("::");
         String year = split[0];
         String status = split[1];
 
@@ -190,7 +190,7 @@ public class ManagerServiceImpl implements ManagerService {
             overviewResponse.setSum(integer);
             overviewResponse.setPStatus(siptProcess.getStatus());
             overviewResponse.setIsCollect(siptProcess.getIsCollect());
-            overviewResponse.setKey(siptProcess.getYear() + "#" + siptProcess.getStatus());
+            overviewResponse.setKey(siptProcess.getYear() + "::" + siptProcess.getStatus());
             resultList.add(overviewResponse);
         }
         return resultList;
@@ -198,7 +198,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public List<ManagerViewProject> details(Key key) {
-        String[] split = key.getKey().split("#");
+        String[] split = key.getKey().split("::");
         List<ManagerViewProject> result = new ArrayList<>();
         String year = split[0];
         SiptProcess siptProcess = managerDao.selectByYear(year);
@@ -217,7 +217,7 @@ public class ManagerServiceImpl implements ManagerService {
             managerViewProject.setLeaderUserName(project.getSName());
             managerViewProject.setPName(project.getPName());
             managerViewProject.setPSource(project.getPSource());
-            managerViewProject.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
+            managerViewProject.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
             result.add(managerViewProject);
         }
         return result;
@@ -280,7 +280,7 @@ public class ManagerServiceImpl implements ManagerService {
                     index++;
                 }
             }
-            s = siptProcess.getStatus()+"#"+index;
+            s = siptProcess.getStatus()+"::"+index;
             result.add(s);
         }
         return result;
