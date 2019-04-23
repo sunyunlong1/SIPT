@@ -47,11 +47,11 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDto.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
                     PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), siptProcessList.get(0).getYear(), siptProcess.getStatus());
                     if(pGrade != null){
-                        managerDto.setOneGrade(pGrade.getOneGrade() == -1 ? 0 : pGrade.getOneGrade());
-                        managerDto.setTwoGrade(pGrade.getTwoGrade() == -1 ? 0 : pGrade.getOneGrade());
-                        managerDto.setThreeGrade(pGrade.getThreeGrade() == -1 ? 0 : pGrade.getThreeGrade());
-                        managerDto.setFourGrade(pGrade.getFourGrade() == -1 ? 0 :pGrade.getFourGrade());
-                        managerDto.setPgAvg(pGrade.getPgAvg());
+                        managerDto.setOneGrade(pGrade.getOneGrade() == -1 ? "-" : String.valueOf(pGrade.getOneGrade()));
+                        managerDto.setTwoGrade(pGrade.getTwoGrade() == -1 ? "-" : String.valueOf(pGrade.getOneGrade()));
+                        managerDto.setThreeGrade(pGrade.getThreeGrade() == -1 ? "-" : String.valueOf(pGrade.getThreeGrade()));
+                        managerDto.setFourGrade(pGrade.getFourGrade() == -1 ? "-" :String.valueOf(pGrade.getFourGrade()));
+                        managerDto.setPgAvg(pGrade.getPgAvg() == 0.00 ? "-" :String.valueOf(pGrade.getPgAvg()));
                     }
                     managerDtos.add(managerDto);
 

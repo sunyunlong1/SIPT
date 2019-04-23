@@ -187,7 +187,7 @@ public class JudgeServiceImpl implements JudgeService {
             } else {
                 return "您已提交";
             }
-            if(pGrade.getOneGrade() != 0 && pGrade.getTwoGrade() != 0 && pGrade.getTwoGrade() != 0 && pGrade.getFourGrade() != 0){
+            if(pGrade.getOneGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getFourGrade() != -1){
                 int one = pGrade.getOneGrade();
                 int two = pGrade.getTwoGrade();
                 int three = pGrade.getThreeGrade();

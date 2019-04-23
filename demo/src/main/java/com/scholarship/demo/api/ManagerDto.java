@@ -12,10 +12,10 @@ public class ManagerDto {
     private String tName;
     private String pType;
     private String pName;
-    private int oneGrade;
-    private int twoGrade;
-    private int threeGrade;
-    private int fourGrade;
-    private double pgAvg;
+    private String oneGrade;
+    private String twoGrade;
+    private String threeGrade;
+    private String fourGrade;
+    private String pgAvg;
     private String level;
 }
