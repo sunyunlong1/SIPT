@@ -10,6 +10,7 @@ public class MyProjectDto {
     private String memberInf;
     private String teacherName;
     private String recordStatus;
+    private String trecordStatus;
     private String pStatus;
     private String year;
     private String avg;

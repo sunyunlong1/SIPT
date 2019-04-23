@@ -302,6 +302,11 @@ public class StudentServiceImpl implements StudentService {
             myProjectDto.setTeacherName(project.getTName());
             myProjectDto.setRecordStatus(project.getRecordState());
             myProjectDto.setYear(project.getYear());
+            if (project.getTrecordState().equals("")){
+                myProjectDto.setTrecordStatus("-");
+            }else{
+                myProjectDto.setTrecordStatus(project.getTrecordState());
+            }
             SiptProcess siptProcess = studentDao.selectByYear(project.getYear());
             myProjectDto.setPStatus(siptProcess.getStatus());
             if (project != null || !project.getAvg().equals("")) {
