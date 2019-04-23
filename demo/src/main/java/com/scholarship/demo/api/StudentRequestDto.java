@@ -51,11 +51,6 @@ public class StudentRequestDto {
     private String account;
 
     /**
-     * 指导教师职称
-     */
-    private String teacherTitle;
-
-    /**
      * 项目涞源
      */
     private String source;

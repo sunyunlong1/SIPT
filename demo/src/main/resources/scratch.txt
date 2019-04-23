@@ -168,7 +168,6 @@ localhost:8080/student/save
 	"memberNum":"5",
 	"memberInf":"汤敏锐，殷珂",
 	"teacherName":"李晓明",
-	"teacherTitle":"教授",
 	"source":"学生自拟",
 	"code":"000002",
 	"introduction":"毕设项目",
@@ -234,7 +233,6 @@ localhost:8080/student/edit
             "pathThird": "",
             "source": "学生自拟",
             "teacherName": "李晓明",
-            "teacherTitle": "教授",
             "type": "创新项目"
         },
         "recordState": "已提交"

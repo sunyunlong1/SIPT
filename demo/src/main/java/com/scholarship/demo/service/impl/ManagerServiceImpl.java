@@ -25,17 +25,17 @@ public class ManagerServiceImpl implements ManagerService {
     public ManagerTableDto currentProcess(String account) {
         //int index = 0;
         ManagerTableDto result = new ManagerTableDto();
-        Map<String, List<ManagerDto>> resultMap = new HashMap<>();
         List<UnifiedTable> unifiedTables = new ArrayList<>();
-        List<ManagerDto> managerDtos = new ArrayList<>();
         Admin admin = managerDao.selectById(account);
         List<SiptProcess> siptProcessList = managerDao.selectByConduct("流程中");
         if (siptProcessList.size() == 0) {
             return null;
         } else {
             for (SiptProcess siptProcess : siptProcessList) {
+                Map<String, List<ManagerDto>> resultMap = new HashMap<>();
                 UnifiedTable unifiedTable = new UnifiedTable();
-                List<Project> projects = managerDao.selectBySidYear(admin.getCollege(), siptProcessList.get(0).getYear(),"已保存");
+                List<Project> projects = managerDao.selectBySidYear(admin.getCollege(), siptProcess.getYear(),"已保存");
+                List<ManagerDto> managerDtos = new ArrayList<>();
                 for (Project project : projects) {
                     ManagerDto managerDto = new ManagerDto();
                     managerDto.setCollege(project.getCollege());
@@ -45,14 +45,18 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDto.setPType(project.getPType());
                     managerDto.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
                     PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), siptProcessList.get(0).getYear(), siptProcess.getStatus());
-                    managerDto.setOneGrade(pGrade.getOneGrade());
-                    managerDto.setTwoGrade(pGrade.getTwoGrade());
-                    managerDto.setThreeGrade(pGrade.getThreeGrade());
-                    managerDto.setFourGrade(pGrade.getFourGrade());
-                    managerDto.setPgAvg(pGrade.getPgAvg());
+                    if(pGrade != null){
+                        managerDto.setOneGrade(pGrade.getOneGrade() == -1 ? 0 : pGrade.getOneGrade());
+                        managerDto.setTwoGrade(pGrade.getTwoGrade() == -1 ? 0 : pGrade.getOneGrade());
+                        managerDto.setThreeGrade(pGrade.getThreeGrade() == -1 ? 0 : pGrade.getThreeGrade());
+                        managerDto.setFourGrade(pGrade.getFourGrade() == -1 ? 0 :pGrade.getFourGrade());
+                        managerDto.setPgAvg(pGrade.getPgAvg());
+                    }
                     managerDtos.add(managerDto);
+
                 }
-                resultMap.put(siptProcessList.get(0).getYear() + siptProcess.getStatus(), managerDtos);
+                unifiedTable.setKey(siptProcess.getYear()+"#"+siptProcess.getStatus());
+                resultMap.put(siptProcess.getYear() + siptProcess.getStatus(), managerDtos);
                 unifiedTable.setManagerDtoList(resultMap);
 
 
@@ -157,8 +161,12 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public String stop(String name) {
-        String year = name.substring(0, 4);
-        String status = name.substring(4, name.length());
+        //String year = name.substring(0, 4);
+        //String status = name.substring(4, name.length());
+
+        String[] split = name.split("#");
+        String year = split[0];
+        String status = split[1];
 
         SiptProcess siptProcess = managerDao.selectByYear(year);
         if (!siptProcess.getIsCollect().equals("收取材料")) {
@@ -197,7 +205,7 @@ public class ManagerServiceImpl implements ManagerService {
         for (Project project : projects) {
             ManagerViewProject managerViewProject = new ManagerViewProject();
             PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), project.getYear(), siptProcess.getStatus());
-            if (pGrade.getLevel() == null || pGrade.getLevel().equals("")) {
+            if (pGrade == null || pGrade.getLevel() == null || pGrade.getLevel().equals("")) {
                 managerViewProject.setAvg("-");
             } else {
                 managerViewProject.setAvg(pGrade.getLevel());

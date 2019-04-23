@@ -121,7 +121,14 @@ public class StudentServiceImpl implements StudentService {
         String[] split = studentRequestDto.getKey().split("#");
         //先查询是否有记录
         Project project = new Project();
-        Project projectFirst = studentDao.selectByAccountAndYear(studentRequestDto.getLeaderAccount(),split[1]);
+
+        //查询是否有已提交项目，防止url攻击
+        Project projectApply = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(), split[1], "已保存");
+        if(projectApply != null){
+            return "您已提交项目，不可重复保存";
+        }
+        //查询是否有已保存的，如果没有，插入，如果有更新所有字段
+        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1],"已提交");
         if(projectFirst == null){
             project.setPName(studentRequestDto.getName());
             project.setPType(studentRequestDto.getType());
@@ -165,7 +172,7 @@ public class StudentServiceImpl implements StudentService {
             project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已保存");
-            studentDao.updateSave(project);
+            studentDao.updateSave(project,split[0],split[1]);
            // studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
         }
         return "保存成功";
@@ -175,8 +182,14 @@ public class StudentServiceImpl implements StudentService {
     public String studentApply(StudentRequestDto studentRequestDto) {
         String[] split = studentRequestDto.getKey().split("#");
         SiptProcess siptProcess = studentDao.selectByYear(split[1]);
+
+        //先查询是否有已提交的项目，如果有直接return，如果没有则继续判断
+        Project projectApply = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1],"已保存");
+        if(projectApply != null){
+            return "您已有提交的项目不可重复提交";
+        }
         //先查询是否有记录
-        Project projectFirst = studentDao.selectByAccountAndYear(split[0],split[1]);
+        Project projectFirst = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1],"已提交");
         if(projectFirst == null){
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
@@ -202,36 +215,6 @@ public class StudentServiceImpl implements StudentService {
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
             studentDao.studentSave(project);
-
-
-            studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
-
-        }else if(projectFirst.getRecordState().equals("已保存")){
-            Project project = new Project();
-            project.setPName(studentRequestDto.getName());
-            project.setPType(studentRequestDto.getType());
-            project.setSAccount(studentRequestDto.getLeaderAccount());
-            project.setSName(studentRequestDto.getLeaderName());
-            project.setMemberNum(studentRequestDto.getMemberNum());
-            project.setMemberInf(studentRequestDto.getMemberInf());
-            Teacher  teacherAccount = studentDao.getTeacherAccount(studentRequestDto.getAccount());
-            if (teacherAccount == null) {
-                return "指导教师不存在";
-            }else{
-                project.setTAccount(studentRequestDto.getAccount());
-                project.setTName(studentRequestDto.getTeacherName());
-            }
-            project.setPSource(studentRequestDto.getSource());
-            project.setPCode(studentRequestDto.getCode());
-            project.setPIntroduction(studentRequestDto.getIntroduction());
-            project.setPathFirst(studentRequestDto.getPathFirst());
-            project.setPathSecond(studentRequestDto.getPathSecond());
-            project.setPathThird(studentRequestDto.getPathThird());
-            project.setYear(split[1]);
-            project.setCollege(studentRequestDto.getLeaderCollege());
-            project.setRecordState("已提交");
-            studentDao.updateSave(project);
-            studentDao.updateProject("已提交", studentRequestDto.getLeaderAccount(),split[1]);
             studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
         }else{
             Project project = new Project();
@@ -257,9 +240,7 @@ public class StudentServiceImpl implements StudentService {
             project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
-            studentDao.updateSave(project);
-
-            studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
+            studentDao.updateSave(project,split[0],split[1]);
             studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
         }
         return "提交成功";
@@ -283,10 +264,8 @@ public class StudentServiceImpl implements StudentService {
             Teacher teacherUserName = studentDao.getTeacherUserName(project.getTAccount());
             if(teacherUserName != null){
                 studentDto.setTeacherName(teacherUserName.getUserName());
-                studentDto.setTeacherTitle(teacherUserName.getTitle());
             }else{
                 studentDto.setTeacherName(project.getTName());
-                studentDto.setTeacherTitle("");
             }
             studentDto.setSource(project.getPSource());
             studentDto.setCode(project.getPCode());

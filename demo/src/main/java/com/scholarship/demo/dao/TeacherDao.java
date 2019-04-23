@@ -18,7 +18,7 @@ public interface TeacherDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByYear(String year);
 
-    @Select({"<script> select * from project where tAccount = #{tAccount} and year = #{year} and tApproval = '1' </script>"})
+    @Select({"<script> select * from project where tAccount = #{tAccount} and year = #{year} and tApproval = '' </script>"})
     @ResultType(Project.class)
     List<Project> selectByTidAndYear(String tAccount,String year);
 

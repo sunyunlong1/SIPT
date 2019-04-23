@@ -23,7 +23,11 @@ public class TeacherController {
     @ResponseBody
     public String pApproval(@RequestBody LoginDto loginDto){
         List<TeacherAppRep> result = teacherService.pApproval(loginDto.getAccount());
-        return JSON.toJSONString(new Result(200,"-",result));
+        if(result == null || result.size() == 0){
+            return JSON.toJSONString(new Result(200,"暂无待审批项目","null"));
+        }else{
+            return JSON.toJSONString(new Result(200,"-",result));
+        }
     }
 
     @RequestMapping("/approve")
