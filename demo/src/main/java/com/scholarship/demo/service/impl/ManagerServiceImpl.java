@@ -76,7 +76,7 @@ public class ManagerServiceImpl implements ManagerService {
                 unifiedTable.setCurrentProcess(siptProcess.getYear()+siptProcess.getStatus());
 
                 if (admin.getLevel().equals("院级")) {
-                    if (siptProcess.getIsCollect().equals("收集材料")) {
+                    if (siptProcess.getIsCollect().equals("收取材料")) {
                         unifiedTable.setState(siptProcess.getIsCollect());
                     }else if(!admin.getIsApply().equals("-")){
                         unifiedTable.setState(admin.getIsApply());
