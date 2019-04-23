@@ -181,7 +181,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public String studentApply(StudentRequestDto studentRequestDto) {
         String[] split = studentRequestDto.getKey().split("::");
-        SiptProcess siptProcess = studentDao.selectByYear(split[1]);
+        SiptProcess siptProcess = studentDao.selectByYearAndConduct(split[1],"流程中");
 
         //先查询是否有已提交的项目，如果有直接return，如果没有则继续判断
         Project projectApply = studentDao.selectByLeaderAccountAndYear(studentRequestDto.getLeaderAccount(),split[1],"已保存");

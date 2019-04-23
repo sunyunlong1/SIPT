@@ -93,6 +93,10 @@ public interface StudentDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByYear(String year);
 
+    @Select({"<script> select * from process where year = #{year} and isConduct = #{isConduct} </script>"})
+    @ResultType(SiptProcess.class)
+    SiptProcess selectByYearAndConduct(String year,String isConduct);
+
     @Select({"<script> select * from process where isConduct = #{isConduct} </script>"})
     @ResultType(SiptProcess.class)
     List<SiptProcess> selectByConduct(String isConduct);
