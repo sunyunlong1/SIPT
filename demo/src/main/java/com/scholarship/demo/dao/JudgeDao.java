@@ -16,9 +16,9 @@ public interface JudgeDao {
     @ResultType(Project.class)
     List<Project> selectByJidANdYear(String jAccount,String year);
 
-    @Select({"<script> select * from process where isConduct = #{isConduct} </script>"})
+    @Select({"<script> select * from process where isConduct = #{isConduct} and isCollect = #{isCollect} </script>"})
     @ResultType(SiptProcess.class)
-    List<SiptProcess> selectByConduct(String isConduct);
+    List<SiptProcess> selectByConduct(String isCollect,String isConduct);
 
     @Select({"<script> select * from judges where account = #{account} </script>"})
     @ResultType(Judges.class)

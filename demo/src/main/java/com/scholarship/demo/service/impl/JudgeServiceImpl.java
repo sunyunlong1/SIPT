@@ -32,7 +32,7 @@ public class JudgeServiceImpl implements JudgeService {
         String oStatus = "";
         String tStatus = "";
         Judges judges = judgeDao.selectById(jAccount);
-        List<SiptProcess> siptProcessList = judgeDao.selectByConduct("流程中");
+        List<SiptProcess> siptProcessList = judgeDao.selectByConduct("正在审批","流程中");
         for (SiptProcess siptProcess : siptProcessList) {
             JudgeRep judgeRep = new JudgeRep();
             List<JudgeViewRep> resultList = new ArrayList<>();
