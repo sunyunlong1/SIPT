@@ -215,7 +215,9 @@ public class StudentServiceImpl implements StudentService {
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
             studentDao.studentSave(project);
-            studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
+            if(siptProcess != null){
+                studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
+            }
         }else{
             Project project = new Project();
             project.setPName(studentRequestDto.getName());
@@ -241,7 +243,9 @@ public class StudentServiceImpl implements StudentService {
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
             studentDao.updateSave(project,split[0],split[1]);
-            studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
+            if(siptProcess != null){
+                studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
+            }
         }
         return "提交成功";
     }
