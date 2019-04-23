@@ -11,6 +11,7 @@ public class ManagerDto {
     private String leaderAccount;
     private String tName;
     private String pType;
+    private String pName;
     private int oneGrade;
     private int twoGrade;
     private int threeGrade;

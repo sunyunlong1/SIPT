@@ -42,6 +42,7 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDto.setLeaderName(project.getSName());
                     managerDto.setLeaderAccount(project.getSAccount());
                     managerDto.setTName(project.getTName());
+                    managerDto.setPName(project.getPName());
                     managerDto.setPType(project.getPType());
                     managerDto.setKey(project.getYear() + "#" + siptProcess.getStatus() + "#" + project.getSAccount());
                     PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), siptProcessList.get(0).getYear(), siptProcess.getStatus());
