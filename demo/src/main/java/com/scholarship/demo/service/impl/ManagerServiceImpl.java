@@ -34,7 +34,7 @@ public class ManagerServiceImpl implements ManagerService {
             for (SiptProcess siptProcess : siptProcessList) {
                 Map<String, List<ManagerDto>> resultMap = new HashMap<>();
                 UnifiedTable unifiedTable = new UnifiedTable();
-                List<Project> projects = managerDao.selectBySidYear(admin.getCollege(), siptProcess.getYear(),"已保存");
+                List<Project> projects = managerDao.selectBySidYear(admin.getCollege(), siptProcess.getYear(),"已保存","pass");
                 List<ManagerDto> managerDtos = new ArrayList<>();
                 for (Project project : projects) {
                     ManagerDto managerDto = new ManagerDto();
