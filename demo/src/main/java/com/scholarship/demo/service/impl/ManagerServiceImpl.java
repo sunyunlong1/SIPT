@@ -117,7 +117,7 @@ public class ManagerServiceImpl implements ManagerService {
                                 unifiedTable.setState("待提交");
                                 managerDao.UpdateCollect("待提交",siptProcess.getYear());
                             }else{
-                                unifiedTable.setState(siptProcessList.get(0).getIsCollect());
+                                unifiedTable.setState(siptProcess.getIsCollect());
                             }
                         }else{
                             unifiedTable.setState(siptProcess.getIsCollect());

@@ -106,7 +106,7 @@ public interface ManagerDao {
     @ResultType(Judges.class)
     List<Judges> selectByJAccount(String college);
 
-    @Select({"<script> select * from admin where isApply != '-' and level = #{level} </script>"})
+    @Select({"<script> select * from admin where isApply = '-' and level = #{level} </script>"})
     @ResultType(Admin.class)
     List<Admin> selectAllIsApply(String level);
 
