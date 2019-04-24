@@ -130,38 +130,45 @@ public class JudgeServiceImpl implements JudgeService {
 
         String  account = list.getAccount();
         Judges judges = judgeDao.selectById(account);
-        for(JudgeViewRep judgeViewRep : list.getData()){
+        List<JudgeViewRep> data = list.getData();
+        if (data != null){
+            for(JudgeViewRep judgeViewRep : data){
 
-       // for (JudgesSave judgesSave : judgesSaveList) {
-            String[] split = judgeViewRep.getKey().split("::");
-            String year = split[0];
-            String status = split[1];
-            String leaderAccount = split[2];
-            String grade = judgeViewRep.getGrade();
-            String inf = judgeViewRep.getInf();
-            if (judges.getNumber().equals("one")) {
-                judgeDao.updateOneGrade(leaderAccount, year, status, grade, inf);
-            } else if (judges.getNumber().equals("two")) {
-                judgeDao.updateTwoGrade(leaderAccount, year, status, grade, inf);
-            } else if (judges.getNumber().equals("three")) {
-                judgeDao.updateThreeGrade(leaderAccount, year, status, grade, inf);
-            } else if (judges.getNumber().equals("four")) {
-                judgeDao.updateFourGrade(leaderAccount, year, status, grade, inf);
-                //todo 计算平均分
-            } else {
-                return "您已提交";
+                // for (JudgesSave judgesSave : judgesSaveList) {
+                String[] split = judgeViewRep.getKey().split("::");
+                String year = split[0];
+                String status = split[1];
+                String leaderAccount = split[2];
+                String grade = judgeViewRep.getGrade();
+                String inf = judgeViewRep.getInf();
+                if (judges.getNumber().equals("one")) {
+                    judgeDao.updateOneGrade(leaderAccount, year, status, grade, inf);
+                } else if (judges.getNumber().equals("two")) {
+                    judgeDao.updateTwoGrade(leaderAccount, year, status, grade, inf);
+                } else if (judges.getNumber().equals("three")) {
+                    judgeDao.updateThreeGrade(leaderAccount, year, status, grade, inf);
+                } else if (judges.getNumber().equals("four")) {
+                    judgeDao.updateFourGrade(leaderAccount, year, status, grade, inf);
+                    //todo 计算平均分
+                } else {
+                    return "您已提交";
+                }
+                if(judges.getNumber().equals("one")){
+                    judgeDao.updateOneApply(leaderAccount, year, status, "已保存");
+                }else if(judges.getNumber().equals("two")){
+                    judgeDao.updateTwoApply(leaderAccount, year, status, "已保存");
+                }else if(judges.getNumber().equals("three")){
+                    judgeDao.updateThreeApply(leaderAccount, year, status, "已保存");
+                }else if(judges.getNumber().equals("four")){
+                    judgeDao.updateFourApply(leaderAccount, year, status, "已保存");
+                }
             }
-            if(judges.getNumber().equals("one")){
-                judgeDao.updateOneApply(leaderAccount, year, status, "已保存");
-            }else if(judges.getNumber().equals("two")){
-                judgeDao.updateTwoApply(leaderAccount, year, status, "已保存");
-            }else if(judges.getNumber().equals("three")){
-                judgeDao.updateThreeApply(leaderAccount, year, status, "已保存");
-            }else if(judges.getNumber().equals("four")){
-                judgeDao.updateFourApply(leaderAccount, year, status, "已保存");
-            }
+            return "已成功保存";
+        }else{
+            return "未成功保存";
         }
-        return "已成功保存";
+
+
     }
 
     @Override
