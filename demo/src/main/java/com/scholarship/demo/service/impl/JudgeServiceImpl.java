@@ -34,7 +34,7 @@ public class JudgeServiceImpl implements JudgeService {
         Judges judges = judgeDao.selectById(jAccount);
         List<SiptProcess> siptProcessList = judgeDao.selectByConduct("正在审批","流程中");
         for (SiptProcess siptProcess : siptProcessList) {
-            JudgeRep judgeRep = new JudgeRep();
+            JudgeRep judgeRep = null;
             List<JudgeViewRep> resultList = new ArrayList<>();
             List<Project> projects = judgeDao.selectByCollege(judges.getCollege());
             for (Project project : projects) {
@@ -80,7 +80,7 @@ public class JudgeServiceImpl implements JudgeService {
             List<Project> projects = judgeDao.selectByCollege(judges.getCollege());
             for (Project project : projects) {
                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
-                JudgeViewRep judgeViewRep = new JudgeViewRep();
+                JudgeViewRep judgeViewRep = null;
                 if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getOneApply();
                     judgeViewRep.setPType(project.getPType());
