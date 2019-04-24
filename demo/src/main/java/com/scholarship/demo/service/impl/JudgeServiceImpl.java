@@ -60,7 +60,9 @@ public class JudgeServiceImpl implements JudgeService {
                 if (judgeViewRep != null){
                     resultList.add(judgeViewRep);
                 }
-                judgeRep.setData(resultList);
+                if (resultList !=null){
+                    judgeRep.setData(resultList);
+                }
             }
             judgeRep.setTitle(siptProcess.getYear() + siptProcess.getStatus());
             if (judgeRep != null){
@@ -79,14 +81,14 @@ public class JudgeServiceImpl implements JudgeService {
             for (Project project : projects) {
                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
                 JudgeViewRep judgeViewRep = new JudgeViewRep();
-                if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1 && pGrade.getOneApply().equals("已提交")){
+                if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1 ){
                     tStatus = pGrade.getOneApply();
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setGrade(String.valueOf(pGrade.getOneGrade()));
                     judgeViewRep.setInf(pGrade.getOneInf());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("two") && pGrade.getTwoGrade() != -1 && pGrade.getTwoApply().equals("已提交")){
+                }else if(judges.getNumber().equals("two") && pGrade.getTwoGrade() != -1 ){
                     tStatus = pGrade.getTwoApply();
 
                     judgeViewRep.setPType(project.getPType());
@@ -94,7 +96,7 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setGrade(String.valueOf(pGrade.getTwoGrade()));
                     judgeViewRep.setInf(pGrade.getTwoInf());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("three") && pGrade.getThreeGrade() != -1 && pGrade.getThreeApply().equals("已提交")){
+                }else if(judges.getNumber().equals("three") && pGrade.getThreeGrade() != -1 ){
                     tStatus = pGrade.getThreeApply();
 
                     judgeViewRep.setPType(project.getPType());
@@ -102,7 +104,7 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setGrade(String.valueOf(pGrade.getThreeGrade()));
                     judgeViewRep.setInf(pGrade.getThreeInf());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("four") && pGrade.getFourGrade() != -1 && pGrade.getFourApply().equals("已提交")){
+                }else if(judges.getNumber().equals("four") && pGrade.getFourGrade() != -1 ){
                     tStatus = pGrade.getFourApply();
 
 
@@ -115,8 +117,9 @@ public class JudgeServiceImpl implements JudgeService {
                 if (judgeViewRep!=null){
                     resultList.add(judgeViewRep);
                 }
-                YJudgeRep.setData(resultList);
-
+                if (resultList !=null){
+                    YJudgeRep.setData(resultList);
+                }
             }
             YJudgeRep.setTitle(siptProcess.getYear() + siptProcess.getStatus());
             if (YJudgeRep != null){
