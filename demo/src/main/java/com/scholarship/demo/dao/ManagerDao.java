@@ -37,7 +37,7 @@ public interface ManagerDao {
 
     class findProject{
         public String findById(String college,String year,String recordState,String tApproval){
-            String sql = " select * from project where year = #{year} and recordState != #{recordState} and tApproval != #{tApproval} ";
+            String sql = " select * from project where year = #{year} and recordState != #{recordState} and tApproval = #{tApproval} ";
             if(!college.equals("-1")){
                 sql+= " and college = #{college} ";
             }
@@ -54,6 +54,16 @@ public interface ManagerDao {
 
     @Update({"<script> update pGrade <set> cLevel = #{cLevel} </set> where sId = #{sId} and year = #{year} and pStatus = #{pStatus}  </script>"})
     void UpdatePGradeCLevel(String sId,String year,String pStatus,String cLevel);
+
+    @Update({"<script> update project <set> tApproval = #{tApproval},trecordState = #{trecordState},recordState = #{recordState} </set> where sAccount = #{sAccount} and year = #{year} </script>"})
+    void UpdateProjectTApproval(String sAccount,String year,String tApproval,String trecordState,String recordState);
+
+    @Select({"<script> select * from admim where level != #{level} </script>"})
+    @ResultType(Admin.class)
+    List<Admin> selectByAdmin(String level);
+
+    @Update({"<script> update admin <set> isApply = #{isApply} </set> where account = #{account} </script>"})
+    void UpdateIsApply(String account,String isApply);
 
     @Update({"<script> update process <set> isCollect = #{isCollect} </set> where year = #{year} and status = #{status}  </script>"})
     void UpdatePGradeCollect(String year,String status,String isCollect);

@@ -68,7 +68,7 @@ public class StudentServiceImpl implements StudentService {
                     keyUserList.add(nkeyUser);
                 }
                 result.setProjectList(keyUserList);
-                result.setProcessName(siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus());
+                result.setProcessName(siptProcessList.get(0).getYear() + " SIPT " + siptProcessList.get(0).getStatus() + "/" + siptProcessList.get(1).getYear() + " SIPT " + siptProcessList.get(1).getStatus());
                 result.setIsCollect(siptProcessList.get(0).getIsCollect());
                 result.setStartTime(siptProcessList.get(0).getStartTime());
                 result.setEndTime(siptProcessList.get(0).getEndTime());
@@ -92,7 +92,7 @@ public class StudentServiceImpl implements StudentService {
                 }
                 result.setProjectList(keyUserList);
 
-                result.setProcessName(siptProcessList.get(1) + " SIPT " + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0) + " SIPT " + siptProcessList.get(0).getStatus());
+                result.setProcessName(siptProcessList.get(1).getYear() + " SIPT " + siptProcessList.get(1).getStatus() + "/" + siptProcessList.get(0).getYear() + " SIPT " + siptProcessList.get(0).getStatus());
                 result.setIsCollect(siptProcessList.get(1).getIsCollect());
                 result.setStartTime(siptProcessList.get(1).getStartTime());
                 result.setEndTime(siptProcessList.get(1).getEndTime());
@@ -215,9 +215,10 @@ public class StudentServiceImpl implements StudentService {
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
             project.setTApproval("待审批");
+            project.setTrecordState("-");
             studentDao.studentSave(project);
             if(siptProcess != null){
-                studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
+                studentDao.insertpGrade(studentRequestDto.getLeaderAccount(),studentRequestDto.getLeaderName(),siptProcess.getYear(),siptProcess.getStatus());
             }
         }else{
             Project project = new Project();
@@ -244,9 +245,10 @@ public class StudentServiceImpl implements StudentService {
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已提交");
             project.setTApproval("待审批");
+            project.setTrecordState("-");
             studentDao.updateSave(project,split[0],split[1]);
             if(siptProcess != null){
-                studentDao.insertpGrade(projectFirst.getSAccount(),projectFirst.getSName(),projectFirst.getYear(),siptProcess.getStatus());
+                studentDao.insertpGrade(studentRequestDto.getLeaderAccount(),studentRequestDto.getLeaderName(),siptProcess.getYear(),siptProcess.getStatus());
             }
         }
         return "提交成功";

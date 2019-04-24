@@ -10,7 +10,7 @@ public class TeacherMyProject {
     private String college;
     private String status;
     private String level;
-    private String avg;
+    private String result;
     private String pSource;
     private String path;
     private String key;

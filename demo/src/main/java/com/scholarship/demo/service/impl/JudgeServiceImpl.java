@@ -34,7 +34,7 @@ public class JudgeServiceImpl implements JudgeService {
         Judges judges = judgeDao.selectById(jAccount);
         List<SiptProcess> siptProcessList = judgeDao.selectByConduct("正在审批","流程中");
         for (SiptProcess siptProcess : siptProcessList) {
-            JudgeRep judgeRep = null;
+            JudgeRep judgeRep = new JudgeRep();
             List<JudgeViewRep> resultList = new ArrayList<>();
             List<Project> projects = judgeDao.selectByCollege(judges.getCollege());
             for (Project project : projects) {
@@ -44,15 +44,15 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("two") && pGrade.getOneApply().equals("")){
+                }else if(judges.getNumber().equals("two") && pGrade.getTwoApply().equals("")){
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("three") && pGrade.getOneApply().equals("")){
+                }else if(judges.getNumber().equals("three") && pGrade.getThreeApply().equals("")){
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("four") && pGrade.getOneApply().equals("")){
+                }else if(judges.getNumber().equals("four") && pGrade.getFourApply().equals("")){
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
@@ -202,15 +202,14 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeDao.updateThreeGrade(leaderAccount, year, status, grade, inf);
                 } else if (judges.getNumber().equals("four")) {
                     judgeDao.updateFourGrade(leaderAccount, year, status, grade, inf);
-                    //todo 计算平均分
-                } else {
-                    return "您已提交";
                 }
-                if(pGrade.getOneGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getFourGrade() != -1){
-                    int one = pGrade.getOneGrade();
-                    int two = pGrade.getTwoGrade();
-                    int three = pGrade.getThreeGrade();
-                    int four = pGrade.getFourGrade();
+                PGrade newpGrade = judgeDao.selectByGId(leaderAccount, year, status);
+
+                if(newpGrade.getOneGrade() != -1 && newpGrade.getTwoGrade() != -1 && newpGrade.getTwoGrade() != -1 && newpGrade.getFourGrade() != -1){
+                    int one = newpGrade.getOneGrade();
+                    int two = newpGrade.getTwoGrade();
+                    int three = newpGrade.getThreeGrade();
+                    int four = newpGrade.getFourGrade();
                     Double avg = Double.valueOf(df.format((one + two + three + four) / 4));
                     judgeDao.updateAvg(leaderAccount, year, status, avg);
                 }

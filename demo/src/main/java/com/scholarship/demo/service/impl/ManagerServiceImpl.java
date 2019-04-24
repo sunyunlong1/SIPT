@@ -147,6 +147,13 @@ public class ManagerServiceImpl implements ManagerService {
                 String[] split = key.getKey().split("::");
                 year = split[0];
                 managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
+                managerDao.UpdateProjectTApproval(split[2],split[0],"","","已保存");
+                List<Admin> adminList = managerDao.selectByAdmin("校级");
+                if(adminList!= null){
+                    for (Admin admin1 : adminList){
+                        managerDao.updateApply(admin1.getAccount(),"-");
+                    }
+                }
             }
             managerDao.UpdateConduct(year, "流程结束");
             managerDao.UpdateCollect("已提交", year);

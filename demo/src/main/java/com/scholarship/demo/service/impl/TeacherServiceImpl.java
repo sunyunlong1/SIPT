@@ -26,16 +26,18 @@ public class TeacherServiceImpl implements TeacherService {
         List<SiptProcess> siptProcessList = teacherDao.selectByConduct("流程中");
         for(SiptProcess siptProcess : siptProcessList){
             List<Project> projects = teacherDao.selectByTidAndYear(account, siptProcess.getYear());
-            for(Project project : projects){
-                TeacherAppRep teacherAppRep = new TeacherAppRep();
-                teacherAppRep.setCollege(project.getCollege());
-                teacherAppRep.setPName(project.getPName());
-                teacherAppRep.setPSource(project.getPSource());
-                teacherAppRep.setSName(project.getSName());
-                teacherAppRep.setStatus(siptProcess.getStatus());
-                teacherAppRep.setTName(project.getTName());
-                teacherAppRep.setKey(project.getSAccount()+"::"+project.getYear());
-                result.add(teacherAppRep);
+            if(projects!=null){
+                for(Project project : projects){
+                    TeacherAppRep teacherAppRep = new TeacherAppRep();
+                    teacherAppRep.setCollege(project.getCollege());
+                    teacherAppRep.setPName(project.getPName());
+                    teacherAppRep.setPSource(project.getPSource());
+                    teacherAppRep.setSName(project.getSName());
+                    teacherAppRep.setStatus(siptProcess.getStatus());
+                    teacherAppRep.setTName(project.getTName());
+                    teacherAppRep.setKey(project.getSAccount()+"::"+project.getYear());
+                    result.add(teacherAppRep);
+                }
             }
         }
         return result;
@@ -56,11 +58,11 @@ public class TeacherServiceImpl implements TeacherService {
             List<Project> projects = teacherDao.selectBytIAndYear(account, siptProcess.getYear());
             for(Project project : projects){
                 TeacherMyProject teacherMyProject = new TeacherMyProject();
-                teacherMyProject.setAvg(project.getAvg());
+                teacherMyProject.setResult("".equals(project.getAvg()) ? "-" : project.getAvg());
                 teacherMyProject.setCollege(project.getCollege());
                 teacherMyProject.setLeaderName(project.getSName());
                 PGrade pGrade = teacherDao.selectById(project.getSAccount(), project.getYear(), siptProcess.getStatus());
-                teacherMyProject.setLevel(pGrade.getLevel());
+                teacherMyProject.setLevel("".equals(pGrade.getLevel()) ? "-" : pGrade.getLevel());
                 teacherMyProject.setPName(project.getPName());
                 teacherMyProject.setPSource(project.getPSource());
                 teacherMyProject.setStatus(siptProcess.getStatus());
