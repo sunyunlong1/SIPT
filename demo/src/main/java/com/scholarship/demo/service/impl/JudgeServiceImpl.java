@@ -177,45 +177,51 @@ public class JudgeServiceImpl implements JudgeService {
 
         String  account = list.getAccount();
         Judges judges = judgeDao.selectById(account);
-        for (JudgeViewRep judgeViewRep : list.getData()){
+        List<JudgeViewRep> data = list.getData();
+        if (data != null){
+            for (JudgeViewRep judgeViewRep : data){
 
-            String[] split = judgeViewRep.getKey().split("::");
-            String year = split[0];
-            String status = split[1];
-            String leaderAccount = split[2];
-            String grade = judgeViewRep.getGrade();
-            String inf = judgeViewRep.getInf();
-            PGrade pGrade = judgeDao.selectByGId(leaderAccount, year, status);
-            if (judges.getNumber().equals("one")) {
-                judgeDao.updateOneGrade(leaderAccount, year, status, grade, inf);
-            } else if (judges.getNumber().equals("two")) {
-                judgeDao.updateTwoGrade(leaderAccount, year, status, grade, inf);
-            } else if (judges.getNumber().equals("three")) {
-                judgeDao.updateThreeGrade(leaderAccount, year, status, grade, inf);
-            } else if (judges.getNumber().equals("four")) {
-                judgeDao.updateFourGrade(leaderAccount, year, status, grade, inf);
-                //todo 计算平均分
-            } else {
-                return "您已提交";
+                String[] split = judgeViewRep.getKey().split("::");
+                String year = split[0];
+                String status = split[1];
+                String leaderAccount = split[2];
+                String grade = judgeViewRep.getGrade();
+                String inf = judgeViewRep.getInf();
+                PGrade pGrade = judgeDao.selectByGId(leaderAccount, year, status);
+                if (judges.getNumber().equals("one")) {
+                    judgeDao.updateOneGrade(leaderAccount, year, status, grade, inf);
+                } else if (judges.getNumber().equals("two")) {
+                    judgeDao.updateTwoGrade(leaderAccount, year, status, grade, inf);
+                } else if (judges.getNumber().equals("three")) {
+                    judgeDao.updateThreeGrade(leaderAccount, year, status, grade, inf);
+                } else if (judges.getNumber().equals("four")) {
+                    judgeDao.updateFourGrade(leaderAccount, year, status, grade, inf);
+                    //todo 计算平均分
+                } else {
+                    return "您已提交";
+                }
+                if(pGrade.getOneGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getFourGrade() != -1){
+                    int one = pGrade.getOneGrade();
+                    int two = pGrade.getTwoGrade();
+                    int three = pGrade.getThreeGrade();
+                    int four = pGrade.getFourGrade();
+                    Double avg = Double.valueOf(df.format((one + two + three + four) / 4));
+                    judgeDao.updateAvg(leaderAccount, year, status, avg);
+                }
+                if(judges.getNumber().equals("one")){
+                    judgeDao.updateOneApply(leaderAccount, year, status, "已提交");
+                }else if(judges.getNumber().equals("two")){
+                    judgeDao.updateTwoApply(leaderAccount, year, status, "已提交");
+                }else if(judges.getNumber().equals("three")){
+                    judgeDao.updateThreeApply(leaderAccount, year, status, "已提交");
+                }else if(judges.getNumber().equals("four")){
+                    judgeDao.updateFourApply(leaderAccount, year, status, "已提交");
+                }
             }
-            if(pGrade.getOneGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getTwoGrade() != -1 && pGrade.getFourGrade() != -1){
-                int one = pGrade.getOneGrade();
-                int two = pGrade.getTwoGrade();
-                int three = pGrade.getThreeGrade();
-                int four = pGrade.getFourGrade();
-                Double avg = Double.valueOf(df.format((one + two + three + four) / 4));
-                judgeDao.updateAvg(leaderAccount, year, status, avg);
-            }
-            if(judges.getNumber().equals("one")){
-                judgeDao.updateOneApply(leaderAccount, year, status, "已提交");
-            }else if(judges.getNumber().equals("two")){
-                judgeDao.updateTwoApply(leaderAccount, year, status, "已提交");
-            }else if(judges.getNumber().equals("three")){
-                judgeDao.updateThreeApply(leaderAccount, year, status, "已提交");
-            }else if(judges.getNumber().equals("four")){
-                judgeDao.updateFourApply(leaderAccount, year, status, "已提交");
-            }
+            return "已成功提交";
+        }else{
+            return "未成功提交";
         }
-        return "已成功提交";
+
     }
 }
