@@ -26,7 +26,7 @@ public interface TeacherDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByStatus(String status);
 
-    @Update({"<script> update project <set> tApproval = #{pass} ,trecordState = #{trecordState} </set> where sAccount = #{sAccount} and year = #{year} </script>"})
+    @Update({"<script> update project <set> tApproval = #{pass},trecordState = #{trecordState} </set> where sAccount = #{sAccount} and year = #{year} </script>"})
     void updateTApproval(String pass,String sAccount,String year,String trecordState);
 
 
