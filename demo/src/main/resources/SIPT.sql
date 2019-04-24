@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 23/04/2019 00:25:27
+ Date: 24/04/2019 09:08:07
 */
 
 SET NAMES utf8mb4;
@@ -104,13 +104,13 @@ CREATE TABLE `pGrade` (
   `level` varchar(255) DEFAULT NULL,
   `cLevel` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pGrade
 -- ----------------------------
 BEGIN;
-INSERT INTO `pGrade` VALUES (00000000030, 'A19150251', '', '2018', '立项', -1, NULL, NULL, -1, NULL, NULL, -1, NULL, NULL, -1, NULL, NULL, 0.00, NULL, NULL);
+INSERT INTO `pGrade` VALUES (00000000032, 'A19150251', '罗金猪', '2019', '立项', 90, '干的不错!', '已提交', -1, NULL, NULL, -1, NULL, NULL, -1, NULL, NULL, 21.00, 'A', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -126,13 +126,13 @@ CREATE TABLE `process` (
   `isCollect` varchar(255) DEFAULT NULL,
   `isConduct` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of process
 -- ----------------------------
 BEGIN;
-INSERT INTO `process` VALUES (12, '2018', '立项', '2018-11-01', '2019-02-01', '收取材料', '流程中');
+INSERT INTO `process` VALUES (12, '2019', '立项', '2019-11-01', '2020-02-01', '收取材料', '流程中');
 COMMIT;
 
 -- ----------------------------
@@ -162,14 +162,15 @@ CREATE TABLE `project` (
   `pType` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `recordState` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `college` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `trecordState` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of project
 -- ----------------------------
 BEGIN;
-INSERT INTO `project` VALUES (00000000034, 'test1', 'A19150251', 'aaa', '1', 'bbb', 'A19150000', '李晓明', '', '瞎整的', '502', '啦啦啦', '', '', '2018', '', '', '', '', '1', '已提交', '1');
+INSERT INTO `project` VALUES (00000000037, 'SIPT项目申报', 'A19150251', '罗金猪', '5', '汤敏锐，殷珂', 'A19150000', '李晓明', 'pass', '学生自拟', '000002', '毕设项目', '', '', '2019', 'c:/test', '', '', '', '创新项目', '已提交', '电气与信息学院', NULL);
 COMMIT;
 
 -- ----------------------------
