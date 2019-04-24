@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 24/04/2019 09:08:07
+ Date: 24/04/2019 23:20:11
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `admin` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `admin` VALUES (00000000001, 'admin', 'admin', 'admin', '校级', '-1', '-');
-INSERT INTO `admin` VALUES (00000000002, 'Yadmin', 'Yadmin', 'Yadmin', '院级', '电气与信息学院', '-');
+INSERT INTO `admin` VALUES (00000000002, 'Yadmin', 'Yadmin', 'Yadmin', '院级', '电气与信息学院', '已提交');
 COMMIT;
 
 -- ----------------------------
@@ -84,34 +84,27 @@ COMMIT;
 DROP TABLE IF EXISTS `pGrade`;
 CREATE TABLE `pGrade` (
   `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `sId` varchar(255) DEFAULT NULL,
-  `sName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `year` varchar(255) DEFAULT NULL,
-  `pStatus` varchar(255) DEFAULT NULL,
+  `sId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `sName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `year` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pStatus` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `oneGrade` int(11) DEFAULT '-1',
-  `oneInf` varchar(255) DEFAULT NULL,
-  `oneApply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `oneInf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `oneApply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `twoGrade` int(11) DEFAULT '-1',
-  `twoInf` varchar(255) DEFAULT NULL,
-  `twoApply` varchar(255) DEFAULT NULL,
+  `twoInf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `twoApply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `threeGrade` int(11) DEFAULT '-1',
-  `threeInf` varchar(255) DEFAULT NULL,
-  `threeApply` varchar(255) DEFAULT NULL,
+  `threeInf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `threeApply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `fourGrade` int(11) DEFAULT '-1',
-  `fourInf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `fourApply` varchar(255) DEFAULT NULL,
+  `fourInf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `fourApply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pgAvg` double(20,2) DEFAULT '0.00',
-  `level` varchar(255) DEFAULT NULL,
-  `cLevel` varchar(255) DEFAULT NULL,
+  `level` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `cLevel` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of pGrade
--- ----------------------------
-BEGIN;
-INSERT INTO `pGrade` VALUES (00000000032, 'A19150251', '罗金猪', '2019', '立项', 90, '干的不错!', '已提交', -1, NULL, NULL, -1, NULL, NULL, -1, NULL, NULL, 21.00, 'A', NULL);
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for process
@@ -126,13 +119,13 @@ CREATE TABLE `process` (
   `isCollect` varchar(255) DEFAULT NULL,
   `isConduct` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of process
 -- ----------------------------
 BEGIN;
-INSERT INTO `process` VALUES (12, '2019', '立项', '2019-11-01', '2020-02-01', '收取材料', '流程中');
+INSERT INTO `process` VALUES (123, '2018', '中期检查', '2019-04-09', '2019-05-08', '收取材料', '流程结束');
 COMMIT;
 
 -- ----------------------------
@@ -164,14 +157,7 @@ CREATE TABLE `project` (
   `college` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `trecordState` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of project
--- ----------------------------
-BEGIN;
-INSERT INTO `project` VALUES (00000000037, 'SIPT项目申报', 'A19150251', '罗金猪', '5', '汤敏锐，殷珂', 'A19150000', '李晓明', 'pass', '学生自拟', '000002', '毕设项目', '', '', '2019', 'c:/test', '', '', '', '创新项目', '已提交', '电气与信息学院', NULL);
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for student
