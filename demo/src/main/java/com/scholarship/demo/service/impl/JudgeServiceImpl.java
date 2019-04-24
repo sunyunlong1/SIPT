@@ -40,19 +40,19 @@ public class JudgeServiceImpl implements JudgeService {
             for (Project project : projects) {
                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
                 JudgeViewRep judgeViewRep = new JudgeViewRep();
-                if(judges.getNumber().equals("one") && !pGrade.getOneApply().equals("已提交")){
+                if(judges.getNumber().equals("one") && pGrade.getOneApply().equals("")){
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("two") && !pGrade.getOneApply().equals("已提交")){
+                }else if(judges.getNumber().equals("two") && pGrade.getOneApply().equals("")){
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("three") && !pGrade.getOneApply().equals("已提交")){
+                }else if(judges.getNumber().equals("three") && pGrade.getOneApply().equals("")){
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("four") && !pGrade.getOneApply().equals("已提交")){
+                }else if(judges.getNumber().equals("four") && pGrade.getOneApply().equals("")){
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
@@ -81,14 +81,14 @@ public class JudgeServiceImpl implements JudgeService {
             for (Project project : projects) {
                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
                 JudgeViewRep judgeViewRep = new JudgeViewRep();
-                if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1 ){
+                if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getOneApply();
                     judgeViewRep.setPType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setGrade(String.valueOf(pGrade.getOneGrade()));
                     judgeViewRep.setInf(pGrade.getOneInf());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("two") && pGrade.getTwoGrade() != -1 ){
+                }else if(judges.getNumber().equals("two") && pGrade.getTwoGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getTwoApply();
 
                     judgeViewRep.setPType(project.getPType());
@@ -96,7 +96,7 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setGrade(String.valueOf(pGrade.getTwoGrade()));
                     judgeViewRep.setInf(pGrade.getTwoInf());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("three") && pGrade.getThreeGrade() != -1 ){
+                }else if(judges.getNumber().equals("three") && pGrade.getThreeGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getThreeApply();
 
                     judgeViewRep.setPType(project.getPType());
@@ -104,7 +104,7 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setGrade(String.valueOf(pGrade.getThreeGrade()));
                     judgeViewRep.setInf(pGrade.getThreeInf());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                }else if(judges.getNumber().equals("four") && pGrade.getFourGrade() != -1 ){
+                }else if(judges.getNumber().equals("four") && pGrade.getFourGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getFourApply();
 
 
