@@ -110,11 +110,11 @@ public class JudgeServiceImpl implements JudgeService {
                     judgeViewRep.setInf(pGrade.getFourInf());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
                 }
-
-                YJudgeRep.setData(resultList);
                 if (judgeViewRep!=null){
                     resultList.add(judgeViewRep);
                 }
+                YJudgeRep.setData(resultList);
+
             }
             YJudgeRep.setTitle(siptProcess.getYear() + siptProcess.getStatus());
 
