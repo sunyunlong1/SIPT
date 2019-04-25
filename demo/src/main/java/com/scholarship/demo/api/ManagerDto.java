@@ -18,4 +18,5 @@ public class ManagerDto {
     private String fourGrade;
     private String pgAvg;
     private String level;
+    private String yep;
 }
