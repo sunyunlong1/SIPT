@@ -52,7 +52,7 @@ public interface ManagerDao {
     @Update({"<script> update pGrade <set> level = #{level} </set> where sId = #{sId} and year = #{year} and pStatus = #{pStatus}  </script>"})
     void UpdatePGradeLevel(String sId,String year,String pStatus,String level);
 
-    @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus}  </script>"})
+    @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{status}  </script>"})
     @ResultType(PGrade.class)
     PGrade selectLevel(String sId,String year,String status);
 
