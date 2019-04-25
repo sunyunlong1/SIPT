@@ -150,6 +150,7 @@ public class StudentServiceImpl implements StudentService {
             project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已保存");
+            project.setTrecordState("-");
             studentDao.studentSave(project);
         }else{
             project.setPName(studentRequestDto.getName());
@@ -172,6 +173,7 @@ public class StudentServiceImpl implements StudentService {
             project.setYear(split[1]);
             project.setCollege(studentRequestDto.getLeaderCollege());
             project.setRecordState("已保存");
+            project.setTrecordState("-");
             studentDao.updateSave(project,split[0],split[1]);
            // studentDao.updatePathA(studentRequestDto.getPathSecond(),studentRequestDto.getPathThird(),studentRequestDto.getLeaderAccount(),split[1]);
         }
