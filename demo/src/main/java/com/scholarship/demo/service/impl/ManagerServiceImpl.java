@@ -150,7 +150,10 @@ public class ManagerServiceImpl implements ManagerService {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("::");
                 year = split[0];
-                managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
+                PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
+                if (!pGrade.getLevel().equals("")){
+                    managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
+                }
                 managerDao.UpdateProjectTApproval(split[2],split[0],"","","已保存");
                 List<Admin> adminList = managerDao.selectByAdmin("校级");
                 if(adminList!= null){
@@ -164,7 +167,10 @@ public class ManagerServiceImpl implements ManagerService {
         } else {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("::");
-                managerDao.UpdatePGradeCLevel(split[2], split[0], split[1], key.getLevel());
+                PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
+                if (!pGrade.getLevel().equals("")){
+                    managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
+                }
             }
             managerDao.updateApply(account, "已提交");
         }
