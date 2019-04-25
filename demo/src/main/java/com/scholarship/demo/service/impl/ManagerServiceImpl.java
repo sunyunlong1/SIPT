@@ -46,7 +46,7 @@ public class ManagerServiceImpl implements ManagerService {
                     managerDto.setPType(project.getPType());
 
                     managerDto.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
-                    PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), siptProcessList.get(0).getYear(), siptProcess.getStatus());
+                    PGrade pGrade = managerDao.selectByIdYStatus(project.getSAccount(), siptProcess.getYear(), siptProcess.getStatus());
                     if(pGrade != null){
                         if (admin.getLevel().equals("校级")){
                             managerDto.setYep(pGrade.getCLevel());
