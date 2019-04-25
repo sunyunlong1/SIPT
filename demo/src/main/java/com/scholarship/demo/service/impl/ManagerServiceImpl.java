@@ -52,7 +52,7 @@ public class ManagerServiceImpl implements ManagerService {
                             managerDto.setYep(pGrade.getCLevel());
                         }
                         managerDto.setOneGrade(pGrade.getOneGrade() == -1 ? "-" : String.valueOf(pGrade.getOneGrade()));
-                        managerDto.setTwoGrade(pGrade.getTwoGrade() == -1 ? "-" : String.valueOf(pGrade.getOneGrade()));
+                        managerDto.setTwoGrade(pGrade.getTwoGrade() == -1 ? "-" : String.valueOf(pGrade.getTwoGrade()));
                         managerDto.setThreeGrade(pGrade.getThreeGrade() == -1 ? "-" : String.valueOf(pGrade.getThreeGrade()));
                         managerDto.setFourGrade(pGrade.getFourGrade() == -1 ? "-" :String.valueOf(pGrade.getFourGrade()));
                         managerDto.setPgAvg(pGrade.getPgAvg() == 0.00 ? "-" :String.valueOf(pGrade.getPgAvg()));
