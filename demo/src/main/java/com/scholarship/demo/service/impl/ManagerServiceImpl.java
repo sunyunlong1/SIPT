@@ -88,13 +88,13 @@ public class ManagerServiceImpl implements ManagerService {
                             List<Project> Judgeproject = judgeDao.selectByCollege(judge.getCollege());
                             for(Project project : Judgeproject){
                                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
-                                if (judge.getNumber().equals("one") && pGrade.getOneGrade() == -1) {
+                                if (judge.getNumber().equals("one") && pGrade.getOneGrade() != -1) {
                                     num++;
-                                } else if (judge.getNumber().equals("two") && pGrade.getTwoGrade() == -1) {
+                                } else if (judge.getNumber().equals("two") && pGrade.getTwoGrade() != -1) {
                                     num++;
-                                } else if (judge.getNumber().equals("three") && pGrade.getThreeGrade() == -1) {
+                                } else if (judge.getNumber().equals("three") && pGrade.getThreeGrade() != -1) {
                                     num++;
-                                } else if (judge.getNumber().equals("four") && pGrade.getFourGrade() == -1) {
+                                } else if (judge.getNumber().equals("four") && pGrade.getFourGrade() != -1) {
                                     num++;
                                 }
                             }
