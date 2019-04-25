@@ -57,7 +57,7 @@ public class ManagerController {
     @RequestMapping("/overview")
     @ResponseBody
     public String overview(@RequestBody LoginDto leaderAccount){
-        List<OverviewResponse> overview = managerService.overview(leaderAccount.getAccount());
+        OverViewDto overview = managerService.overview(leaderAccount.getAccount());
         return JSON.toJSONString(new Result(200,"-",overview));
     }
 

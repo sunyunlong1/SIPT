@@ -10,4 +10,5 @@ public class OverviewResponse {
     private String pStatus;
     private String isCollect;
     private String key;
+    private String level;
 }

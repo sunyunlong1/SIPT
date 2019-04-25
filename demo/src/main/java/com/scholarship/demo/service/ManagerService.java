@@ -35,7 +35,7 @@ public interface ManagerService {
      * @param account 只传账号
      * @return
      */
-    List<OverviewResponse> overview(String account);
+    OverViewDto overview(String account);
 
     /**
      * 项目概览查看详情 只需要传 2017SIPT 和 状态
