@@ -161,9 +161,9 @@ public class ManagerServiceImpl implements ManagerService {
                         managerDao.updateApply(admin1.getAccount(),"-");
                     }
                 }
+                managerDao.UpdateConduct(year, "流程结束");
+                managerDao.UpdateCollect("已提交", year);
             }
-            managerDao.UpdateConduct(year, "流程结束");
-            managerDao.UpdateCollect("已提交", year);
         } else {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("::");
@@ -171,8 +171,9 @@ public class ManagerServiceImpl implements ManagerService {
                 if (pGrade.getCLevel() == null || !pGrade.getLevel().equals("")){
                     managerDao.UpdatePGradeCLevel(split[2], split[0], split[1], key.getLevel());
                 }
+                managerDao.updateApply(account, "已提交");
             }
-            managerDao.updateApply(account, "已提交");
+
         }
         return "提交结果成功";
     }
