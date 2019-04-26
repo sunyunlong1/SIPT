@@ -151,7 +151,7 @@ public class ManagerServiceImpl implements ManagerService {
                 String[] split = key.getKey().split("::");
                 year = split[0];
                 PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
-                if (pGrade.getLevel() == null || !pGrade.getLevel().equals("")){
+                if (pGrade.getLevel() != null || !pGrade.getLevel().equals("")){
                     managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
                 }
                 managerDao.UpdateProjectTApproval(split[2],split[0],"","","已保存");
@@ -168,7 +168,7 @@ public class ManagerServiceImpl implements ManagerService {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("::");
                 PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
-                if (pGrade.getCLevel() == null || !pGrade.getLevel().equals("")){
+                if (pGrade.getCLevel() != null || !pGrade.getLevel().equals("")){
                     managerDao.UpdatePGradeCLevel(split[2], split[0], split[1], key.getLevel());
                 }
                 managerDao.updateApply(account, "已提交");
