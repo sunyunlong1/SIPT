@@ -210,7 +210,7 @@ public class JudgeServiceImpl implements JudgeService {
                     int two = newpGrade.getTwoGrade();
                     int three = newpGrade.getThreeGrade();
                     int four = newpGrade.getFourGrade();
-                    Double avg = Double.valueOf(df.format((one + two + three + four) / 4));
+                    Double avg = Double.valueOf(df.format((Double.valueOf(one) + Double.valueOf(two) + Double.valueOf(three) + Double.valueOf(four)) / 4));
                     judgeDao.updateAvg(leaderAccount, year, status, avg);
                 }
                 if(judges.getNumber().equals("one")){
