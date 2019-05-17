@@ -69,16 +69,30 @@ public class StudentRequestDto {
      * 立项上传文件
      */
     private String pathFirst;
+    /**
+     * 文件名
+     */
+    private String firstName;
 
     /**
      * 中期检查上传文件
      */
     private String pathSecond;
+    /**
+     * 文件名
+     */
+    private String secondName;
 
     /**
      *  结题上传文件
      */
     private String pathThird;
+
+    /**
+     * 文件名
+     */
+    private String thirdName;
+
     /**
      * key
      */

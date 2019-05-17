@@ -28,13 +28,13 @@ public interface StudentDao {
     @ResultType(Project.class)
     List<Project> selectByLeaderAccount(String leaderAccount);
 
-    @Insert({"<script> insert into project (year,pName,sAccount,sName,memberNum,memberInf,tAccount,tName,pSource,pCode,pType,pIntroduction,pathFirst,pathSecond,pathThird,recordState,college,trecordState) " +
-            " VALUES(#{p.year},#{p.pName},#{p.sAccount},#{p.sName},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.tName},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pathFirst},#{p.pathSecond},#{p.pathThird},#{p.recordState},#{p.college},#{p.trecordState}) " +
+    @Insert({"<script> insert into project (year,pName,sAccount,sName,memberNum,memberInf,tAccount,tName,pSource,pCode,pType,pIntroduction,pathFirst,firstName,pathSecond,secondName,pathThird,thirdName,recordState,college,trecordState) " +
+            " VALUES(#{p.year},#{p.pName},#{p.sAccount},#{p.sName},#{p.memberNum},#{p.memberInf},#{p.tAccount},#{p.tName},#{p.pSource},#{p.pCode},#{p.pType},#{p.pIntroduction},#{p.pathFirst},#{p.firstName},#{p.pathSecond},#{p.secondName},#{p.pathThird},#{p.thirdName},#{p.recordState},#{p.college},#{p.trecordState}) " +
             "</script>"})
     @ResultType(java.lang.Boolean.class)
     boolean studentSave(@Param("p") Project project);
 
-    @Update({"<script> update project <set> pName = #{p.pName},sName = #{p.sName},memberNum = #{p.memberNum},memberInf = #{p.memberInf},tAccount = #{p.tAccount},tName = #{p.tName},pSource = #{p.pSource},pCode = #{p.pCode},pType = #{p.pType},pIntroduction = #{p.pIntroduction},pathFirst = #{p.pathFirst},pathSecond = #{p.pathSecond},pathThird = #{p.pathThird},recordState = #{p.recordState},college = #{p.college} </set> where sAccount = #{account} and year = #{year} </script>"})
+    @Update({"<script> update project <set> pName = #{p.pName},sName = #{p.sName},memberNum = #{p.memberNum},memberInf = #{p.memberInf},tAccount = #{p.tAccount},tName = #{p.tName},pSource = #{p.pSource},pCode = #{p.pCode},pType = #{p.pType},pIntroduction = #{p.pIntroduction},pathFirst = #{p.pathFirst},firstName = #{p.firstName},pathSecond = #{p.pathSecond},secondName = #{p.secondName},pathThird = #{p.pathThird},thirdName = #{thirdName},recordState = #{p.recordState},college = #{p.college} </set> where sAccount = #{account} and year = #{year} </script>"})
     void updateSave(@Param("p") Project project,String account,String year);
 
 

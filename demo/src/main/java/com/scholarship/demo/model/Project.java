@@ -20,8 +20,11 @@ public class Project {
     private String pIntroduction;
     private String year;
     private String pathFirst;
+    private String firstName;
     private String pathSecond;
+    private String secondName;
     private String pathThird;
+    private String thirdName;
     private String avg;
     private String recordState;
     private String college;
