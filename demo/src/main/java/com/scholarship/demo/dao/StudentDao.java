@@ -34,7 +34,7 @@ public interface StudentDao {
     @ResultType(java.lang.Boolean.class)
     boolean studentSave(@Param("p") Project project);
 
-    @Update({"<script> update project <set> pName = #{p.pName},sName = #{p.sName},memberNum = #{p.memberNum},memberInf = #{p.memberInf},tAccount = #{p.tAccount},tName = #{p.tName},pSource = #{p.pSource},pCode = #{p.pCode},pType = #{p.pType},pIntroduction = #{p.pIntroduction},pathFirst = #{p.pathFirst},firstName = #{p.firstName},pathSecond = #{p.pathSecond},secondName = #{p.secondName},pathThird = #{p.pathThird},thirdName = #{thirdName},recordState = #{p.recordState},college = #{p.college} </set> where sAccount = #{account} and year = #{year} </script>"})
+    @Update({"<script> update project <set> pName = #{p.pName},sName = #{p.sName},memberNum = #{p.memberNum},memberInf = #{p.memberInf},tAccount = #{p.tAccount},tName = #{p.tName},pSource = #{p.pSource},pCode = #{p.pCode},pType = #{p.pType},pIntroduction = #{p.pIntroduction},pathFirst = #{p.pathFirst},firstName = #{p.firstName},pathSecond = #{p.pathSecond},secondName = #{p.secondName},pathThird = #{p.pathThird},thirdName = #{p.thirdName},recordState = #{p.recordState},college = #{p.college} </set> where sAccount = #{account} and year = #{year} </script>"})
     void updateSave(@Param("p") Project project,String account,String year);
 
 
