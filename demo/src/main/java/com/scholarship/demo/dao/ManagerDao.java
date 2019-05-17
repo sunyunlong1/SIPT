@@ -59,8 +59,8 @@ public interface ManagerDao {
     @Update({"<script> update pGrade <set> cLevel = #{cLevel} </set> where sId = #{sId} and year = #{year} and pStatus = #{pStatus}  </script>"})
     void UpdatePGradeCLevel(String sId,String year,String pStatus,String cLevel);
 
-    @Update({"<script> update project <set> tApproval = #{tApproval},trecordState = #{trecordState},recordState = #{recordState} </set> where sAccount = #{sAccount} and year = #{year} </script>"})
-    void UpdateProjectTApproval(String sAccount,String year,String tApproval,String trecordState,String recordState);
+    @Update({"<script> update project <set> tApproval = #{tApproval},trecordState = #{trecordState},recordState = #{recordState} </set> where  year = #{year} </script>"})
+    void UpdateProjectTApproval(String year,String tApproval,String trecordState,String recordState);
 
     @Select({"<script> select * from admin where level != #{level} </script>"})
     @ResultType(Admin.class)

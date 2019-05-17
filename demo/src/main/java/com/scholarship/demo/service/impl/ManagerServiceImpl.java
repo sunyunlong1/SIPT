@@ -154,7 +154,7 @@ public class ManagerServiceImpl implements ManagerService {
                 if (pGrade.getLevel() != null || !pGrade.getLevel().equals("")){
                     managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
                 }
-                managerDao.UpdateProjectTApproval(split[2],split[0],"","","已保存");
+                //managerDao.UpdateProjectTApproval(split[2],split[0],"","","已保存");
                 List<Admin> adminList = managerDao.selectByAdmin("校级");
                 if(adminList!= null){
                     for (Admin admin1 : adminList){
@@ -245,11 +245,15 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public String newAndEditProcess(NewProcessDto newProcessDto) {
+
+
         //立项 begin年份+1
         String year = newProcessDto.getBeginTime().substring(0, 4);
         if (newProcessDto.getProcessName().equals("立项")) {
 
             Integer LYear = Integer.valueOf(year) + 1;
+            managerDao.UpdateProjectTApproval(LYear.toString(),"","","已保存");
+
             SiptProcess siptProcess = managerDao.selectByYear(LYear.toString());
             if(siptProcess != null){
                 if (siptProcess.getStatus().equals("立项")) {
@@ -261,6 +265,8 @@ public class ManagerServiceImpl implements ManagerService {
         } else {
             String[] split = newProcessDto.getProcessName().split("/");
             Integer JYear = Integer.valueOf(year) - 1;
+            managerDao.UpdateProjectTApproval(JYear.toString(),"","","已保存");
+
             SiptProcess siptProcess = managerDao.selectByYear(year);
             SiptProcess YsiptProcess = managerDao.selectByYear(JYear.toString());
             if (siptProcess.getStatus().equals("中期检查") || YsiptProcess.equals("结项")) {
