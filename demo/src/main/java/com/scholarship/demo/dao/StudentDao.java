@@ -105,4 +105,7 @@ public interface StudentDao {
     @ResultType(java.lang.Integer.class)
     Integer insertpGrade(String sId,String sName,String year,String pStatus);
 
+    @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
+    @ResultType(PGrade.class)
+    PGrade selectGrade(String sId,String year,String pStatus);
 }
