@@ -328,12 +328,8 @@ public class StudentServiceImpl implements StudentService {
             }
             SiptProcess siptProcess = studentDao.selectByYear(project.getYear());
             myProjectDto.setPStatus(siptProcess.getStatus());
-            if (project != null || !project.getAvg().equals("")) {
-                if (project.getAvg().equals("")){
-                    myProjectDto.setAvg("-");
-                }else{
-                    myProjectDto.setAvg(project.getAvg());
-                }
+            if (project != null && !project.getAvg().equals("")) {
+                myProjectDto.setAvg(project.getAvg());
             } else {
                 myProjectDto.setAvg("-");
             }

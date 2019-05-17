@@ -231,7 +231,6 @@ public class ManagerServiceImpl implements ManagerService {
                 managerViewProject.setAvg("-");
             } else {
                 managerViewProject.setAvg(pGrade.getLevel());
-
             }
             managerViewProject.setTeacherName(project.getTName());
             managerViewProject.setCollege(project.getCollege());

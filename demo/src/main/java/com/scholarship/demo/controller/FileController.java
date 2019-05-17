@@ -92,9 +92,10 @@ public class FileController {
         String path = "";
         String fileName = "";//下载的文件名
         //评委
+        Project project = studentDao.selectByAccountAndYear(split[0], split[1]);
+        SiptProcess siptProcess = teacherDao.selectByYear(split[1]);
+
         if (split[2].equals("00")){
-            SiptProcess siptProcess = teacherDao.selectByYear(split[1]);
-            Project project = studentDao.selectByAccountAndYear(split[0], split[1]);
             if (siptProcess.getStatus().equals("立项")){
                 path = project.getPathFirst();
                 fileName = project.getFirstName();
@@ -106,7 +107,6 @@ public class FileController {
                 fileName = project.getThirdName();
             }
         }else{
-            Project project = studentDao.selectByAccountAndYear(split[0], split[1]);
             if (split[2].equals("01")){
                 path = project.getPathFirst();
                 fileName = project.getFirstName();
@@ -138,7 +138,7 @@ public class FileController {
                 response.setHeader("content-type", "application/octet-stream");
                 response.setContentType("application/octet-stream");
                 // 下载文件能正常显示中文
-                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(project.getPName()+siptProcess.getStatus(), "UTF-8"));
 
                 // 实现文件下载
                 byte[] buffer = new byte[1024];
