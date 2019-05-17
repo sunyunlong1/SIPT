@@ -137,8 +137,9 @@ public class FileController {
                 // 配置文件下载
                 response.setHeader("content-type", "application/octet-stream");
                 response.setContentType("application/octet-stream");
-                fileName = project.getPName()+"-"+siptProcess.getStatus();
                 // 下载文件能正常显示中文
+                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+                fileName = project.getPName()+"-"+siptProcess.getStatus();
                 response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
                 // 实现文件下载
