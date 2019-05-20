@@ -46,7 +46,21 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public String approve(String key) {
         String[] split = key.split("::");
-        teacherDao.updateTApproval("pass",split[0],split[1],"已审批");
+        String year = split[1];
+        SiptProcess siptProcess = teacherDao.selectByStatus(year);
+        if (!siptProcess.getIsCollect().equals("收取材料")){
+            teacherDao.updateTApproval("pass",split[0],split[1],"已驳回");
+            return "材料收取已结束，审批失败";
+        }else{
+            teacherDao.updateTApproval("pass",split[0],split[1],"已审批");
+            return "审批成功";
+        }
+    }
+
+    @Override
+    public String notApprove(String key) {
+        String[] split = key.split("::");
+        teacherDao.updateTApproval("pass",split[0],split[1],"已驳回");
         return "审批成功";
     }
 

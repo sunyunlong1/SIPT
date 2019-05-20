@@ -23,6 +23,13 @@ public interface TeacherService {
      */
     String approve(String key);
 
+    /**
+     * 指导教师提交 传leaderName，状态
+     * @param key
+     * @return
+     */
+    String notApprove(String key);
+
 
     /**
      * 我的项目 只传account

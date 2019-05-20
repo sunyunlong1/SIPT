@@ -22,9 +22,9 @@ public interface TeacherDao {
     @ResultType(Project.class)
     List<Project> selectByTidAndYear(String tAccount,String year);
 
-    @Select({"<script> select * from process where status = #{status} </script>"})
+    @Select({"<script> select * from process where year = #{year} </script>"})
     @ResultType(SiptProcess.class)
-    SiptProcess selectByStatus(String status);
+    SiptProcess selectByStatus(String year);
 
     @Update({"<script> update project <set> tApproval = #{pass},trecordState = #{trecordState} </set> where sAccount = #{sAccount} and year = #{year} </script>"})
     void updateTApproval(String pass,String sAccount,String year,String trecordState);

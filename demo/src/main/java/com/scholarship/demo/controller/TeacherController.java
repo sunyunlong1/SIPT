@@ -37,6 +37,13 @@ public class TeacherController {
         return JSON.toJSONString(new Result(200,"-",result));
     }
 
+    @RequestMapping("/notApprove")
+    @ResponseBody
+    public String notApprove(@RequestBody Key key){
+        String result = teacherService.notApprove(key.getKey());
+        return JSON.toJSONString(new Result(200,"-",result));
+    }
+
     @RequestMapping("/myProject")
     @ResponseBody
     public String myProject(@RequestBody LoginDto loginDto){
