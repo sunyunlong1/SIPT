@@ -40,6 +40,7 @@ public class StudentServiceImpl implements StudentService {
                 keyUser.setKey(account + "::" + siptProcessList.get(0).getYear());
                 keyUser.setFileName(project.getPName());
                 keyUser.setStatus(siptProcessList.get(0).getStatus());
+                keyUser.setRecordStats(project.getRecordState());
                 keyUserList.add(keyUser);
             }
             result.setProjectList(keyUserList);

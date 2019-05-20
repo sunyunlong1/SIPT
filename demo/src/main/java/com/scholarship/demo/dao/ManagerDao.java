@@ -102,7 +102,7 @@ public interface ManagerDao {
     @Update({"<script> update process <set> status = #{status},startTime = #{startTime},endTime = #{endTime},isCollect = #{isCollect},isConduct = #{isConduct} </set> where year = #{year} </script>"})
     void updateProcess(String year,String status,String startTime,String endTime,String isCollect,String isConduct);
 
-    @Update({"<script> update process <set> isConduct = #{isConduct} </set> where year = year </script>"})
+    @Update({"<script> update process <set> isConduct = #{isConduct} </set> where year = #{year} </script>"})
     void UpdateConduct(String year,String isConduct);
 
     @Update({"<script> update process <set> isCollect = #{isCollect} </set> where year = #{year} </script>"})

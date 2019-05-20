@@ -29,7 +29,8 @@ public class ManagerServiceImpl implements ManagerService {
         Admin admin = managerDao.selectById(account);
         List<SiptProcess> siptProcessList = managerDao.selectByConduct("流程中");
         if (siptProcessList.size() == 0) {
-            return null;
+            result.setUnifiedTable(unifiedTables);
+            return result;
         } else {
             for (SiptProcess siptProcess : siptProcessList) {
                 Map<String, List<ManagerDto>> resultMap = new HashMap<>();
@@ -152,9 +153,11 @@ public class ManagerServiceImpl implements ManagerService {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("::");
                 year = split[0];
-                PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
-                if (pGrade.getLevel() != null || !pGrade.getLevel().equals("")){
-                    managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
+                if (split.length > 2){
+                    PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
+                    if (pGrade.getLevel() != null || !pGrade.getLevel().equals("")){
+                        managerDao.UpdatePGradeLevel(split[2], split[0], split[1], key.getLevel());
+                    }
                 }
                 //managerDao.UpdateProjectTApproval(split[2],split[0],"","","已保存");
                 List<Admin> adminList = managerDao.selectByAdmin("校级");
@@ -169,9 +172,11 @@ public class ManagerServiceImpl implements ManagerService {
         } else {
             for (Key key : keyList) {
                 String[] split = key.getKey().split("::");
-                PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
-                if (pGrade.getCLevel() != null || !pGrade.getLevel().equals("")){
-                    managerDao.UpdatePGradeCLevel(split[2], split[0], split[1], key.getLevel());
+                if (split.length>2) {
+                    PGrade pGrade = managerDao.selectLevel(split[2], split[0], split[1]);
+                    if (pGrade.getCLevel() != null || !pGrade.getLevel().equals("")) {
+                        managerDao.UpdatePGradeCLevel(split[2], split[0], split[1], key.getLevel());
+                    }
                 }
                 managerDao.updateApply(account, "已提交");
             }

@@ -128,7 +128,7 @@ public class FileController {
         // 如果文件名不为空，则进行下载
         if (fileName != null) {
             //设置文件路径
-            String realPath = path+"/";
+            String realPath = path+"\\";
             File file = new File(realPath, fileName);
 
             // 如果文件名存在，则进行下载

@@ -26,7 +26,7 @@ public class ManagerController {
 
         ManagerTableDto managerTableDto = managerService.currentProcess(leaderAccount.getAccount());
         if(managerTableDto == null){
-            return JSON.toJSONString(new Result(200,"没有数据","null"));
+            return JSON.toJSONString(new Result(200,"没有数据",managerTableDto));
         }else{
             return JSON.toJSONString(new Result(200,"-",managerTableDto));
         }
