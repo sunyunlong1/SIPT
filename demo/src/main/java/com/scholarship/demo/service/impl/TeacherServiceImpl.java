@@ -69,7 +69,7 @@ public class TeacherServiceImpl implements TeacherService {
         List<TeacherMyProject> result = new ArrayList<>();
         List<SiptProcess> siptProcesseList = teacherDao.selectAll();
         for (SiptProcess siptProcess : siptProcesseList){
-            List<Project> projects = teacherDao.selectBytIAndYear(account, siptProcess.getYear());
+            List<Project> projects = teacherDao.selectBytIAndYear(account, siptProcess.getYear(),"已审批");
             for(Project project : projects){
                 TeacherMyProject teacherMyProject = new TeacherMyProject();
                 teacherMyProject.setResult("".equals(project.getAvg()) ? "-" : project.getAvg());

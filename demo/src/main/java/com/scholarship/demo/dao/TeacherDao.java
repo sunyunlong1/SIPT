@@ -35,9 +35,9 @@ public interface TeacherDao {
     List<SiptProcess> selectAll();
 
 
-    @Select({"<script> select * from project where tAccount = #{account} and year = #{year} </script>"})
+    @Select({"<script> select * from project where tAccount = #{account} and year = #{year} and trecordState = #{trecordState} </script>"})
     @ResultType(Project.class)
-    List<Project> selectBytIAndYear(String account,String year);
+    List<Project> selectBytIAndYear(String account,String year,String trecordState);
 
     @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
     @ResultType(PGrade.class)
