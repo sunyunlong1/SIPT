@@ -60,7 +60,7 @@ public class LoginController {
             }
             return JSON.toJSONString(new Result(200,"登陆成功",login));
         }else{
-            return JSON.toJSONString(new Result(405,"密码错误",""));
+            return JSON.toJSONString(new Result(405,"密码错误或账号不存在",""));
         }
     }
 

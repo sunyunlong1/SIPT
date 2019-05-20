@@ -352,7 +352,7 @@ public class StudentServiceImpl implements StudentService {
         LoginResponse loginResponse = new LoginResponse();
         if (loginDto.getRole().equals("学生")) {
             Student student = studentDao.selectByAccount(loginDto.getAccount());
-            if (loginDto.getPassword().equals(student.getPassWord())) {
+            if (student != null && loginDto.getPassword().equals(student.getPassWord())) {
                 loginResponse.setUserName(student.getUserName());
                 loginResponse.setUserType("student");
                 loginResponse.setAccount(student.getAccount());
@@ -361,7 +361,7 @@ public class StudentServiceImpl implements StudentService {
             }
         } else if (loginDto.getRole().equals("教师")) {
             Teacher teacher = studentDao.getTeacherUserName(loginDto.getAccount());
-            if (loginDto.getPassword().equals(teacher.getPassWord())) {
+            if (teacher != null && loginDto.getPassword().equals(teacher.getPassWord())) {
                 loginResponse.setUserName(teacher.getUserName());
                 loginResponse.setUserType("teacher");
                 loginResponse.setAccount(teacher.getAccount());
@@ -370,7 +370,7 @@ public class StudentServiceImpl implements StudentService {
             }
         } else if (loginDto.getRole().equals("评委")) {
             Judges judges = studentDao.getJudges(loginDto.getAccount());
-            if (loginDto.getPassword().equals(judges.getPassWord())) {
+            if (judges!=null && loginDto.getPassword().equals(judges.getPassWord())) {
                 loginResponse.setUserName(judges.getUserName());
                 loginResponse.setUserType("judges");
                 loginResponse.setAccount(judges.getAccount());
@@ -379,7 +379,7 @@ public class StudentServiceImpl implements StudentService {
             }
         } else if (loginDto.getRole().equals("管理员")) {
             Admin admin = studentDao.getAdmin(loginDto.getAccount());
-            if (loginDto.getPassword().equals(admin.getPassWord())) {
+            if (admin !=null && loginDto.getPassword().equals(admin.getPassWord())) {
                 loginResponse.setUserName(admin.getUserName());
                 loginResponse.setUserType("manager");
                 loginResponse.setAccount(admin.getAccount());
