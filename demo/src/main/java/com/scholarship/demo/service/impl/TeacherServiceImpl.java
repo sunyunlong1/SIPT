@@ -60,7 +60,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public String notApprove(String key) {
         String[] split = key.split("::");
-        teacherDao.updateTApproval("pass",split[0],split[1],"已驳回");
+        teacherDao.updateTApproval("notPass",split[0],split[1],"已驳回");
         return "审批成功";
     }
 
