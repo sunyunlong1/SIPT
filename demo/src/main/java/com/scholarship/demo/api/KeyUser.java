@@ -7,4 +7,5 @@ public class KeyUser {
     private String status;
     private String key;
     private String fileName;
+    private String recordStats;
 }

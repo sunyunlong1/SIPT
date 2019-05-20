@@ -59,12 +59,14 @@ public class StudentServiceImpl implements StudentService {
                     keyUser.setStatus(siptProcessList.get(0).getStatus());
                     keyUser.setFileName(project.getPName());
                     keyUser.setKey(account + "::" + year);
+                    keyUser.setRecordStats(project.getRecordState());
                     keyUserList.add(keyUser);
                 }
                 if (nProject != null) {
                     nkeyUser.setStatus(siptProcessList.get(1).getStatus());
                     nkeyUser.setFileName(nProject.getPName());
                     nkeyUser.setKey(account + "::" + nYear);
+                    keyUser.setRecordStats(nProject.getRecordState());
                     keyUserList.add(nkeyUser);
                 }
                 result.setProjectList(keyUserList);
@@ -82,12 +84,14 @@ public class StudentServiceImpl implements StudentService {
                     nkeyUser.setStatus(siptProcessList.get(0).getStatus());
                     nkeyUser.setFileName(project.getPName());
                     nkeyUser.setKey(account + "::" + year);
+                    keyUser.setRecordStats(project.getRecordState());
                     keyUserList.add(nkeyUser);
                 }
                 if (nProject != null) {
                     keyUser.setStatus(siptProcessList.get(1).getStatus());
                     keyUser.setFileName(nProject.getPName());
                     keyUser.setKey(account + "::" + nYear);
+                    keyUser.setRecordStats(nProject.getRecordState());
                     keyUserList.add(keyUser);
                 }
                 result.setProjectList(keyUserList);
