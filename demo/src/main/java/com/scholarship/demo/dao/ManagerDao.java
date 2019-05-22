@@ -113,7 +113,7 @@ public interface ManagerDao {
     List<SiptProcess> selectByConduct(String isConduct);
 
 
-    @Update("<script> update admin <set> isApply = #{isApply} </set> where account = #{account} </script>")
+    @Update({"<script> update admin <set> isApply = #{isApply} </set> where account = #{account} </script>"})
     void updateApply(String account,String isApply);
 
     @Select({"<script> select * from judges where college = #{college} </script>"})
@@ -124,18 +124,27 @@ public interface ManagerDao {
     @ResultType(Admin.class)
     List<Admin> selectAllIsApply(String level);
 
+    @Select({"<script> select * from student where college like CONCAT('%',#{college},'%') <if test = 'saccount != null'> and account = #{saccount} </if>  </script>"})
+    @ResultType(Student.class)
+    List<Student> findStudent(String college,@Param("saccount") String saccount);
 
+    @Select({"<script> select * from student  <if test = 'saccount != null'> where account = #{saccount} </if>  </script>"})
+    @ResultType(Student.class)
+    List<Student> findLevel(@Param("saccount") String saccount);
 
+    @Insert({"<script> insert student (account,passWord,userName,college) values(#{s.account},#{s.passWord},#{s.userName},#{s.college}) </script>"})
+    @ResultType(java.lang.Integer.class)
+    Integer addStudent(@Param("s") Student student);
 
+    @Update({"<script> update student <set> passWord = #{s.passWord},userName = #{s.userName},college = #{s.college} </set> where account = #{s.account} </script>"})
+    void updateStudent(@Param("s") Student student);
 
+    @Select({"<script> select * from student </script>"})
+    @ResultType(Student.class)
+    List<Student> findAllStudent();
 
-
-
-
-
-
-
-
+    @Delete({"<script> delete from student where account = #{account} </script>"})
+    void deleteStudent(String account);
 
 
 

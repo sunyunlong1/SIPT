@@ -1,6 +1,7 @@
 package com.scholarship.demo.service;
 
 import com.scholarship.demo.api.*;
+import com.scholarship.demo.model.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,4 +51,32 @@ public interface ManagerService {
      * @return
      */
     String newAndEditProcess(NewProcessDto newProcessDto);
+
+    /**
+     * 查询学生信息
+     * @param account
+     * @return
+     */
+    List<Student> find(String account,String saccount);
+
+    /**
+     * 增加学生账户
+     * @param student
+     * @return
+     */
+    String add(Student student);
+
+    /**
+     * 更新学生
+     * @param student
+     * @return
+     */
+    String update(Student student);
+
+    /**
+     * 删除学生
+     * @param account
+     * @return
+     */
+    String delete(String account);
 }

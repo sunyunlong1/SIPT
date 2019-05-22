@@ -285,8 +285,59 @@ public class ManagerServiceImpl implements ManagerService {
         return "成功新建流程";
     }
 
+    @Override
+    public List<Student> find(String account,String saccount) {
+        Admin admin = managerDao.selectById(account);
+        List<Student> students = null;
+        if (admin.getLevel().equals("校级")){
+            students = managerDao.findLevel(saccount);
+        }else{
+            students = managerDao.findStudent(admin.getCollege(),saccount);
+        }
+        return students;
+    }
 
-//    public List<String> findNum(String college) {
+    @Override
+    public String add(Student student) {
+
+        List<Student> studentList = managerDao.findAllStudent();
+        for (Student student1 : studentList){
+            if (student1.getAccount().equals(student.getAccount())){
+                return "账号重复不可重复添加";
+            }
+        }
+        Integer add = managerDao.addStudent(student);
+        if (add >0){
+            return "添加成功";
+        }else{
+            return "添加失败";
+        }
+    }
+
+    @Override
+    public String update(Student student) {
+        List<Student> studentList = managerDao.findAllStudent();
+        int index = 0;
+        for (Student student1 : studentList){
+            if (student1.getAccount().equals(student.getAccount())){
+                index++;
+            }
+        }
+        if (index==0){
+            Integer add = managerDao.addStudent(student);
+        }else {
+            managerDao.updateStudent(student);
+        }
+        return "更新成功";
+    }
+
+    @Override
+    public String delete(String account) {
+        managerDao.deleteStudent(account);
+        return "删除成功";
+    }
+
+    //    public List<String> findNum(String college) {
 //        Integer index = 0;
 //        List<Judges> judgeList = managerDao.selectByJAccount(college);
 //        String s = "";

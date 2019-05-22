@@ -2,6 +2,7 @@ package com.scholarship.demo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.scholarship.demo.api.*;
+import com.scholarship.demo.model.Student;
 import com.scholarship.demo.response.Result;
 import com.scholarship.demo.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,4 +75,38 @@ public class ManagerController {
         String result = managerService.newAndEditProcess(newProcessDto);
         return JSON.toJSONString(new Result(200,"-",result));
     }
+
+    @RequestMapping("/find")
+    @ResponseBody
+    public String find(@RequestBody Key key){
+        List<Student> students = managerService.find(key.getAccount(),key.getSaccount());
+        return JSON.toJSONString(new Result(200,"-",students));
+    }
+
+    @RequestMapping("/add")
+    @ResponseBody
+    public String add(@RequestBody Student student){
+        String result = managerService.add(student);
+        if (result.equals("添加成功")){
+            return JSON.toJSONString(new Result(200,"-",result));
+        }else{
+            return JSON.toJSONString(new Result(405,"-",result));
+        }
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public String update(@RequestBody Student student){
+        String result = managerService.update(student);
+        return JSON.toJSONString(new Result(200,"-",result));
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public String delete(@RequestBody Student student){
+        String result = managerService.delete(student.getAccount());
+        return JSON.toJSONString(new Result(200,"-",result));
+    }
+
 }
+
