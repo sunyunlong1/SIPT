@@ -90,6 +90,13 @@ public interface ManagerDao {
         }
     }
 
+    @Select({"<script> select count(1) from project where year = #{year} and pType = #{pType} </script>"})
+    @ResultType(java.lang.Integer.class)
+    Integer selectTypeSum(String year,String pType);
+
+    @Select({"<script> select pType from project where year = #{year} group by pType </script> "})
+    @ResultType(java.lang.String.class)
+    List<String> selectPType(String year);
 
     @Select({"<script> select * from project where year = #{year} </script>"})
     @ResultType(Project.class)

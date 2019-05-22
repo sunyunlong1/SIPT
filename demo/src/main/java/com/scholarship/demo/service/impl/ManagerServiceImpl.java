@@ -212,6 +212,13 @@ public class ManagerServiceImpl implements ManagerService {
         for (SiptProcess siptProcess : siptProcesses) {
             OverviewResponse overviewResponse = new OverviewResponse();
             Integer integer = managerDao.selectSumProject(siptProcess.getYear(), admin.getCollege());
+            List<String> strings = managerDao.selectPType(siptProcess.getYear());
+            Map<String,Integer> sipt = new HashMap<>();
+            for (String s : strings){
+                Integer integer1 = managerDao.selectTypeSum(siptProcess.getYear(), s);
+                sipt.put(s,integer1);
+            }
+            overviewResponse.setSipt(sipt);
             overviewResponse.setName(siptProcess.getYear() + "SIPT");
             overviewResponse.setSum(integer);
             overviewResponse.setPStatus(siptProcess.getStatus());
