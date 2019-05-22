@@ -25,7 +25,7 @@ public class TeacherServiceImpl implements TeacherService {
         List<TeacherAppRep> result = new ArrayList<>();
         List<SiptProcess> siptProcessList = teacherDao.selectByConduct("流程中");
         for(SiptProcess siptProcess : siptProcessList){
-            List<Project> projects = teacherDao.selectByTidAndYear(account, siptProcess.getYear());
+            List<Project> projects = teacherDao.selectByTidAndYear(account, siptProcess.getYear(),"已提交");
             if(projects!=null){
                 for(Project project : projects){
                     TeacherAppRep teacherAppRep = new TeacherAppRep();

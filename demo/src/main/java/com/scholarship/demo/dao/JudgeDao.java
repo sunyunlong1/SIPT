@@ -12,6 +12,10 @@ public interface JudgeDao {
     @ResultType(SiptProcess.class)
     SiptProcess selectByYear(String year);
 
+    @Select({"<script> select * from process where isConduct = #{isConduct} </script>"})
+    @ResultType(SiptProcess.class)
+    SiptProcess selectByCon(String isConduct);
+
     @Select({"<script> select * from project where jAccount = #{jAccount} and year = #{year} and tApproval != '' </script>"})
     @ResultType(Project.class)
     List<Project> selectByJidANdYear(String jAccount,String year);
@@ -24,9 +28,9 @@ public interface JudgeDao {
     @ResultType(Judges.class)
     Judges selectById(String account);
 
-    @Select({"<script> select * from project where college = #{college} </script>"})
+    @Select({"<script> select * from project where college = #{college} and year = #{year} </script>"})
     @ResultType(Project.class)
-    List<Project> selectByCollege(String college);
+    List<Project> selectByCollege(String college,String year);
 
     @Select({"<script> select * from pGrade where sId = #{sId} and year = #{year} and pStatus = #{pStatus} </script>"})
     @ResultType(PGrade.class)

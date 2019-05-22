@@ -11,4 +11,12 @@ public class JudgeViewRep {
     private String grade;
     private String inf;
     private String key;
+
+    public String getpType() {
+        return pType;
+    }
+
+    public void setpType(String pType) {
+        this.pType = pType;
+    }
 }

@@ -36,24 +36,24 @@ public class JudgeServiceImpl implements JudgeService {
         for (SiptProcess siptProcess : siptProcessList) {
             JudgeRep judgeRep = new JudgeRep();
             List<JudgeViewRep> resultList = new ArrayList<>();
-            List<Project> projects = judgeDao.selectByCollege(judges.getCollege());
+            List<Project> projects = judgeDao.selectByCollege(judges.getCollege(),siptProcess.getYear());
             for (Project project : projects) {
                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
                 JudgeViewRep judgeViewRep = new JudgeViewRep();
                 if(judges.getNumber().equals("one") && pGrade.getOneApply().equals("")){
-                    judgeViewRep.setPType(project.getPType());
+                    judgeViewRep.setpType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
                 }else if(judges.getNumber().equals("two") && pGrade.getTwoApply().equals("")){
-                    judgeViewRep.setPType(project.getPType());
+                    judgeViewRep.setpType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
                 }else if(judges.getNumber().equals("three") && pGrade.getThreeApply().equals("")){
-                    judgeViewRep.setPType(project.getPType());
+                    judgeViewRep.setpType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
                 }else if(judges.getNumber().equals("four") && pGrade.getFourApply().equals("")){
-                    judgeViewRep.setPType(project.getPType());
+                    judgeViewRep.setpType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
                 }
@@ -77,13 +77,13 @@ public class JudgeServiceImpl implements JudgeService {
         for (SiptProcess siptProcess : siptProcessList) {
             JudgeRep YJudgeRep = new JudgeRep();
             List<JudgeViewRep> resultList = new ArrayList<>();
-            List<Project> projects = judgeDao.selectByCollege(judges.getCollege());
+            List<Project> projects = judgeDao.selectByCollege(judges.getCollege(),siptProcess.getYear());
             for (Project project : projects) {
                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
-                JudgeViewRep judgeViewRep = null;
+                JudgeViewRep judgeViewRep = new JudgeViewRep();
                 if(judges.getNumber().equals("one") && pGrade.getOneGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getOneApply();
-                    judgeViewRep.setPType(project.getPType());
+                    judgeViewRep.setpType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setGrade(String.valueOf(pGrade.getOneGrade()));
                     judgeViewRep.setInf(pGrade.getOneInf());
@@ -91,7 +91,7 @@ public class JudgeServiceImpl implements JudgeService {
                 }else if(judges.getNumber().equals("two") && pGrade.getTwoGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getTwoApply();
 
-                    judgeViewRep.setPType(project.getPType());
+                    judgeViewRep.setpType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setGrade(String.valueOf(pGrade.getTwoGrade()));
                     judgeViewRep.setInf(pGrade.getTwoInf());
@@ -99,7 +99,7 @@ public class JudgeServiceImpl implements JudgeService {
                 }else if(judges.getNumber().equals("three") && pGrade.getThreeGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getThreeApply();
 
-                    judgeViewRep.setPType(project.getPType());
+                    judgeViewRep.setpType(project.getPType());
                     judgeViewRep.setPName(project.getPName());
                     judgeViewRep.setGrade(String.valueOf(pGrade.getThreeGrade()));
                     judgeViewRep.setInf(pGrade.getThreeInf());
@@ -107,14 +107,15 @@ public class JudgeServiceImpl implements JudgeService {
                 }else if(judges.getNumber().equals("four") && pGrade.getFourGrade() != -1 && !pGrade.getOneApply().equals("")){
                     tStatus = pGrade.getFourApply();
 
-
-                    judgeViewRep.setPType(project.getPType());
-                    judgeViewRep.setPName(project.getPName());
-                    judgeViewRep.setGrade(String.valueOf(pGrade.getFourGrade()));
-                    judgeViewRep.setInf(pGrade.getFourInf());
-                    judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
+                    if(project != null){
+                        judgeViewRep.setpType(project.getPType());
+                        judgeViewRep.setPName(project.getPName());
+                        judgeViewRep.setGrade(String.valueOf(pGrade.getFourGrade()));
+                        judgeViewRep.setInf(pGrade.getFourInf());
+                        judgeViewRep.setKey(project.getYear() + "::" + siptProcess.getStatus() + "::" + project.getSAccount());
+                    }
                 }
-                if (judgeViewRep!=null){
+                if (judgeViewRep!=null && judgeViewRep.getpType() != null){
                     resultList.add(judgeViewRep);
                 }
                 if (resultList !=null){

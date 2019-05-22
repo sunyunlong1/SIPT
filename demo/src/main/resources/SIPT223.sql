@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 24/04/2019 23:20:11
+ Date: 21/05/2019 13:58:14
 */
 
 SET NAMES utf8mb4;
@@ -37,22 +37,8 @@ CREATE TABLE `admin` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `admin` VALUES (00000000001, 'admin', 'admin', 'admin', '校级', '-1', '-');
-INSERT INTO `admin` VALUES (00000000002, 'Yadmin', 'Yadmin', 'Yadmin', '院级', '电气与信息学院', '已提交');
+INSERT INTO `admin` VALUES (00000000002, 'Yadmin', 'Yadmin', 'Yadmin', '院级', '电气与信息学院', '-');
 COMMIT;
-
--- ----------------------------
--- Table structure for grade
--- ----------------------------
-DROP TABLE IF EXISTS `grade`;
-CREATE TABLE `grade` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pId` int(11) DEFAULT NULL,
-  `tAccount` varchar(255) DEFAULT NULL,
-  `fGrade` varchar(255) DEFAULT NULL,
-  `sGrade` varchar(255) DEFAULT NULL,
-  `tGrade` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for judges
@@ -72,17 +58,17 @@ CREATE TABLE `judges` (
 -- Records of judges
 -- ----------------------------
 BEGIN;
-INSERT INTO `judges` VALUES (1, 'A19151111', '123', '一号评委', '电气与信息学院', 'one');
-INSERT INTO `judges` VALUES (2, 'A19152222', '123', '二号评委', '电气与信息学院', 'two');
-INSERT INTO `judges` VALUES (3, 'A19153333', '123', '三号评委', '电气与信息学院', 'three');
-INSERT INTO `judges` VALUES (4, 'A19154444', '123', '四号评委', '电气与信息学院', 'four');
+INSERT INTO `judges` VALUES (1, 'J00001', '123', '一号评委', '电气与信息学院', 'one');
+INSERT INTO `judges` VALUES (2, 'J00002', '123', '二号评委', '电气与信息学院', 'two');
+INSERT INTO `judges` VALUES (3, 'J00003', '123', '三号评委', '电气与信息学院', 'three');
+INSERT INTO `judges` VALUES (4, 'J00004', '123', '四号评委', '电气与信息学院', 'four');
 COMMIT;
 
 -- ----------------------------
--- Table structure for pGrade
+-- Table structure for pgrade
 -- ----------------------------
-DROP TABLE IF EXISTS `pGrade`;
-CREATE TABLE `pGrade` (
+DROP TABLE IF EXISTS `pgrade`;
+CREATE TABLE `pgrade` (
   `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `sId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `sName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
@@ -104,7 +90,17 @@ CREATE TABLE `pGrade` (
   `level` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `cLevel` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pgrade
+-- ----------------------------
+BEGIN;
+INSERT INTO `pgrade` VALUES (00000000439, 'A19150251', '李浩然', '2019', '立项', 22, '啦啦啦', '已提交', 23, '122', '已提交', 22, '阿德撒旦', '已提交', 22, '实打实', '已提交', 22.25, 'A', 'A');
+INSERT INTO `pgrade` VALUES (00000000440, 'A19150251', '李浩然', '2019', '中期检查', 99, '', '已提交', 89, '', '已提交', 87, '', '已提交', 80, '', '已提交', 0.00, 'B', 'B');
+INSERT INTO `pgrade` VALUES (00000000441, 'A19150414', '罗金猪', '2020', '立项', 80, '', '已提交', 89, '', '已提交', 87, '', '已提交', 0, '', '', 0.00, '', '');
+INSERT INTO `pgrade` VALUES (00000000442, 'A19150292', '孙云龙', '2020', '立项', 80, '', '已提交', 89, '', '已提交', 87, '', '已提交', 0, '', '', 0.00, '', '');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for process
@@ -119,13 +115,14 @@ CREATE TABLE `process` (
   `isCollect` varchar(255) DEFAULT NULL,
   `isConduct` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of process
 -- ----------------------------
 BEGIN;
-INSERT INTO `process` VALUES (123, '2018', '中期检查', '2019-04-09', '2019-05-08', '收取材料', '流程结束');
+INSERT INTO `process` VALUES (126, '2018', '结题', '2019-05-01', '2019-05-09', '已提交', '流程结束');
+INSERT INTO `process` VALUES (127, '2019', '中期检查', '2019-05-01', '2019-05-09', '已提交', '流程结束');
 COMMIT;
 
 -- ----------------------------
@@ -149,15 +146,27 @@ CREATE TABLE `project` (
   `jName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `year` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pathFirst` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `firstName` varchar(255) DEFAULT '',
   `pathSecond` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `secondName` varchar(255) DEFAULT '',
   `pathThird` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `thirdName` varchar(255) DEFAULT '',
   `avg` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pType` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `recordState` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `college` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `trecordState` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of project
+-- ----------------------------
+BEGIN;
+INSERT INTO `project` VALUES (00000000208, 'test1', 'A19150251', '李浩然', '1', '张三', 'Z00001', '王艳', 'pass', '学生自拟', '101', '简介', '', '', '2019', 'C:\\Users\\UltramanT1G4\\AppData\\Local\\Temp\\tomcat-docbase.7790891686804787767.8080\\upload', 'af2099b3-ff1c-405e-9623-5612d9262208.doc', 'F:\\bishe\\SIPT', '20190520165102440.rar', '', '', '', '创新训练项目', '已提交', '电气与信息学院', '已审批');
+INSERT INTO `project` VALUES (00000000209, 'test2', 'A19150292', '孙云龙', '1', '张三', 'Z00001', '王艳', 'pass', '学生自拟', '101', '简介', '', '', '2020', 'C:\\Users\\UltramanT1G4\\AppData\\Local\\Temp\\tomcat-docbase.7790891686804787767.8080\\upload', 'af2099b3-ff1c-405e-9623-5612d9262208.doc', '', '', '', '', '', '创新训练项目', '已提交', '电气与信息学院', '已审批');
+INSERT INTO `project` VALUES (00000000210, 'test4', 'A19150414', '罗金猪', '1', '张三', 'Z00001', '王艳', 'pass', '学生自拟', '101', '简介', '', '', '2020', 'C:\\Users\\UltramanT1G4\\AppData\\Local\\Temp\\tomcat-docbase.7790891686804787767.8080\\upload', 'af2099b3-ff1c-405e-9623-5612d9262208.doc', '', '', '', '', '', '创新训练项目', '已提交', '电气与信息学院', '已审批');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for student
@@ -199,7 +208,7 @@ CREATE TABLE `teacher` (
 -- Records of teacher
 -- ----------------------------
 BEGIN;
-INSERT INTO `teacher` VALUES (00000000001, 'A19150000', '123', '李晓明', '电气与信息学院', '教授');
+INSERT INTO `teacher` VALUES (00000000001, 'Z00001', '123', '王艳', '电气与信息学院', '讲师');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

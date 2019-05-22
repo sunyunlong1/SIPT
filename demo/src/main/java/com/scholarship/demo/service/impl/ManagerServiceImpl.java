@@ -90,7 +90,7 @@ public class ManagerServiceImpl implements ManagerService {
                         List<Judges> judgeList = managerDao.selectByJAccount(admin.getCollege());
                         for (Judges judge : judgeList){
                             int num = 0;
-                            List<Project> Judgeproject = judgeDao.selectByCollege(judge.getCollege());
+                            List<Project> Judgeproject = judgeDao.selectByCollege(judge.getCollege(),siptProcess.getYear());
                             for(Project project : Judgeproject){
                                 PGrade pGrade = judgeDao.selectByGId(project.getSAccount(), project.getYear(), siptProcess.getStatus());
                                 if (pGrade!=null){
