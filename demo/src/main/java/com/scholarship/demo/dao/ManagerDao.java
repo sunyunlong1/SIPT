@@ -143,7 +143,7 @@ public interface ManagerDao {
     @ResultType(java.lang.Integer.class)
     Integer addStudent(@Param("s") Student student);
 
-    @Update({"<script> update student <set> passWord = #{s.passWord},userName = #{s.userName},college = #{s.college} </set> where account = #{s.account} </script>"})
+    @Update({"<script> update student <set> account = #{s.account}, passWord = #{s.passWord},userName = #{s.userName},college = #{s.college} </set> where id = #{s.id} </script>"})
     void updateStudent(@Param("s") Student student);
 
     @Select({"<script> select * from student </script>"})

@@ -323,18 +323,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public String update(Student student) {
-        List<Student> studentList = managerDao.findAllStudent();
-        int index = 0;
-        for (Student student1 : studentList){
-            if (student1.getAccount().equals(student.getAccount())){
-                index++;
-            }
-        }
-        if (index==0){
-            Integer add = managerDao.addStudent(student);
-        }else {
-            managerDao.updateStudent(student);
-        }
+        managerDao.updateStudent(student);
         return "更新成功";
     }
 
